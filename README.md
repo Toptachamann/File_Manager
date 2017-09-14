@@ -1,0 +1,1 @@
+Simple cross-platform file manager with Ukrainian interface.

@@ -18,9 +18,11 @@ public class FileManagerFrame extends JFrame {
     public FileManagerFrame() {
         super();
         super.setTitle(TITLE);
+        Image fileManagerImage = new ImageIcon("D:\\Java_Projects\\OOP_Labs\\Lab_1\\Renders\\File_Manager_Icon.png").getImage();
+        this.setIconImage(fileManagerImage);
+        System.out.println(fileManagerImage);
         this.setFrameSize();
         this.setJMenuBar(new MyMenuBar(this));
-
         this.getContentPane().add(new MainPanel(this));
     }
 
