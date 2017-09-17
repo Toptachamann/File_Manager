@@ -14,15 +14,14 @@ import java.util.regex.*;
 public class FileManagerFrame extends JFrame {
     private final String TITLE = "Файловий менеджер";
 
-
     public FileManagerFrame() {
         super();
         super.setTitle(TITLE);
-        Image fileManagerImage = new ImageIcon("D:\\Java_Projects\\OOP_Labs\\Lab_1\\Renders\\File_Manager_Icon.png").getImage();
+        Image fileManagerImage = new ImageIcon("D:\\Java_Projects\\OOP_Labs\\Lab_1\\images\\File_Manager_Icon.png").getImage();
         this.setIconImage(fileManagerImage);
         System.out.println(fileManagerImage);
         this.setFrameSize();
-        this.setJMenuBar(new MyMenuBar(this));
+        this.setJMenuBar(new FileManagerMenuBar(this));
         this.getContentPane().add(new MainPanel(this));
     }
 
@@ -64,77 +63,15 @@ class MainPanel extends JPanel {
         this.add(hintPanel, new GBC(0, 1, 2, 1, 1, 0).setFill(GBC.HORIZONTAL));
 
 
+
     }
 }
 
-class MyMenuBar extends JMenuBar {
-    FileManagerFrame frame;
 
-    private JMenu programMenu, fileMenu, editMenu, viewMenu, helpMenu;
-    private JMenu lookAndFeelMenu;
-    private JMenuItem metalItem, nimbusItem, motifItem, windowsItem, windowsClassicItem;
 
-    public MyMenuBar(FileManagerFrame frame) {
-        super();
-
-        this.frame = frame;
-
-        programMenu = new JMenu("Програма");
-        fileMenu = new JMenu("Файл");
-        editMenu = new JMenu("Операції");
-        viewMenu = new JMenu("Вигляд");
-        helpMenu = new JMenu("Допомога");
-
-        this.add(programMenu);
-        this.add(fileMenu);
-        this.add(editMenu);
-        this.add(viewMenu);
-        this.add(helpMenu);
-
-        JMenuItem copyItem = new JMenuItem("Скопіювати");
-        JMenuItem cutItem = new JMenuItem("Вирізати");
-        JMenuItem pasteItem = new JMenuItem("Вставити");
-        JMenuItem deleteItem = new JMenuItem("Видалити");
-
-        editMenu.add(copyItem);
-        editMenu.add(cutItem);
-        editMenu.add(pasteItem);
-        editMenu.add(deleteItem);
-
-        lookAndFeelMenu = new JMenu("Зовнішній вигляд");
-        viewMenu.add(lookAndFeelMenu);
-
-        metalItem = new JMenuItem(new ChangeLookAndFeelAction("Металічний", LookAndFeelClassNames.METAL_LOOK_AND_FEEL));
-        nimbusItem = new JMenuItem(new ChangeLookAndFeelAction("Німбус", LookAndFeelClassNames.NIMBUS_LOOK_AND_FEEL));
-        motifItem = new JMenuItem(new ChangeLookAndFeelAction("Мотіф", LookAndFeelClassNames.MOTIF_LOOK_AND_FEEL));
-        windowsItem = new JMenuItem(new ChangeLookAndFeelAction("Віндоус", LookAndFeelClassNames.WINDOWS_LOOK_AND_FEEL));
-        windowsClassicItem = new JMenuItem(new ChangeLookAndFeelAction("Віндоус класичний", LookAndFeelClassNames.WINDOWS_CLASSIC_LOOK_AND_FEEL));
-
-        lookAndFeelMenu.add(metalItem);
-        lookAndFeelMenu.add(nimbusItem);
-        lookAndFeelMenu.add(motifItem);
-        lookAndFeelMenu.add(windowsItem);
-        lookAndFeelMenu.add(windowsClassicItem);
-    }
-
-    private class ChangeLookAndFeelAction extends AbstractAction {
-
-        public ChangeLookAndFeelAction(String lookAndFeelName, String lookAndFeelClassName) {
-            putValue(Action.NAME, lookAndFeelName);
-            putValue(Action.SHORT_DESCRIPTION, "Change look and feel to " + lookAndFeelName);
-            putValue("Class name", lookAndFeelClassName);
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                UIManager.setLookAndFeel((String) getValue("Class name"));
-                SwingUtilities.updateComponentTreeUI(frame);
-
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-        }
+class FileManagerMenuBar extends MyMenuBar {
+    FileManagerMenuBar(FileManagerFrame frame) {
+        super(frame);
     }
 }
 
@@ -144,11 +81,15 @@ abstract class SearchPanel extends JPanel {
     protected JTree tree;
     protected DefaultTreeModel treeModel;
     protected JList fileList;
-    protected DefaultListModel<File> fileListModel;
+    protected DefaultListModel<String> fileListModel;
     protected JComboBox<String> extensionBox;
     protected final String[] extensions = {"All files (*.*)", "Normal text file (*.txt)", "C# source file (*.cs)", "Java source file (*.java)", "JSON file (*.json)",
-            "HTML file (*.html)", "Python source file (*.py)", "XML file (*.xml)"};
+            "HTML file (*.html)", "PDF file (*.pdf)", "Python source file (*.py)", "XML file (*.xml)"};
     protected final Pattern extensionPattern = Pattern.compile("\\*.([a-z]+|\\*)");
+    protected TreeFile selectedDirectory = null;
+
+    private JPopupMenu popupMenu;
+
 
     public SearchPanel() {
         this.setLayout(new GridBagLayout());
@@ -162,11 +103,6 @@ abstract class SearchPanel extends JPanel {
             if (treeRoot.exists()) {
                 TreeNode rootNode = new TreeNode(treeRoot);
                 addOneLevel(rootNode);
-                /*int childCount = rootNode.getChildCount();
-                for(int i = 0; i < childCount; i++){
-                    TreeNode node = (TreeNode) treeModel.getChild(rootNode, i);
-                    addOneLevel(node);
-                }*/
                 virtualRootNode.add(rootNode);
             }
         }
@@ -176,19 +112,27 @@ abstract class SearchPanel extends JPanel {
             @Override
             public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException {
                 TreePath pathToNode = event.getPath();
-                TreeNode node = (TreeNode) pathToNode.getLastPathComponent();
-                int childCount = node.getChildCount();
-                for (int i = 0; i < childCount; i++) {
-                    TreeNode child = (TreeNode) treeModel.getChild(node, i);
-                    if (!child.isLoaded()) {
-                        addOneLevel(child);
+                if (tree.isExpanded(pathToNode)) {
+                    treeWillCollapse(event);
+                } else {
+                    TreeNode node = (TreeNode) pathToNode.getLastPathComponent();
+                    int childCount = node.getChildCount();
+                    for (int i = 0; i < childCount; i++) {
+                        TreeNode child = (TreeNode) treeModel.getChild(node, i);
+                        if (!child.isLoaded()) {
+                            addOneLevel(child);
+                        }
                     }
+                    tree.setSelectionPath(pathToNode.pathByAddingChild(node.getFirstChild()));
                 }
             }
 
             @Override
             public void treeWillCollapse(TreeExpansionEvent event) throws ExpandVetoException {
-                //tree.collapsePath(event.getPath());
+                TreePath pathToNode = event.getPath();
+                if (tree.isCollapsed(pathToNode)) {
+                    treeWillExpand(event);
+                }
             }
         });
         tree.addTreeSelectionListener(new TreeSelectionListener() {
@@ -206,8 +150,9 @@ abstract class SearchPanel extends JPanel {
         tree.setRootVisible(false);
 
         fileListModel = new DefaultListModel<>();
-        fileListModel.addElement(new TreeFile("D:\\"));
+        fileListModel.addElement("");
         fileList = new JList(fileListModel);
+        fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         fileListScrollPane = new JScrollPane();
         fileListScrollPane.getViewport().add(fileList);
 
@@ -226,8 +171,63 @@ abstract class SearchPanel extends JPanel {
 
         });
 
+        popupMenu = new MyPopupMenu();
+
+        this.setComponentPopupMenu(popupMenu);
+        MouseListener mouseListener = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                showPopupMenu(e);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                showPopupMenu(e);
+            }
+
+            private void showPopupMenu(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        };
+        fileListScrollPane.addMouseListener(mouseListener);
+        fileTreeScrollPane.addMouseListener(mouseListener);
+        fileList.addMouseListener(mouseListener);
+        tree.addMouseListener(mouseListener);
+        fileListScrollPane.setComponentPopupMenu(popupMenu);
+        fileList.setComponentPopupMenu(popupMenu);
+        fileTreeScrollPane.setComponentPopupMenu(popupMenu);
+        tree.setComponentPopupMenu(popupMenu);
+
+
+
+        InputMap inputMap = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        inputMap.put(KeyStroke.getKeyStroke("ctrl O"), "Open action");
+
+        ActionMap actionMap = getActionMap();
+        actionMap.put("Open action", new OpenAction());
+
         this.add(extensionHint, new GBC(0, 1, 1, 1, 0, 0).setAnchor(GBC.EAST).setInsets(5, 0, 5, 10));
         this.add(extensionBox, new GBC(1, 1, 1, 1, 0, 0).setAnchor(GBC.WEST).setInsets(5, 0, 5, 0));
+
+
+    }
+    class OpenAction extends AbstractAction {
+        public OpenAction (){
+            super();
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String fileName = (String) fileList.getSelectedValue();
+            if(fileName != null){
+                File fileToOpen = new File(selectedDirectory.getAbsolutePath() + "\\" + fileName);
+                TextEditor editor = new TextEditor(fileToOpen);
+                editor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                editor.setVisible(true);
+            }
+        }
     }
 
     private void updateFileList(TreeNode selectedNode) {
@@ -271,15 +271,17 @@ abstract class SearchPanel extends JPanel {
     }
 
     public void updateFileList(TreeFile newParentDirectory, String suffix) {
-        File[] targetFiles = newParentDirectory.listFiles((dir, name) -> name.toLowerCase().endsWith(suffix));
-        if(targetFiles != null){
-            fileListModel.removeAllElements();
-            for (File targetFile : targetFiles) {
-                TreeFile targetTreeFile = new TreeFile(targetFile.toString());
-                fileListModel.addElement(targetTreeFile);
+        if(newParentDirectory.isDirectory()){
+            selectedDirectory = newParentDirectory;
+            File[] targetFiles = newParentDirectory.listFiles((file) -> !file.isDirectory() && file.getName().toLowerCase().endsWith(suffix));
+            if (targetFiles != null) {
+                fileListModel.removeAllElements();
+                for (File targetFile : targetFiles) {
+                    fileListModel.addElement(targetFile.getName());
+                }
+                fileListScrollPane.revalidate();
+                fileListScrollPane.repaint();
             }
-            fileListScrollPane.revalidate();
-            fileListScrollPane.repaint();
         }
     }
 
@@ -325,6 +327,10 @@ class TreeFile extends File {
     public TreeFile(String parent, String child) {
         super(parent, child);
         absolutePath = parent + "\\" + child;
+    }
+
+    public String getAbsolutePath(){
+        return this.absolutePath;
     }
 
     @Override

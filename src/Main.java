@@ -10,10 +10,6 @@ import java.util.regex.*;
 public class Main {
     public static void main(String[] argc) throws IOException {
         PrintStream out = System.out;
-
-        File file = new File("D:\\");
-        out.println(file.getName());
-        out.println(file.toString());
         /*File file = new File("D:\\File_Manager_Test_Folder");
         for(int i = 1; i <= 10; i++){
             File child = new File(file.getAbsolutePath() + "\\" + i + ".txt");
