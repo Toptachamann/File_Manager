@@ -10,6 +10,7 @@ import java.util.regex.*;
 public class Main {
     public static void main(String[] argc) throws IOException {
         PrintStream out = System.out;
+
         /*File file = new File("D:\\File_Manager_Test_Folder");
         for(int i = 1; i <= 10; i++){
             File child = new File(file.getAbsolutePath() + "\\" + i + ".txt");
@@ -47,11 +48,10 @@ public class Main {
             out.println(root);
         }*/
 
-        EventQueue.invokeLater(()->{
+        EventQueue.invokeLater(() -> {
             FileManagerFrame frame = new FileManagerFrame();
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.setVisible(true);
         });
     }
-
 }

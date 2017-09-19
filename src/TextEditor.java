@@ -1,6 +1,9 @@
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_COLOR_BURNPeer;
+
 import javax.swing.*;
 import javax.xml.soap.Text;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -12,8 +15,12 @@ import java.io.*;
 public class TextEditor extends JFrame {
     private final String TITLE = "Текстовий редактор";
     private String currentTitle = "Untitled";
+
+    private JScrollPane textScrollPane;
     private JTextArea textArea;
     private JFileChooser fileChooser;
+
+    private File originFile;
     private boolean changed = false;
     JPopupMenu popupMenu;
 
@@ -31,7 +38,7 @@ public class TextEditor extends JFrame {
 
         textArea = new JTextArea(20, 60);
         textArea.setFont(new Font("Arial", Font.PLAIN, 12));
-        JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        textScrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         popupMenu = new MyPopupMenu();
         MouseListener mouseListener = new MouseAdapter() {
@@ -49,13 +56,33 @@ public class TextEditor extends JFrame {
                 }
             }
         };
-        scrollPane.addMouseListener(mouseListener);
+        textScrollPane .addMouseListener(mouseListener);
         textArea.addMouseListener(mouseListener);
-        scrollPane.setComponentPopupMenu(popupMenu);
+        textScrollPane .setComponentPopupMenu(popupMenu);
         textArea.setComponentPopupMenu(popupMenu);
+        InputMap inputMap = textScrollPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        inputMap.put(KeyStroke.getKeyStroke("ctrl S"), "Save action");
+        inputMap.put(KeyStroke.getKeyStroke("ctrl S A"), "Save as action");
+
+        ActionMap actionMap = textScrollPane.getActionMap();
+        actionMap.put("Save action", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(originFile != null){
+                    try{
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(originFile));
+                        textArea.write(writer);
+                        changed = false;
+                    } catch(IOException ex){
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+        actionMap.put()
 
         setJMenuBar(new TextEditorMenuBar(this));
-        getContentPane().add(scrollPane, BorderLayout.CENTER);
+        getContentPane().add(textScrollPane , BorderLayout.CENTER);
     }
 
     public TextEditor(File file){
@@ -63,10 +90,27 @@ public class TextEditor extends JFrame {
         try{
             BufferedReader reader = new BufferedReader(new FileReader(file));
             textArea.read(reader, null);
+            currentTitle = file.getName();
+            originFile = file;
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
 
+    private void setOrigin(File file){
+        if(file.exists()){
+            ActionMap actionMap = textScrollPane.getActionMap();
+            actionMap.remove("Save action");
+            actionMap.put("Save as action", new )
+        }
+    }
+
+    private class SaveAsAction extends AbstractAction{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //choose file
+        }
     }
 }
 
