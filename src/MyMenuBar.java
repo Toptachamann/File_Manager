@@ -3,7 +3,7 @@ import javax.swing.*;
 /**
  * Created by Timofey on 9/14/2017.
  */
-abstract class MyMenuBar extends JMenuBar{
+class MyMenuBar extends JMenuBar{
     JFrame frame;
     protected JMenu programMenu, fileMenu, editMenu, viewMenu, helpMenu;
     protected JMenu lookAndFeelMenu;

@@ -1,12 +1,6 @@
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_COLOR_BURNPeer;
-
 import javax.swing.*;
-import javax.xml.soap.Text;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.*;
 
 /**
@@ -21,13 +15,13 @@ public class TextEditor extends JFrame {
     private JFileChooser fileChooser;
 
     private File originFile;
-    private boolean changed = false;
+    private boolean documentChanged = false;
     JPopupMenu popupMenu;
 
 
     public TextEditor(){
         setTitle(TITLE);
-        Image editorImage = new ImageIcon("D:\\Java_Projects\\OOP_Labs\\Lab_1\\images\\Text_Editor_Image.png").getImage();
+        Image editorImage = new ImageIcon("images\\Text_Editor_Image.png").getImage();
         setIconImage(editorImage);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = screenSize.width, height = screenSize.height;
@@ -35,6 +29,8 @@ public class TextEditor extends JFrame {
         setLocationByPlatform(true);
 
         fileChooser = new JFileChooser(System.getProperty("user.dir"));
+
+
 
         textArea = new JTextArea(20, 60);
         textArea.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -56,75 +52,135 @@ public class TextEditor extends JFrame {
                 }
             }
         };
-        textScrollPane .addMouseListener(mouseListener);
         textArea.addMouseListener(mouseListener);
-        textScrollPane .setComponentPopupMenu(popupMenu);
         textArea.setComponentPopupMenu(popupMenu);
-        InputMap inputMap = textScrollPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        inputMap.put(KeyStroke.getKeyStroke("ctrl S"), "Save action");
-        inputMap.put(KeyStroke.getKeyStroke("ctrl S A"), "Save as action");
 
-        ActionMap actionMap = textScrollPane.getActionMap();
-        actionMap.put("Save action", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(originFile != null){
-                    try{
-                        BufferedWriter writer = new BufferedWriter(new FileWriter(originFile));
-                        textArea.write(writer);
-                        changed = false;
-                    } catch(IOException ex){
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        });
-        actionMap.put()
+        addActions();
 
         setJMenuBar(new TextEditorMenuBar(this));
         getContentPane().add(textScrollPane , BorderLayout.CENTER);
     }
 
+    private class TextEditorSearchPanel extends SearchPanel{
+        public TextEditorSearchPanel(JFrame frame){
+            super.frame = frame;
+
+        }
+    }
+
     public TextEditor(File file){
         this();
+        originFile = file;
         try{
             BufferedReader reader = new BufferedReader(new FileReader(file));
             textArea.read(reader, null);
             currentTitle = file.getName();
-            originFile = file;
+            setOrigin(file);
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    private void addActions(){
+        InputMap inputMap = textArea.getInputMap(JComponent.WHEN_FOCUSED);
+        inputMap.put(KeyStroke.getKeyStroke("ctrl S"), "Save action");
+        inputMap.put(KeyStroke.getKeyStroke("ctrl S A"), "Save as action");
+
+        ActionMap actionMap = textArea.getActionMap();
+        actionMap.put("Save action", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(originFile != null){
+                    saveDocument(originFile);
+                }else{
+                    saveDocumentAs();
+                }
+            }
+        });
+        actionMap.put("Save as action", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveDocumentAs();
+            }
+        });
+        KeyListener keyListener = new KeyAdapter(){
+            @Override
+            public void keyPressed(KeyEvent e){
+                documentChanged = true;
+            }
+        };
+        textArea.addKeyListener(keyListener);
+    }
+
+    private void saveDocument(File file){
+        if(documentChanged){
+            try{
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                textArea.write(writer);
+                documentChanged = false;
+            } catch(IOException ex){
+                ex.printStackTrace();
+            }
+        }
+    }
+    private void saveDocumentAs(){
+
     }
 
     private void setOrigin(File file){
         if(file.exists()){
             ActionMap actionMap = textScrollPane.getActionMap();
             actionMap.remove("Save action");
-            actionMap.put("Save as action", new )
         }
     }
 
-    private class SaveAsAction extends AbstractAction{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //choose file
+    private class TextEditorMenuBar extends MyMenuBar{
+        public TextEditorMenuBar(TextEditor frame){
+            super(frame);
+            JMenuItem newItem = new JMenuItem("Новий"), open = new JMenuItem("Відкрити"),
+                    save = new JMenuItem("Зберегти"), saveAs = new JMenuItem("Зберегти як...");
+            newItem.addActionListener(new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    TextEditor textEditor = new TextEditor();
+                    textEditor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    textEditor.setVisible(true);
+                }
+            });
+            save.addActionListener(new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(originFile != null){
+                        saveDocument(originFile);
+                    }else{
+                        saveDocumentAs();
+                    }
+                }
+            });
+            saveAs.addActionListener(new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    saveDocumentAs();
+                }
+            });
+            open.addActionListener(new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    MyFileChooser fileChooser = new MyFileChooser();
+                    fileChooser.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    fileChooser.setVisible(true);
+                }
+            });
+            fileMenu.add(newItem);
+            fileMenu.add(open);
+            fileMenu.add(save);
+            fileMenu.add(saveAs);
         }
     }
 }
 
-class TextEditorMenuBar extends MyMenuBar{
-    public TextEditorMenuBar(TextEditor frame){
-        super(frame);
-        JMenuItem newItem = new JMenuItem("Новий"), open = new JMenuItem("Відкрити"),
-                save = new JMenuItem("Зберегти"), saveAs = new JMenuItem("Зберегти як...");
-        fileMenu.add(newItem);
-        fileMenu.add(open);
-        fileMenu.add(save);
-        fileMenu.add(saveAs);
-    }
-}
+
+
 
 
 

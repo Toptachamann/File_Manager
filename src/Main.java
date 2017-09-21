@@ -11,7 +11,13 @@ public class Main {
     public static void main(String[] argc) throws IOException {
         PrintStream out = System.out;
 
-        /*File file = new File("D:\\File_Manager_Test_Folder");
+        /*File file = new File("C:\\File_Manager_Test");
+        String fileName = "text_file";
+        for(int i = 1; i <= 10; i++){
+            File f = new File(file.getAbsolutePath() + "\\" + fileName + i + ".txt");
+            f.createNewFile();
+        }
+        File file = new File("D:\\File_Manager_Test_Folder");
         for(int i = 1; i <= 10; i++){
             File child = new File(file.getAbsolutePath() + "\\" + i + ".txt");
             child.createNewFile();
