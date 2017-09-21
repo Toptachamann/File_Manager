@@ -12,9 +12,8 @@ public class FileManagerFrame extends JFrame {
     public FileManagerFrame() {
         super();
         super.setTitle(TITLE);
-        Image fileManagerImage = new ImageIcon("D:\\Java_Projects\\OOP_Labs\\Lab_1\\images\\File_Manager_Icon.png").getImage();
+        Image fileManagerImage = new ImageIcon("images\\File_Manager_Icon.png").getImage();
         this.setIconImage(fileManagerImage);
-        System.out.println(fileManagerImage);
         this.setFrameSize();
         this.setJMenuBar(new FileManagerMenuBar(this));
         this.getContentPane().add(new MainPanel(this));
@@ -38,14 +37,10 @@ class MainPanel extends JPanel {
 
         this.setLayout(new GridBagLayout());
 
-        LeftSearchPanel leftSearchPanel = new LeftSearchPanel();
-        RightSearchPanel rightSearchPanel = new RightSearchPanel();
+        FileManagerSearchPanel searchPanel = new FileManagerSearchPanel(frame);
+        searchPanel.setBorder(BorderFactory.createTitledBorder(new LineBorder(Color.GRAY, 1, true), "Панель пошуку"));
         LeftHintPanel leftHintPanel = new LeftHintPanel();
         RightHintPanel rightHintPanel = new RightHintPanel();
-
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftSearchPanel, rightSearchPanel);
-        splitPane.setResizeWeight(0.5);
-        splitPane.setOneTouchExpandable(false);
 
 
         JPanel hintPanel = new JPanel();
@@ -54,8 +49,9 @@ class MainPanel extends JPanel {
         hintPanel.add(rightHintPanel, new GBC(1, 0, 1, 1, 1, 0).setFill(GBC.HORIZONTAL));
 
 
-        this.add(splitPane, new GBC(0, 0, 1, 1, 1, 1).setFill(GBC.BOTH));
-        this.add(hintPanel, new GBC(0, 1, 2, 1, 1, 0).setFill(GBC.HORIZONTAL));
+
+        this.add(searchPanel, new GBC(0, 0, 1, 1, 1, 1).setFill(GBC.BOTH));
+        this.add(hintPanel, new GBC(0, 1, 1, 1, 1, 0).setFill(GBC.HORIZONTAL));
     }
 }
 
@@ -63,74 +59,6 @@ class MainPanel extends JPanel {
 class FileManagerMenuBar extends MyMenuBar {
     FileManagerMenuBar(FileManagerFrame frame) {
         super(frame);
-    }
-}
-
-class LeftSearchPanel extends SearchPanel {
-
-    public LeftSearchPanel() {
-        super();
-        this.setBorder(BorderFactory.createTitledBorder(new LineBorder(Color.GRAY, 1, true), "Ліва"));
-    }
-}
-
-class RightSearchPanel extends SearchPanel {
-
-    public RightSearchPanel() {
-        super();
-        this.setBorder(BorderFactory.createTitledBorder(new LineBorder(Color.GRAY, 1, true), "Права"));
-    }
-}
-
-abstract class HintPanel extends JPanel {
-    protected Font borderTitleFont = new Font("Arial", Font.PLAIN, 12);
-    protected Font labelFont = new Font("Arial", Font.BOLD, 12);
-
-    public HintPanel() {
-        super();
-        setLayout(new GridBagLayout());
-    }
-}
-
-class LeftHintPanel extends HintPanel {
-
-    public LeftHintPanel() {
-        super();
-        setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true), "Файл", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, borderTitleFont, Color.BLUE));
-
-        JLabel copyHint = new JLabel("F5 Скопіювати");
-        JLabel pasteHint = new JLabel("F6 Вставити");
-        JLabel cutHint = new JLabel("F7 Вирізати");
-        JLabel deleteHint = new JLabel("F8 Видалити");
-
-        copyHint.setFont(labelFont);
-        pasteHint.setFont(labelFont);
-        cutHint.setFont(labelFont);
-        deleteHint.setFont(labelFont);
-
-
-        add(copyHint, new GBC(0, 0, 1, 1, 1, 1).setAnchor(GridBagConstraints.CENTER).setInsets(10, 0, 15, 0));
-        add(pasteHint, new GBC(1, 0, 1, 1, 1, 1).setAnchor(GridBagConstraints.CENTER).setInsets(10, 0, 15, 0));
-        add(cutHint, new GBC(2, 0, 1, 1, 1, 1).setAnchor(GridBagConstraints.CENTER).setInsets(10, 0, 15, 0));
-        add(deleteHint, new GBC(3, 0, 1, 1, 1, 1).setAnchor(GridBagConstraints.CENTER).setInsets(10, 0, 15, 0));
-    }
-}
-
-class RightHintPanel extends HintPanel {
-
-    public RightHintPanel() {
-        super();
-
-        setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true), "Операції", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, borderTitleFont, Color.BLUE));
-
-        JLabel openHint = new JLabel("F9 Редагувати");
-        JLabel clearHint = new JLabel("F10 Почистити");
-
-        openHint.setFont(labelFont);
-        clearHint.setFont(labelFont);
-
-        add(openHint, new GBC(0, 0, 1, 1, 1, 1).setAnchor(GridBagConstraints.CENTER).setInsets(10, 0, 15, 0));
-        add(clearHint, new GBC(1, 0, 1, 1, 1, 1).setAnchor(GridBagConstraints.CENTER).setInsets(10, 0, 15, 0));
     }
 }
 
