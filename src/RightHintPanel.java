@@ -1,10 +1,15 @@
+import auxiliary.GBC;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 class RightHintPanel extends JPanel {
+
     protected Font borderTitleFont = new Font("Arial", Font.PLAIN, 12);
     protected Font labelFont = new Font("Arial", Font.BOLD, 12);
+
+
     public RightHintPanel() {
         super();
 
