@@ -1,10 +1,15 @@
-import javax.swing.tree.DefaultMutableTreeNode;
-
 /**
  * Created by Timofey on 9/17/2017.
  */
-class MyTreeNode extends DefaultMutableTreeNode {
+
+package auxiliary;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+public class MyTreeNode extends DefaultMutableTreeNode {
+
     private boolean loaded;
+
 
     public MyTreeNode() {
         super();

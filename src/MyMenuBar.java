@@ -1,15 +1,20 @@
-import javax.swing.*;
-
 /**
  * Created by Timofey on 9/14/2017.
  */
-class MyMenuBar extends JMenuBar{
-    JFrame frame;
+
+import auxiliary.ChangeLookAndFeelAction;
+import auxiliary.LookAndFeelClassName;
+
+import javax.swing.*;
+
+class MyMenuBar extends JMenuBar {
+
+    protected JFrame frame;
     protected JMenu programMenu, fileMenu, editMenu, viewMenu, helpMenu;
     protected JMenu lookAndFeelMenu;
     protected JMenuItem metalItem, nimbusItem, motifItem, windowsItem, windowsClassicItem;
 
-    public MyMenuBar(JFrame frame){
+    public MyMenuBar(JFrame frame) {
         super();
         this.frame = frame;
 
@@ -36,11 +41,11 @@ class MyMenuBar extends JMenuBar{
         lookAndFeelMenu = new JMenu("Зовнішній вигляд");
         viewMenu.add(lookAndFeelMenu);
 
-        metalItem = new JMenuItem(new ChangeLookAndFeelAction("Металічний", LookAndFeelClassNames.METAL_LOOK_AND_FEEL, frame));
-        nimbusItem = new JMenuItem(new ChangeLookAndFeelAction("Німбус", LookAndFeelClassNames.NIMBUS_LOOK_AND_FEEL, frame));
-        motifItem = new JMenuItem(new ChangeLookAndFeelAction("Мотіф", LookAndFeelClassNames.MOTIF_LOOK_AND_FEEL, frame));
-        windowsItem = new JMenuItem(new ChangeLookAndFeelAction("Віндоус", LookAndFeelClassNames.WINDOWS_LOOK_AND_FEEL, frame));
-        windowsClassicItem = new JMenuItem(new ChangeLookAndFeelAction("Віндоус класичний", LookAndFeelClassNames.WINDOWS_CLASSIC_LOOK_AND_FEEL, frame));
+        metalItem = new JMenuItem(new ChangeLookAndFeelAction("Металічний", LookAndFeelClassName.METAL_LOOK_AND_FEEL, frame));
+        nimbusItem = new JMenuItem(new ChangeLookAndFeelAction("Німбус", LookAndFeelClassName.NIMBUS_LOOK_AND_FEEL, frame));
+        motifItem = new JMenuItem(new ChangeLookAndFeelAction("Мотіф", LookAndFeelClassName.MOTIF_LOOK_AND_FEEL, frame));
+        windowsItem = new JMenuItem(new ChangeLookAndFeelAction("Віндоус", LookAndFeelClassName.WINDOWS_LOOK_AND_FEEL, frame));
+        windowsClassicItem = new JMenuItem(new ChangeLookAndFeelAction("Віндоус класичний", LookAndFeelClassName.WINDOWS_CLASSIC_LOOK_AND_FEEL, frame));
 
         lookAndFeelMenu.add(metalItem);
         lookAndFeelMenu.add(nimbusItem);

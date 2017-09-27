@@ -1,16 +1,19 @@
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.tree.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.regex.*;
-
 /**
  * Created by Timofey on 9/17/2017.
  */
+
+import auxiliary.MyTreeNode;
+import auxiliary.TreeFile;
+
+import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.tree.*;
+
 class FileManagerSearchPanel extends SearchPanel {
     private JPopupMenu popupMenu;
 
@@ -18,15 +21,12 @@ class FileManagerSearchPanel extends SearchPanel {
     private File fileToCopy;
     private File fileToCut;
 
-
     public FileManagerSearchPanel(JFrame frame) {
-        this.frame = frame;
+        super(frame);
 
-        addComponents();
-
-        popupMenu = new MyPopupMenu();
-
+        popupMenu = new JPopupMenu();
         setComponentPopupMenu(popupMenu);
+
         MouseListener mouseListener = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -48,33 +48,37 @@ class FileManagerSearchPanel extends SearchPanel {
         fileTreeScrollPane.addMouseListener(mouseListener);
         fileList.addMouseListener(mouseListener);
         tree.addMouseListener(mouseListener);
-        fileListScrollPane.setComponentPopupMenu(popupMenu);
-        fileList.setComponentPopupMenu(popupMenu);
-        fileTreeScrollPane.setComponentPopupMenu(popupMenu);
-        tree.setComponentPopupMenu(popupMenu);
 
-        addActionsForFileTree();
-
+        addActionsToFileTree();
     }
 
-
-
-    private void openFile(File file) {
-        TextEditor editor = new TextEditor(file);
-        editor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        editor.setVisible(true);
+    private boolean insertFileInNode(MyTreeNode parentNode, TreeFile childFile) throws IOException {
+        if (childFile.exists()) {
+            JOptionPane.showMessageDialog(frame, "Файл вже існує в цій папці", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        } else {
+            try {
+                Files.copy(fileToCopy.toPath(), childFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                MyTreeNode destNode = new MyTreeNode(childFile);
+                if (childFile.isFile()) {
+                    destNode.setAllowsChildren(false);
+                }
+                treeModel.insertNodeInto(destNode, parentNode, parentNode.getChildCount());
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(frame, "", "", JOptionPane.INFORMATION_MESSAGE);
+                return false;
+            }
+        }
     }
 
-    private boolean canOpen(File file) {
-        return file.isFile() && file.canRead() && file.getAbsolutePath().toLowerCase().endsWith(".txt");
-    }
-
-    private void addActionsForFileTree() {
+    private void addActionsToFileTree() {
         InputMap inputMap = tree.getInputMap(JComponent.WHEN_FOCUSED);
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_MASK), "Open action");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK), "Copy action");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_MASK), "Paste action");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_MASK), "Cut action");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK), "Open action");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), "Copy action");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK), "Paste action");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK), "Cut action");
         inputMap.put(KeyStroke.getKeyStroke("DELETE"), "Delete action");
 
         Action openAction = new AbstractAction() {
@@ -115,46 +119,26 @@ class FileManagerSearchPanel extends SearchPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (fileToCopy != null || fileToCut != null) {
-                    MyTreeNode selectedDirectory = (MyTreeNode) tree.getLastSelectedPathComponent();
-                    if (selectedDirectory != null) {
-                        TreeFile destinationDirectory = (TreeFile) selectedDirectory.getUserObject();
-                        if (destinationDirectory.isDirectory()) {
+                    MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+                    if (selectedNode != null) {
+                        TreeFile parentDirectory = (TreeFile) selectedNode.getUserObject();
+                        if (parentDirectory.isDirectory()) {
                             try {
-                                //need to copy
-                                if(fileToCopy != null){
-                                    TreeFile destinationFile = new TreeFile(destinationDirectory.getAbsolutePath() + "\\" + fileToCopy.getName());
-                                    if(destinationFile.exists()){
-                                        JOptionPane.showMessageDialog(frame, "Файл вже існує в цій папці", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
-                                    }else{
-                                        Files.copy(fileToCopy.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                        MyTreeNode destNode = new MyTreeNode(destinationFile);
-                                        if(destinationFile.isFile()){
-                                            destNode.setAllowsChildren(false);
-                                        }
-                                        treeModel.insertNodeInto(destNode, selectedDirectory, selectedDirectory.getChildCount());
-                                    }
-                                }else{
-                                    //need to cut
-                                    TreeFile destinationFile = new TreeFile(destinationDirectory.getAbsolutePath() + "\\" + fileToCut.getName());
-                                    if(destinationFile.exists()){
-                                        JOptionPane.showMessageDialog(frame, "Файл вже існує в цій папці", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
-                                    }else{
-                                        Files.copy(fileToCut.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                        MyTreeNode destNode = new MyTreeNode(destinationFile);
-                                        if(destinationFile.isFile()){
-                                            destNode.setAllowsChildren(false);
-                                        }
-                                        treeModel.insertNodeInto(destNode, selectedDirectory, selectedDirectory.getChildCount());
-                                        if(deleteFile(fileToCut)){
+                                if (fileToCopy != null) {  //need to copy
+                                    TreeFile childFile = new TreeFile(parentDirectory.getAbsolutePath() + "\\" + fileToCopy.getName());
+                                    insertFileInNode(selectedNode, childFile);
+                                } else {                   //need to cut
+                                    TreeFile childFile = new TreeFile(parentDirectory.getAbsolutePath() + "\\" + fileToCut.getName());
+                                    if (insertFileInNode(selectedNode, childFile)) {
+                                        if (deleteFile(fileToCut)) {
                                             treeModel.removeNodeFromParent(cutFromNode);
                                         }
                                     }
                                 }
-                                updateFileList(selectedDirectory);
+                                updateFileList(selectedNode);
                             } catch (IOException exception) {
                                 exception.printStackTrace();
                             }
-
                         }
                     }
                 }
@@ -165,13 +149,67 @@ class FileManagerSearchPanel extends SearchPanel {
             public void actionPerformed(ActionEvent e) {
                 MyTreeNode node = (MyTreeNode) tree.getLastSelectedPathComponent();
                 TreeFile file = (TreeFile) node.getUserObject();
-                if(deleteFile(file)){
+                if (deleteFile(file)) {
                     MyTreeNode parent = (MyTreeNode) node.getParent();
                     tree.setSelectionPath(getPath(parent));
                     treeModel.removeNodeFromParent(node);
                 }
             }
         };
+
+        Action newFolderAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addUntitledFileToSystem("", true);
+            }
+        };
+        Action newTextFileAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addUntitledFileToSystem(".txt", false);
+            }
+        };
+        Action newHtmlFileAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addUntitledFileToSystem(".html", false);
+            }
+        };
+
+        tree.setEditable(true);
+        /*treeModel.addTreeModelListener(new TreeModelListener() {
+            @Override
+            public void treeNodesChanged(TreeModelEvent e) {
+                MyTreeNode changedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+                if(changedNode != null){
+                    MyTreeNode parent = (MyTreeNode) changedNode.getParent();
+                    TreeFile parentFile = (TreeFile) parent.getUserObject();
+                    //TreeFile newName = (TreeFile) changedNode.getUserObject();
+                    //System.out.println(newName);
+                    String newName = (String) changedNode.getUserObject();
+                    String newPath = parentFile.getAbsolutePath() + "\\" + newName;
+                    TreeFile newFile = new TreeFile(newPath);
+
+                    changedNode.setUserObject(newFile);
+                }
+
+            }
+
+            @Override
+            public void treeNodesInserted(TreeModelEvent e) {
+
+            }
+
+            @Override
+            public void treeNodesRemoved(TreeModelEvent e) {
+
+            }
+
+            @Override
+            public void treeStructureChanged(TreeModelEvent e) {
+
+            }
+        });*/
 
         ActionMap actionMap = tree.getActionMap();
         actionMap.put("Open action", openAction);
@@ -180,6 +218,86 @@ class FileManagerSearchPanel extends SearchPanel {
         actionMap.put("Paste action", pasteAction);
         actionMap.put("Delete action", deleteAction);
 
+        JMenuItem copyPopup = new JMenuItem("Скопіювати");
+        JMenuItem pastePopup = new JMenuItem("Вставити");
+        JMenuItem cutPopup = new JMenuItem("Вирізати");
+        JMenuItem deletePopup = new JMenuItem("Видалити");
+        JMenu newItem = new JMenu("Додати");
+        JMenuItem newFolder = new JMenuItem("Папку");
+        JMenuItem newTextFile = new JMenuItem("Текстовий файл (*txt)");
+        JMenuItem newHtmlFile = new JMenuItem("HTML файл (*.html)");
+
+        copyPopup.addActionListener(copyAction);
+        pastePopup.addActionListener(pasteAction);
+        cutPopup.addActionListener(cutAction);
+        deletePopup.addActionListener(deleteAction);
+        newFolder.addActionListener(newFolderAction);
+        newTextFile.addActionListener(newTextFileAction);
+        newHtmlFile.addActionListener(newHtmlFileAction);
+
+        popupMenu.add(copyPopup);
+        popupMenu.add(pastePopup);
+        popupMenu.add(cutPopup);
+        popupMenu.add(deletePopup);
+        popupMenu.add(newItem);
+        newItem.add(newFolder);
+        newItem.add(newTextFile);
+        newItem.add(newHtmlFile);
+
+        tree.setComponentPopupMenu(popupMenu);
+    }
+
+    private void addUntitledFileToSystem(String extension, boolean isDirectory) {
+        try {
+            MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+            if (selectedNode == null) {
+                JOptionPane.showMessageDialog(frame, "Ви не вказали папку", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                TreeFile selectedFile = (TreeFile) selectedNode.getUserObject();
+                if (selectedFile.isDirectory()) {
+                    String untitled = "Untitled";
+                    if (contains(selectedFile, untitled + extension)) {
+                        int i = 0;
+                        String newTitle;
+                        do {
+                            i += 1;
+                            newTitle = untitled + '(' + i + ')';
+                        } while (!contains(selectedFile, newTitle + extension));
+                        untitled = untitled + '(' + i + ')';
+                    }
+                    untitled = untitled + extension;
+                    TreeFile fileToAdd = new TreeFile(selectedFile.getAbsolutePath() + "\\" + untitled);
+                    boolean isCreated;
+                    MyTreeNode newNode;
+                    if (isDirectory) {
+                        isCreated = fileToAdd.mkdir();
+                        newNode = new MyTreeNode(fileToAdd, true);
+                    } else {
+                        isCreated = fileToAdd.createNewFile();
+                        newNode = new MyTreeNode(fileToAdd, false);
+                    }
+                    if (isCreated) {
+                        treeModel.insertNodeInto(newNode, selectedNode, selectedNode.getChildCount());
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Програма не може створити об'єкт в обраній папці", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Для створення нового об'єкту оберіть папку", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void openFile(File file) {
+        TextEditor editor = new TextEditor(file);
+        editor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        editor.setVisible(true);
+    }
+
+    private boolean canOpen(File file) {
+        return file.isFile() && file.canRead() && file.getAbsolutePath().toLowerCase().endsWith(".txt");
     }
 
     private TreePath getPath(TreeNode treeNode) {
@@ -196,85 +314,41 @@ class FileManagerSearchPanel extends SearchPanel {
         return nodes.isEmpty() ? null : new TreePath(nodes.toArray());
     }
 
-    private boolean deleteFile(File file){
-        if(file.getName().toLowerCase().endsWith(".txt") && file.isFile()){
-            if(!file.delete()){
-                JOptionPane.showMessageDialog(frame, "Програма не може видалити наступний файл: " + file.getAbsolutePath(), "Попередження", JOptionPane.WARNING_MESSAGE);
+    private boolean contains(File parent, String child) {
+        File childFile = new File(parent.getAbsolutePath() + "\\" + child);
+        return contains(parent, childFile);
+    }
+
+    private boolean contains(File parent, File child) {
+        if (parent.isDirectory()) {
+            File[] files = parent.listFiles((dir, name) -> true);
+            try {
+                for (File file : files) {
+                    if (child.getCanonicalPath().equals(file.getCanonicalPath())) {
+                        return true;
+                    }
+                }
                 return false;
-            }else{
+            } catch (IOException e) {
+                e.printStackTrace();
                 return true;
             }
-        }else{
-            JOptionPane.showMessageDialog(frame, "Зараз дозволено видаляти тільки файли з розширенням *.txt", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+        } else {
             return false;
         }
     }
 
-
-
-
-}
-
-/*
-    private void addActionsForFileList() {
-        InputMap inputMap = fileList.getInputMap(JComponent.WHEN_FOCUSED);
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_MASK), "Open action");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK), "Copy action");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_MASK), "Paste action");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_MASK), "Cut action");
-
-        ActionMap actionMap = fileList.getActionMap();
-        Action openAction = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String fileName = (String) fileList.getSelectedValue();
-                if (fileName != null) {
-                    File fileToOpen = new File(selectedDirectory.getAbsolutePath() + "\\" + fileName);
-                    if (canOpen(fileToOpen)) {
-                        openFile(fileToOpen);
-                    }
-                }
+    private boolean deleteFile(File file) {
+        if (file.getName().toLowerCase().endsWith(".txt") && file.isFile()) {
+            if (!file.delete()) {
+                JOptionPane.showMessageDialog(frame, "Програма не може видалити наступний файл: " + file.getAbsolutePath(), "Попередження", JOptionPane.WARNING_MESSAGE);
+                return false;
+            } else {
+                return true;
             }
-        };
-        Action copyCutAction = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String fileName = (String) fileList.getSelectedValue();
-                if (fileName != null && selectedDirectory != null) {
-                    fileToCopy = new File(selectedDirectory.getAbsolutePath() + "\\" + fileName);
-                    fileToCut = null;
-                }
-            }
-        };
-        Action pasteAction = new AbstractAction() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (fileToCut != null || fileToCopy != null) {
-                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-                    if (selectedNode != null) {
-                        File destinationDirectory = (File) selectedNode.getUserObject();
-                        if (destinationDirectory.isDirectory()) {
-                            try {
-                                if (fileToCopy != null) {
-                                    Files.copy(fileToCopy.toPath(), destinationDirectory.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                } else {
-                                    Files.copy(fileToCut.toPath(), destinationDirectory.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                    fileToCut.delete();
-                                    updateFileList(selectedDirectory);
-                                }
-                            } catch (IOException exception) {
-                                exception.printStackTrace();
-                            }
-                        }
-                    }
-                }
-            }
-        };
-        actionMap.put("Open action", openAction);
-        actionMap.put("Copy action", copyCutAction);
-        actionMap.put("Cut action", copyCutAction);
-        actionMap.put("Paste action", pasteAction);
-
+        } else {
+            JOptionPane.showMessageDialog(frame, "Зараз дозволено видаляти тільки файли з розширенням *.txt", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
     }
-*/
+}

@@ -1,10 +1,13 @@
-import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
+import auxiliary.GBC;
+import auxiliary.TreeFile;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 public class MyFileChooser extends JFrame {
     private static final String TITLE = "File chooser";
@@ -33,10 +36,11 @@ public class MyFileChooser extends JFrame {
 }
 
 class FileChooserSearchPanel extends SearchPanel {
+
     private JButton chooseButton;
+
     public FileChooserSearchPanel(JFrame frame) {
-        super.frame = frame;
-        addComponents();
+        super(frame);
         chooseButton = new JButton("Choose");
         Action chooseAction = new AbstractAction() {
             @Override

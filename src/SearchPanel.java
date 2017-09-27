@@ -1,3 +1,7 @@
+
+import auxiliary.GBC;
+import auxiliary.MyTreeNode;
+import auxiliary.TreeFile;
 import javax.swing.*;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeWillExpandListener;
@@ -10,39 +14,38 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SearchPanel extends JPanel {
-    JFrame frame;
+public abstract class SearchPanel extends JPanel {
 
-    protected JScrollPane fileTreeScrollPane, fileListScrollPane;
+    private static final Font PANEL_FONT = new Font("Arial", Font.BOLD, 12);
+    protected static final String[] extensions = {"All files (*.*)", "Normal text file (*.txt)", "C# source file (*.cs)", "Java source file (*.java)", "JSON file (*.json)",
+            "HTML file (*.html)", "PDF file (*.pdf)", "Python source file (*.py)", "XML file (*.xml)"};
+
+    protected JFrame frame;
+    protected JSplitPane splitPane;
+    protected JPanel extensionPanel;
+
+    protected JScrollPane fileTreeScrollPane;
     protected JTree tree;
     protected DefaultTreeModel treeModel;
 
+    protected JScrollPane fileListScrollPane;
     protected JList fileList;
     protected DefaultListModel<String> fileListModel;
+
+    protected JLabel extensionHint;
     protected JComboBox<String> extensionBox;
-    protected final String[] extensions = {"All files (*.*)", "Normal text file (*.txt)", "C# source file (*.cs)", "Java source file (*.java)", "JSON file (*.json)",
-            "HTML file (*.html)", "PDF file (*.pdf)", "Python source file (*.py)", "XML file (*.xml)"};
-    protected final Pattern extensionPattern = Pattern.compile("\\*.([a-z]+|\\*)");
+    protected static final Pattern extensionPattern = Pattern.compile("\\*.([a-z]+|\\*)");
 
     protected TreeFile selectedDirectory;
 
-    protected void addComponents() {
-        this.setLayout(new GridBagLayout());
+    public SearchPanel(JFrame frame) {
+        this.frame = frame;
+        setLayout(new GridBagLayout());
 
-        TreeFile virtualRoot = new TreeFile("");
-        MyTreeNode virtualRootNode = new MyTreeNode(virtualRoot);
-        treeModel = new DefaultTreeModel(virtualRootNode);
-        File[] roots = File.listRoots();
-        for (File root : roots) {
-            TreeFile treeRoot = new TreeFile(root.toString());
-            if (treeRoot.exists()) {
-                MyTreeNode rootNode = new MyTreeNode(treeRoot);
-                virtualRootNode.add(rootNode);
-            }
-        }
-        treeModel.setAsksAllowsChildren(true);
-        tree = new JTree(treeModel);
-        tree.addTreeWillExpandListener(new TreeWillExpandListener() {
+        TreeFile invisibleRoot = new TreeFile("");
+        MyTreeNode invisibleRootNode = new MyTreeNode(invisibleRoot);
+        addRoots(invisibleRootNode);
+        TreeWillExpandListener treeWillExpandListener = new TreeWillExpandListener() {
             @Override
             public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException {
                 TreePath pathToNode = event.getPath();
@@ -66,13 +69,16 @@ public class SearchPanel extends JPanel {
                     treeWillExpand(event);
                 }
             }
-        });
+        };
+        treeModel = new DefaultTreeModel(invisibleRootNode);
+        treeModel.setAsksAllowsChildren(true);
+        tree = new JTree(treeModel);
+        tree.addTreeWillExpandListener(treeWillExpandListener);
         tree.addTreeSelectionListener(e -> {
             MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
             updateFileList(selectedNode);
         });
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-
         fileTreeScrollPane = new JScrollPane(tree);
         tree.expandRow(0);
         tree.setRootVisible(false);
@@ -84,28 +90,37 @@ public class SearchPanel extends JPanel {
         fileListScrollPane = new JScrollPane();
         fileListScrollPane.getViewport().add(fileList);
 
-
-        Font boxAndHintFont = new Font("Arial", Font.BOLD, 12);
-
-        JLabel extensionHint = new JLabel("Extension:");
-        extensionHint.setFont(boxAndHintFont);
+        extensionHint = new JLabel("Extension:");
+        extensionHint.setFont(PANEL_FONT);
 
         extensionBox = new JComboBox<>(extensions);
-        extensionBox.setFont(boxAndHintFont);
+        extensionBox.setFont(PANEL_FONT);
         extensionBox.addActionListener((event) -> {
             MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
             this.updateFileList(selectedNode);
 
         });
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, fileTreeScrollPane, fileListScrollPane);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, fileTreeScrollPane, fileListScrollPane);
         splitPane.setResizeWeight(0.5);
-        this.add(splitPane, new GBC(0, 0, 1, 1, 1, 1).setFill(GBC.BOTH));
 
-        JPanel extensionPanel = new JPanel();
+        extensionPanel = new JPanel();
         extensionPanel.add(extensionHint);
         extensionPanel.add(extensionBox);
+
+        this.add(splitPane, new GBC(0, 0, 1, 1, 1, 1).setFill(GBC.BOTH));
         this.add(extensionPanel, new GBC(0, 1, 1, 1, 0, 0).setAnchor(GBC.CENTER).setInsets(5, 0, 5, 10));
 
+    }
+
+    private void addRoots(MyTreeNode invisibleRootNode) {
+        File[] roots = File.listRoots();
+        for (File root : roots) {
+            TreeFile treeRoot = new TreeFile(root.toString());
+            if (treeRoot.exists()) {
+                MyTreeNode rootNode = new MyTreeNode(treeRoot);
+                invisibleRootNode.add(rootNode);
+            }
+        }
     }
 
     protected void addOneLevel(MyTreeNode node) {
