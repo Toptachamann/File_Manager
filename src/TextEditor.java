@@ -1,4 +1,7 @@
+
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -8,28 +11,41 @@ import java.io.*;
  */
 public class TextEditor extends JFrame {
 
-    private final String TITLE = "Текстовий редактор";
-    private String currentTitle = "Untitled";
+    private static final String UNTITLED = "Untitled";
+    private static final String FRAME_NAME = "Файловий менеджер";
 
+    private TextEditorMenuBar menuBar;
     private JScrollPane textScrollPane;
     private JTextArea textArea;
-    private JFileChooser fileChooser;
 
     private File originFile;
     private boolean documentChanged = false;
-    private JPopupMenu popupMenu;
+    private final MyFileChooser fileChooser;
 
+    {
+        fileChooser = new MyFileChooser(this);
+    }
 
     public TextEditor() {
-        setTitle(TITLE);
+        originFile = null;
+        setTitle(UNTITLED + " - " + FRAME_NAME);
+        initializeFrame();
+    }
+
+    public TextEditor(File file) {
+        originFile = file;
+        updateTitle();
+        initializeFrame();
+        openFile(file);
+    }
+
+    private void initializeFrame() {
         Image editorImage = new ImageIcon("images\\Text_Editor_Image.png").getImage();
         setIconImage(editorImage);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = screenSize.width, height = screenSize.height;
         setSize(new Dimension(2 * width / 3, 2 * height / 3));
         setLocationByPlatform(true);
-
-        fileChooser = new JFileChooser(System.getProperty("user.dir"));
 
         textArea = new JTextArea(20, 60);
         textArea.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -49,45 +65,56 @@ public class TextEditor extends JFrame {
 
             private void showPopupMenu(MouseEvent e) {
                 if (e.isPopupTrigger()) {
-                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                    //popupMenu.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
         };
         textArea.addMouseListener(mouseListener);
         //textArea.setComponentPopupMenu(popupMenu);
 
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                if (documentChanged) {
-                    int result = JOptionPane.showConfirmDialog(TextEditor.this,
-                            "Файл містить незбережені зміни.\n Ви хочете їх зберегти?", "", JOptionPane.YES_NO_CANCEL_OPTION);
-                    if (result == JOptionPane.YES_OPTION) {
-                        saveDocument(originFile);
-                        dispose();
-                    } else if (result == JOptionPane.NO_OPTION) {
-                        dispose();
-                    }
-                }
-            }
-        });
-
         addActions();
 
-        setJMenuBar(new TextEditorMenuBar(this));
+        menuBar = new TextEditorMenuBar(this);
+        setJMenuBar(menuBar);
         getContentPane().add(textScrollPane, BorderLayout.CENTER);
     }
 
 
-    public TextEditor(File file) {
-        this();
+    public void openFile(File file) {
+        if (documentChanged) {
+            if (originFile != null) {
+                int reply = JOptionPane.showConfirmDialog(this,
+                        "Файл містить незбережені зміни\nВи хочете їх зберегти?", "Запит підтвердження", JOptionPane.YES_NO_CANCEL_OPTION);
+                if(reply == JOptionPane.YES_OPTION){
+                    saveDocument(originFile);
+                }else if(reply == JOptionPane.CANCEL_OPTION){
+                    return;
+                }
+            } else {
+                saveDocumentAs();
+            }
+        }
         originFile = file;
+        updateTitle();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            textArea.read(reader, null);
-            currentTitle = file.getName();
-            setOrigin(file);
+            textArea.setText("");
+            String line;
+            while ((line = reader.readLine()) != null) {
+                textArea.append(line);
+                textArea.append("\n");
+            }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        this.textArea.setCaretPosition(0);
+        this.documentChanged = false;
+    }
+
+    private void updateTitle() {
+        if (originFile != null) {
+            setTitle(originFile.getName() + " - " + FRAME_NAME);
+        } else {
+            setTitle(UNTITLED + " - " + FRAME_NAME);
         }
     }
 
@@ -113,13 +140,39 @@ public class TextEditor extends JFrame {
                 saveDocumentAs();
             }
         });
-        KeyListener keyListener = new KeyAdapter() {
+        DocumentListener documentListener = new DocumentListener() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                documentChanged = true;
+            public void insertUpdate(DocumentEvent e) {
+                TextEditor.this.documentChanged = true;
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                TextEditor.this.documentChanged = true;
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
             }
         };
-        textArea.addKeyListener(keyListener);
+        this.textArea.getDocument().addDocumentListener(documentListener);
+
+        WindowListener windowListener = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (documentChanged) {
+                    int result = JOptionPane.showConfirmDialog(TextEditor.this,
+                            "Файл містить незбережені зміни.\n Ви хочете їх зберегти?", "Запит підтвердження", JOptionPane.YES_NO_CANCEL_OPTION);
+                    if (result == JOptionPane.YES_OPTION) {
+                        saveDocument(originFile);
+                        dispose();
+                    } else if (result == JOptionPane.NO_OPTION) {
+                        dispose();
+                    }
+                }
+            }
+        };
+        this.addWindowListener(windowListener);
     }
 
     private void saveDocument(File file) {
@@ -137,12 +190,6 @@ public class TextEditor extends JFrame {
 
     }
 
-    private void setOrigin(File file) {
-        if (file.exists()) {
-            ActionMap actionMap = textScrollPane.getActionMap();
-            actionMap.remove("Save action");
-        }
-    }
 
     private class TextEditorMenuBar extends MyMenuBar {
         public TextEditorMenuBar(TextEditor frame) {
@@ -154,7 +201,7 @@ public class TextEditor extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     if (documentChanged) {
                         int result = JOptionPane.showConfirmDialog(TextEditor.this,
-                                "Файл містить незбережені зміни.\n Ви хочете їх зберегти?", "", JOptionPane.YES_NO_CANCEL_OPTION);
+                                "Файл містить незбережені зміни.\n Ви хочете їх зберегти?", "Запит підтвердження", JOptionPane.YES_NO_CANCEL_OPTION);
                         if (result == JOptionPane.YES_OPTION) {
                             saveDocument(originFile);
                         }
@@ -182,9 +229,7 @@ public class TextEditor extends JFrame {
             open.addActionListener(new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    MyFileChooser fileChooser = new MyFileChooser();
-                    fileChooser.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    fileChooser.setVisible(true);
+                    TextEditor.this.fileChooser.showDialog();
                 }
             });
             fileMenu.add(newItem);

@@ -13,11 +13,11 @@ class LeftHintPanel extends JPanel {
     public LeftHintPanel() {
         super();
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true), "Файл", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, borderTitleFont, Color.BLUE));
-
-        JLabel copyHint = new JLabel("F5 Скопіювати");
-        JLabel pasteHint = new JLabel("F6 Вставити");
-        JLabel cutHint = new JLabel("F7 Вирізати");
-        JLabel deleteHint = new JLabel("F8 Видалити");
+        setLayout(new GridBagLayout());
+        JLabel copyHint = new JLabel("Ctrl + C -  Скопіювати");
+        JLabel pasteHint = new JLabel("Ctrl + V - Вставити");
+        JLabel cutHint = new JLabel("Ctrl + X - Вирізати");
+        JLabel deleteHint = new JLabel("Delete - Видалити");
 
         copyHint.setFont(labelFont);
         pasteHint.setFont(labelFont);

@@ -3,76 +3,129 @@ import auxiliary.TreeFile;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.io.File;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-public class MyFileChooser extends JFrame {
+public class MyFileChooser {
     private static final String TITLE = "File chooser";
+    private TextEditor editor;
     FileChooserSearchPanel searchPanel;
+    JDialog dialog;
 
-    public MyFileChooser() {
-        setTitle(TITLE);
-        setLocationByPlatform(true);
+    public MyFileChooser(TextEditor editor) {
+        this.editor = editor;
+
+
+        dialog = new JDialog(editor, TITLE, true);
+        Image icon = new ImageIcon("images\\File_Chooser_icon.png").getImage();
+        dialog.setIconImage(icon);
+        dialog.setLocationRelativeTo(null);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = screenSize.width, height = screenSize.height;
-        setSize(new Dimension(2 * width / 3, 2 * height / 3));
-        Image icon = new ImageIcon("images\\File_Chooser_icon.png").getImage();
-        setIconImage(icon);
+        dialog.setSize(new Dimension(width / 2, height / 2));
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
-        searchPanel = new FileChooserSearchPanel(this);
+        searchPanel = new FileChooserSearchPanel(editor);
         mainPanel.add(searchPanel, new GBC(0, 0, 1, 1, 1, 1).setAnchor(GBC.CENTER));
 
-        add(searchPanel);
+        dialog.getContentPane().add(searchPanel);
     }
 
-    public void addButtonActionListener(ActionListener listener){
-        searchPanel.addButtonActionListener(listener);
+    public void showDialog() {
+        this.dialog.setLocationRelativeTo(null);
+        this.dialog.setVisible(true);
     }
-}
 
-class FileChooserSearchPanel extends SearchPanel {
+    private class FileChooserSearchPanel extends SearchPanel {
 
-    private JButton chooseButton;
+        private JPopupMenu popupMenu;
+        private JButton chooseButton;
 
-    public FileChooserSearchPanel(JFrame frame) {
-        super(frame);
-        chooseButton = new JButton("Choose");
-        Action chooseAction = new AbstractAction() {
+        public FileChooserSearchPanel(JFrame frame) {
+            super(frame);
+
+            PopupMouseListener mouseListener = new PopupMouseListener();
+            fileListScrollPane.addMouseListener(mouseListener);
+            fileTreeScrollPane.addMouseListener(mouseListener);
+            fileList.addMouseListener(mouseListener);
+            tree.addMouseListener(mouseListener);
+
+
+            chooseButton = new JButton("Choose");
+            Action chooseAction = new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+                    if (selectedNode == null) {
+                        JOptionPane.showMessageDialog(frame, "Ви не обрали жодного файлу", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        TreeFile selectedFile = (TreeFile) selectedNode.getUserObject();
+                        MyFileChooser.this.dialog.setVisible(false);
+                        editor.openFile(selectedFile);
+                    }
+                }
+            };
+            chooseButton.addActionListener(chooseAction);
+
+            InputMap inputMap = tree.getInputMap(JComponent.WHEN_FOCUSED);
+            inputMap.put(KeyStroke.getKeyStroke("ENTER"), "Choose action");
+
+            ActionMap actionMap = tree.getActionMap();
+            actionMap.put("Choose action", chooseAction);
+
+            addActions();
+
+            add(chooseButton, new GBC(0, 2, 1, 1, 0, 0).setAnchor(GBC.EAST).setInsets(5, 0, 5, 10));
+        }
+
+        private void addActions() {
+            popupMenu = new JPopupMenu();
+            setComponentPopupMenu(popupMenu);
+            JMenu newItem = new JMenu("Додати");
+            JMenuItem newFolder = new JMenuItem("Папку");
+            JMenuItem newTextFile = new JMenuItem("Текстовий файл (*txt)");
+            JMenuItem newHtmlFile = new JMenuItem("HTML файл (*.html)");
+
+            newItem.add(newFolder);
+            newItem.add(newTextFile);
+            newItem.add(newHtmlFile);
+            popupMenu.add(newItem);
+
+            Action newFolderAction = new ItemAction("", true);
+            Action newTextFileAction = new ItemAction(".txt", false);
+            Action newHtmlFileAction = new ItemAction(".htm", false);
+
+            newFolder.addActionListener(newFolderAction);
+            newTextFile.addActionListener(newTextFileAction);
+            newHtmlFile.addActionListener(newHtmlFileAction);
+        }
+
+        private class PopupMouseListener extends MouseAdapter {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-                if (selectedNode == null) {
-                    JOptionPane.showMessageDialog(frame, "Ви не обрали жодного файлу", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    TreeFile selectedFile = (TreeFile) selectedNode.getUserObject();
-                    openFile(selectedFile);
-                    frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            public void mouseClicked(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    showPopupMenu(e);
                 }
             }
-        };
-        chooseButton.addActionListener(chooseAction);
 
-        InputMap inputMap = tree.getInputMap(JComponent.WHEN_FOCUSED);
-        inputMap.put(KeyStroke.getKeyStroke("ENTER"), "Choose action");
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if(SwingUtilities.isRightMouseButton(e)){
+                    showPopupMenu(e);
+                }
+            }
 
-        ActionMap actionMap = tree.getActionMap();
-        actionMap.put("Choose action", chooseAction);
+            private void showPopupMenu(MouseEvent e) {
+                popupMenu.show(e.getComponent(), e.getX(), e.getY());
+            }
+        }
 
-        add(chooseButton, new GBC(0, 2, 1, 1, 0, 0).setAnchor(GBC.EAST).setInsets(5, 0, 5, 10));
     }
 
-    public void addButtonActionListener(ActionListener listener){
-        chooseButton.addActionListener(listener);
-    }
-
-    private void openFile(File file) {
-        TextEditor editor = new TextEditor(file);
-        editor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        editor.setVisible(true);
-    }
 }
+
+

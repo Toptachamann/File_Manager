@@ -2,6 +2,7 @@
 import auxiliary.GBC;
 import auxiliary.MyTreeNode;
 import auxiliary.TreeFile;
+
 import javax.swing.*;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeWillExpandListener;
@@ -10,7 +11,11 @@ import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -110,6 +115,90 @@ public abstract class SearchPanel extends JPanel {
         this.add(splitPane, new GBC(0, 0, 1, 1, 1, 1).setFill(GBC.BOTH));
         this.add(extensionPanel, new GBC(0, 1, 1, 1, 0, 0).setAnchor(GBC.CENTER).setInsets(5, 0, 5, 10));
 
+    }
+
+
+
+    protected class ItemAction extends AbstractAction {
+
+        public ItemAction(String extension, boolean isDirectory) {
+            putValue("Extension", extension);
+            putValue("Is directory", isDirectory);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String extension = (String) getValue("Extension");
+            Boolean isDirectory = (Boolean) getValue("Is directory");
+            addUntitledFileToSystem(extension, isDirectory);
+        }
+    }
+
+    protected void addUntitledFileToSystem(String extension, boolean isDirectory) {
+        try {
+            MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+            if (selectedNode == null) {
+                JOptionPane.showMessageDialog(frame, "Ви не вказали папку", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                TreeFile selectedFile = (TreeFile) selectedNode.getUserObject();
+                if (selectedFile.isDirectory()) {
+                    String untitled = "Untitled";
+                    if (contains(selectedFile, untitled + extension)) {
+                        int i = 0;
+                        String newTitle;
+                        do {
+                            i += 1;
+                            newTitle = untitled + '(' + i + ')';
+                        } while (!contains(selectedFile, newTitle + extension));
+                        untitled = untitled + '(' + i + ')';
+                    }
+                    untitled = untitled + extension;
+                    TreeFile fileToAdd = new TreeFile(selectedFile.getAbsolutePath() + "\\" + untitled);
+                    boolean isCreated;
+                    MyTreeNode newNode;
+                    if (isDirectory) {
+                        isCreated = fileToAdd.mkdir();
+                        newNode = new MyTreeNode(fileToAdd, true);
+                    } else {
+                        isCreated = fileToAdd.createNewFile();
+                        newNode = new MyTreeNode(fileToAdd, false);
+                    }
+                    if (isCreated) {
+                        treeModel.insertNodeInto(newNode, selectedNode, selectedNode.getChildCount());
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Програма не може створити об'єкт в обраній папці", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Для створення нового об'єкту оберіть папку", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected boolean contains(File parent, String child) {
+        File childFile = new File(parent.getAbsolutePath() + "\\" + child);
+        return contains(parent, childFile);
+    }
+
+    protected boolean contains(File parent, File child) {
+        if (parent.isDirectory()) {
+            File[] files = parent.listFiles((dir, name) -> true);
+            try {
+                for (File file : files) {
+                    if (child.getCanonicalPath().equals(file.getCanonicalPath())) {
+                        return true;
+                    }
+                }
+                return false;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
     private void addRoots(MyTreeNode invisibleRootNode) {

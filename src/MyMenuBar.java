@@ -10,7 +10,7 @@ import javax.swing.*;
 class MyMenuBar extends JMenuBar {
 
     protected JFrame frame;
-    protected JMenu programMenu, fileMenu, editMenu, viewMenu, helpMenu;
+    protected JMenu fileMenu, editMenu, viewMenu, helpMenu;
     protected JMenu lookAndFeelMenu;
     protected JMenuItem metalItem, nimbusItem, motifItem, windowsItem, windowsClassicItem;
 
@@ -18,13 +18,11 @@ class MyMenuBar extends JMenuBar {
         super();
         this.frame = frame;
 
-        programMenu = new JMenu("Програма");
         fileMenu = new JMenu("Файл");
         editMenu = new JMenu("Операції");
         viewMenu = new JMenu("Вигляд");
         helpMenu = new JMenu("Допомога");
 
-        this.add(programMenu);
         this.add(fileMenu);
         this.add(editMenu);
         this.add(viewMenu);
