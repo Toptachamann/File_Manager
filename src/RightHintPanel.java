@@ -12,11 +12,11 @@ class RightHintPanel extends JPanel {
 
     public RightHintPanel() {
         super();
-
+        this.setLayout(new GridBagLayout());
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true), "Операції", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, borderTitleFont, Color.BLUE));
 
-        JLabel openHint = new JLabel("F9 Редагувати");
-        JLabel clearHint = new JLabel("F10 Почистити");
+        JLabel openHint = new JLabel("Ctrl + O - Редагувати");
+        JLabel clearHint = new JLabel("F3 - Видалити зміст");
 
         openHint.setFont(labelFont);
         clearHint.setFont(labelFont);
