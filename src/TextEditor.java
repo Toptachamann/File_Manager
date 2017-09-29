@@ -2,6 +2,9 @@
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -21,6 +24,9 @@ public class TextEditor extends JFrame {
     private File originFile;
     private boolean documentChanged = false;
     private final MyFileChooser fileChooser;
+
+    private Highlighter highlighter;
+    private Highlighter.HighlightPainter painter;
 
     {
         fileChooser = new MyFileChooser(this);
@@ -51,6 +57,8 @@ public class TextEditor extends JFrame {
         textArea.setFont(new Font("Arial", Font.PLAIN, 12));
         textScrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
+        highlighter = textArea.getHighlighter();
+        painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(135,206,250));
         //popupMenu = new MyPopupMenu();
         MouseListener mouseListener = new MouseAdapter() {
             @Override
@@ -85,9 +93,9 @@ public class TextEditor extends JFrame {
             if (originFile != null) {
                 int reply = JOptionPane.showConfirmDialog(this,
                         "Файл містить незбережені зміни\nВи хочете їх зберегти?", "Запит підтвердження", JOptionPane.YES_NO_CANCEL_OPTION);
-                if(reply == JOptionPane.YES_OPTION){
+                if (reply == JOptionPane.YES_OPTION) {
                     saveDocument(originFile);
-                }else if(reply == JOptionPane.CANCEL_OPTION){
+                } else if (reply == JOptionPane.CANCEL_OPTION) {
                     return;
                 }
             } else {
@@ -121,10 +129,11 @@ public class TextEditor extends JFrame {
     private void addActions() {
         InputMap inputMap = textArea.getInputMap(JComponent.WHEN_FOCUSED);
         inputMap.put(KeyStroke.getKeyStroke("ctrl S"), "Save action");
-        inputMap.put(KeyStroke.getKeyStroke("ctrl S A"), "Save as action");
+        inputMap.put(KeyStroke.getKeyStroke("ctrl shift A"), "Save as action");
+        inputMap.put(KeyStroke.getKeyStroke("ctrl F"), "Search word action");
 
-        ActionMap actionMap = textArea.getActionMap();
-        actionMap.put("Save action", new AbstractAction() {
+
+        Action saveAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (originFile != null) {
@@ -133,22 +142,41 @@ public class TextEditor extends JFrame {
                     saveDocumentAs();
                 }
             }
-        });
-        actionMap.put("Save as action", new AbstractAction() {
+        };
+        Action saveAsAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 saveDocumentAs();
             }
-        });
+        };
+
+        Action searchWordAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String word = JOptionPane.showInputDialog(TextEditor.this, "Введіть слово для пошуку", "Пошук", JOptionPane.QUESTION_MESSAGE);
+                if(word != null && word.length() > 0){
+                    highlighter.removeAllHighlights();
+                    highlightChoosenWord(word);
+                }
+            }
+        };
+
+        ActionMap actionMap = textArea.getActionMap();
+        actionMap.put("Save action", saveAction);
+        actionMap.put("Save as action", saveAsAction);
+        actionMap.put("Search word action", searchWordAction);
+
         DocumentListener documentListener = new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 TextEditor.this.documentChanged = true;
+                highlighter.removeAllHighlights();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
                 TextEditor.this.documentChanged = true;
+                highlighter.removeAllHighlights();
             }
 
             @Override
@@ -173,6 +201,23 @@ public class TextEditor extends JFrame {
             }
         };
         this.addWindowListener(windowListener);
+    }
+
+    private void highlightChoosenWord(String word) {
+        try{
+            int lengthCount = 0;
+            for (String line : textArea.getText().split("\\n")) {
+                int index = line.indexOf(word);
+                while (index != -1) {
+                    highlighter.addHighlight(lengthCount + index, lengthCount + index + word.length(), painter);
+                    index = line.indexOf(word, index + 1);
+                }
+                lengthCount += line.length() + 1;
+            }
+        } catch (BadLocationException e){
+            e.printStackTrace();
+        }
+
     }
 
     private void saveDocument(File file) {
