@@ -55,6 +55,7 @@ public class Main {
         }*/
 
         EventQueue.invokeLater(() -> {
+            File file = new File("\\File_Manager_Test\\text_file2.txt");
             FileManagerFrame frame = new FileManagerFrame();
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.setVisible(true);
