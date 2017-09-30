@@ -2,23 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d43068b-50aa-44d9-9494-6a5bb118dc74" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/Main.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/MyFileChooser$FileChooserSearchPanel$PopupMouseListener.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/MyFileChooser$FileChooserSearchPanel$PopupMouseListener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/MyFileChooser$FileChooserSearchPanel.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/MyFileChooser$FileChooserSearchPanel.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$1.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$2.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$3.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$4.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$5.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$TextEditorMenuBar$1.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$TextEditorMenuBar$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$TextEditorMenuBar$2.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$TextEditorMenuBar$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$TextEditorMenuBar$3.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$TextEditorMenuBar$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$TextEditorMenuBar$4.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$TextEditorMenuBar$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$TextEditorMenuBar.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/TextEditor$TextEditorMenuBar.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/TextEditor.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/TextEditor.class" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/FileManagerSearchPanel$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/FileManagerSearchPanel$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/FileManagerSearchPanel$4.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/FileManagerSearchPanel$5.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/FileManagerSearchPanel$6.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/FileManagerSearchPanel$1.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/FileManagerSearchPanel$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/FileManagerSearchPanel$PopupMouseListener.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/FileManagerSearchPanel$PopupMouseListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/FileManagerSearchPanel.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/FileManagerSearchPanel.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TextEditor.java" afterPath="$PROJECT_DIR$/src/TextEditor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/FileManagerSearchPanel.java" afterPath="$PROJECT_DIR$/src/FileManagerSearchPanel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/SearchPanel.java" afterPath="$PROJECT_DIR$/src/SearchPanel.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.idea/" />
@@ -34,40 +28,46 @@
       <file leaf-file-name="TextEditor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/TextEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25">
+            <state relative-caret-position="1166">
               <caret line="157" column="54" lean-forward="false" selection-start-line="157" selection-start-column="54" selection-end-line="157" selection-end-column="54" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4480#4774#0" expanded="true" />
-                <element signature="e#4773#4774#0" expanded="true" />
-                <element signature="e#4806#4965#0" expanded="true" />
-                <element signature="e#4964#4965#0" expanded="true" />
-                <element signature="e#5002#5446#0" expanded="true" />
-                <element signature="e#5445#5446#0" expanded="true" />
-                <element signature="e#6362#7035#0" expanded="true" />
-                <element signature="e#7034#7035#0" expanded="true" />
-                <element signature="e#8442#9115#0" expanded="true" />
-                <element signature="e#9114#9115#0" expanded="true" />
-                <element signature="e#9153#9483#0" expanded="true" />
-                <element signature="e#9482#9483#0" expanded="true" />
-                <element signature="e#9523#9702#0" expanded="true" />
-                <element signature="e#9701#9702#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FileManagerSearchPanel.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="FileManagerSearchPanel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/FileManagerSearchPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="262" column="21" lean-forward="false" selection-start-line="262" selection-start-column="20" selection-end-line="262" selection-end-column="21" />
+            <state relative-caret-position="537">
+              <caret line="81" column="45" lean-forward="true" selection-start-line="81" selection-start-column="45" selection-end-line="81" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#insertFileInNode#0;class#FileManagerSearchPanel#0" expanded="false" />
+                <element signature="class#CopyAction#0;class#FileManagerSearchPanel#0" expanded="false" />
+                <element signature="class#CutAction#0;class#FileManagerSearchPanel#0" expanded="false" />
+                <element signature="class#PasteAction#0;class#FileManagerSearchPanel#0" expanded="false" />
+                <element signature="class#OpenAction#0;class#FileManagerSearchPanel#0" expanded="false" />
+                <element signature="class#DeleteAction#0;class#FileManagerSearchPanel#0" expanded="false" />
+                <element signature="class#ClearContentAction#0;class#FileManagerSearchPanel#0" expanded="false" />
+                <element signature="class#PopupMouseListener#0;class#FileManagerSearchPanel#0" expanded="false" />
+                <element signature="method#clearContent#0;class#FileManagerSearchPanel#0" expanded="false" />
+                <element signature="method#openFile#0;class#FileManagerSearchPanel#0" expanded="false" />
                 <element signature="method#canOpen#0;class#FileManagerSearchPanel#0" expanded="false" />
+                <element signature="method#getPath#0;class#FileManagerSearchPanel#0" expanded="false" />
                 <element signature="method#deleteFile#0;class#FileManagerSearchPanel#0" expanded="false" />
+                <element signature="method#isParent#0;class#FileManagerSearchPanel#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Files.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.base/java/nio/file/Files.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="926">
+              <caret line="1280" column="23" lean-forward="false" selection-start-line="1280" selection-start-column="23" selection-end-line="1280" selection-end-column="23" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -75,19 +75,18 @@
       <file leaf-file-name="SearchPanel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/SearchPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="107" column="30" lean-forward="false" selection-start-line="107" selection-start-column="24" selection-end-line="107" selection-end-column="30" />
+            <state relative-caret-position="3600">
+              <caret line="254" column="51" lean-forward="false" selection-start-line="254" selection-start-column="51" selection-end-line="254" selection-end-column="51" />
               <folding>
                 <element signature="class#1897:2944" expanded="false" />
                 <element signature="e#3193#3339#0" expanded="false" />
                 <element signature="e#4090#4248#0" expanded="false" />
-                <element signature="method#addUntitledFileToSystem#0;class#SearchPanel#0" expanded="false" />
-                <element signature="method#contains#0;class#SearchPanel#0" expanded="false" />
                 <element signature="method#contains#1;class#SearchPanel#0" expanded="false" />
                 <element signature="method#addRoots#0;class#SearchPanel#0" expanded="false" />
                 <element signature="method#addOneLevel#0;class#SearchPanel#0" expanded="false" />
                 <element signature="method#updateFileList#0;class#SearchPanel#0" expanded="false" />
                 <element signature="method#updateFileList#1;class#SearchPanel#0" expanded="false" />
+                <element signature="method#getExtension#0;class#SearchPanel#0" expanded="false" />
                 <element signature="method#updateFileList#2;class#SearchPanel#0" expanded="false" />
               </folding>
             </state>
@@ -97,7 +96,7 @@
       <file leaf-file-name="MyFileChooser.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/MyFileChooser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2350">
+            <state relative-caret-position="2275">
               <caret line="94" column="37" lean-forward="false" selection-start-line="94" selection-start-column="37" selection-end-line="94" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -108,10 +107,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="707">
+            <state relative-caret-position="1350">
               <caret line="58" column="58" lean-forward="false" selection-start-line="58" selection-start-column="58" selection-end-line="58" selection-end-column="58" />
               <folding />
             </state>
@@ -170,11 +169,11 @@
         <option value="$PROJECT_DIR$/src/LeftHintPanel.java" />
         <option value="$PROJECT_DIR$/src/RightHintPanel.java" />
         <option value="$PROJECT_DIR$/src/MyMenuBar.java" />
-        <option value="$PROJECT_DIR$/src/SearchPanel.java" />
-        <option value="$PROJECT_DIR$/src/FileManagerSearchPanel.java" />
         <option value="$PROJECT_DIR$/src/MyFileChooser.java" />
         <option value="$PROJECT_DIR$/src/TextEditor.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/src/SearchPanel.java" />
+        <option value="$PROJECT_DIR$/src/FileManagerSearchPanel.java" />
       </list>
     </option>
   </component>
@@ -184,7 +183,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1" fullScreen="true">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="width" value="1366" />
     <option name="height" value="768" />
   </component>
@@ -206,8 +205,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -224,8 +225,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -513,24 +512,29 @@
       <workItem from="1506584556352" duration="8919000" />
       <workItem from="1506666155185" duration="654000" />
       <workItem from="1506679950169" duration="698000" />
+      <workItem from="1506749017346" duration="28000" />
+      <workItem from="1506779024487" duration="36000" />
+      <workItem from="1506784417562" duration="3815000" />
+      <workItem from="1506793124431" duration="5923000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="78254000" />
+    <option name="totallyTimeSpent" value="88056000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1920" height="1080" extended-state="1" />
+    <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32906404" sideWeight="0.49791667" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.05221675" sideWeight="0.5083333" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12315271" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.05221675" sideWeight="0.49166667" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -541,7 +545,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.028571429" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13497537" sideWeight="0.49375" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -601,27 +605,9 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/FileManagerSearchPanel.java</url>
-          <line>105</line>
-          <properties />
-          <option name="timeStamp" value="76" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/FileManagerSearchPanel.java</url>
-          <line>276</line>
-          <properties />
-          <option name="timeStamp" value="78" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/FileManagerSearchPanel.java</url>
-          <line>162</line>
+          <line>96</line>
           <properties />
           <option name="timeStamp" value="90" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/FileManagerSearchPanel.java</url>
-          <line>146</line>
-          <properties />
-          <option name="timeStamp" value="91" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/MyFileChooser.java</url>
@@ -635,8 +621,14 @@
           <properties />
           <option name="timeStamp" value="106" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/FileManagerSearchPanel.java</url>
+          <line>289</line>
+          <properties />
+          <option name="timeStamp" value="112" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="107" />
+      <option name="time" value="113" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -645,13 +637,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="45" lean-forward="false" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/FileManagerFrame.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -852,7 +837,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MyFileChooser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2350">
+        <state relative-caret-position="2275">
           <caret line="94" column="37" lean-forward="false" selection-start-line="94" selection-start-column="37" selection-end-line="94" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -862,68 +847,71 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1350">
+          <caret line="58" column="58" lean-forward="false" selection-start-line="58" selection-start-column="58" selection-end-line="58" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/TextEditor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
+        <state relative-caret-position="1166">
           <caret line="157" column="54" lean-forward="false" selection-start-line="157" selection-start-column="54" selection-end-line="157" selection-end-column="54" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4480#4774#0" expanded="true" />
-            <element signature="e#4773#4774#0" expanded="true" />
-            <element signature="e#4806#4965#0" expanded="true" />
-            <element signature="e#4964#4965#0" expanded="true" />
-            <element signature="e#5002#5446#0" expanded="true" />
-            <element signature="e#5445#5446#0" expanded="true" />
-            <element signature="e#6362#7035#0" expanded="true" />
-            <element signature="e#7034#7035#0" expanded="true" />
-            <element signature="e#8442#9115#0" expanded="true" />
-            <element signature="e#9114#9115#0" expanded="true" />
-            <element signature="e#9153#9483#0" expanded="true" />
-            <element signature="e#9482#9483#0" expanded="true" />
-            <element signature="e#9523#9702#0" expanded="true" />
-            <element signature="e#9701#9702#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.base/java/nio/file/Files.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="926">
+          <caret line="1280" column="23" lean-forward="false" selection-start-line="1280" selection-start-column="23" selection-end-line="1280" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SearchPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3600">
+          <caret line="254" column="51" lean-forward="false" selection-start-line="254" selection-start-column="51" selection-end-line="254" selection-end-column="51" />
+          <folding>
+            <element signature="class#1897:2944" expanded="false" />
+            <element signature="e#3193#3339#0" expanded="false" />
+            <element signature="e#4090#4248#0" expanded="false" />
+            <element signature="method#contains#1;class#SearchPanel#0" expanded="false" />
+            <element signature="method#addRoots#0;class#SearchPanel#0" expanded="false" />
+            <element signature="method#addOneLevel#0;class#SearchPanel#0" expanded="false" />
+            <element signature="method#updateFileList#0;class#SearchPanel#0" expanded="false" />
+            <element signature="method#updateFileList#1;class#SearchPanel#0" expanded="false" />
+            <element signature="method#getExtension#0;class#SearchPanel#0" expanded="false" />
+            <element signature="method#updateFileList#2;class#SearchPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/FileManagerSearchPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="262" column="21" lean-forward="false" selection-start-line="262" selection-start-column="20" selection-end-line="262" selection-end-column="21" />
+        <state relative-caret-position="537">
+          <caret line="81" column="45" lean-forward="true" selection-start-line="81" selection-start-column="45" selection-end-line="81" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#insertFileInNode#0;class#FileManagerSearchPanel#0" expanded="false" />
+            <element signature="class#CopyAction#0;class#FileManagerSearchPanel#0" expanded="false" />
+            <element signature="class#CutAction#0;class#FileManagerSearchPanel#0" expanded="false" />
+            <element signature="class#PasteAction#0;class#FileManagerSearchPanel#0" expanded="false" />
+            <element signature="class#OpenAction#0;class#FileManagerSearchPanel#0" expanded="false" />
+            <element signature="class#DeleteAction#0;class#FileManagerSearchPanel#0" expanded="false" />
+            <element signature="class#ClearContentAction#0;class#FileManagerSearchPanel#0" expanded="false" />
+            <element signature="class#PopupMouseListener#0;class#FileManagerSearchPanel#0" expanded="false" />
+            <element signature="method#clearContent#0;class#FileManagerSearchPanel#0" expanded="false" />
+            <element signature="method#openFile#0;class#FileManagerSearchPanel#0" expanded="false" />
             <element signature="method#canOpen#0;class#FileManagerSearchPanel#0" expanded="false" />
+            <element signature="method#getPath#0;class#FileManagerSearchPanel#0" expanded="false" />
             <element signature="method#deleteFile#0;class#FileManagerSearchPanel#0" expanded="false" />
+            <element signature="method#isParent#0;class#FileManagerSearchPanel#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/SearchPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="107" column="30" lean-forward="false" selection-start-line="107" selection-start-column="24" selection-end-line="107" selection-end-column="30" />
-          <folding>
-            <element signature="class#1897:2944" expanded="false" />
-            <element signature="e#3193#3339#0" expanded="false" />
-            <element signature="e#4090#4248#0" expanded="false" />
-            <element signature="method#addUntitledFileToSystem#0;class#SearchPanel#0" expanded="false" />
-            <element signature="method#contains#0;class#SearchPanel#0" expanded="false" />
-            <element signature="method#contains#1;class#SearchPanel#0" expanded="false" />
-            <element signature="method#addRoots#0;class#SearchPanel#0" expanded="false" />
-            <element signature="method#addOneLevel#0;class#SearchPanel#0" expanded="false" />
-            <element signature="method#updateFileList#0;class#SearchPanel#0" expanded="false" />
-            <element signature="method#updateFileList#1;class#SearchPanel#0" expanded="false" />
-            <element signature="method#updateFileList#2;class#SearchPanel#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="707">
-          <caret line="58" column="58" lean-forward="false" selection-start-line="58" selection-start-column="58" selection-end-line="58" selection-end-column="58" />
-          <folding />
         </state>
       </provider>
     </entry>
