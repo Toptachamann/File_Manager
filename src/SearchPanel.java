@@ -118,7 +118,6 @@ public abstract class SearchPanel extends JPanel {
     }
 
 
-
     protected class ItemAction extends AbstractAction {
 
         public ItemAction(String extension, boolean isDirectory) {
@@ -149,7 +148,7 @@ public abstract class SearchPanel extends JPanel {
                         do {
                             i += 1;
                             newTitle = untitled + '(' + i + ')';
-                        } while (!contains(selectedFile, newTitle + extension));
+                        } while (contains(selectedFile, newTitle + extension));
                         untitled = untitled + '(' + i + ')';
                     }
                     untitled = untitled + extension;
@@ -245,13 +244,20 @@ public abstract class SearchPanel extends JPanel {
 
     protected void updateFileList(TreeFile selectedFile) {
         String selectedItem = (String) extensionBox.getSelectedItem();
-        Matcher matcher = extensionPattern.matcher(selectedItem);
-        matcher.find();
-        String extension = matcher.group(1);
+        String extension = getExtension(selectedItem);
         if (extension.equals("*")) {
             this.updateFileList(selectedFile, "");
         } else {
             this.updateFileList(selectedFile, extension);
+        }
+    }
+
+    protected String getExtension(String fileType) {
+        Matcher matcher = extensionPattern.matcher(fileType);
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else {
+            return null;
         }
     }
 
