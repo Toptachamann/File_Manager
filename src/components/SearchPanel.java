@@ -20,8 +20,6 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
@@ -98,7 +96,9 @@ public abstract class SearchPanel extends JPanel {
             MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
             if (selectedNode != null) {
                 lastSelectedFile = (TreeFile) selectedNode.getUserObject();
-                updateFileList(selectedNode);
+                if(lastSelectedFile.isDirectory()){
+                    updateFileList(selectedNode);
+                }
             }
         });
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -107,7 +107,7 @@ public abstract class SearchPanel extends JPanel {
         tree.setRootVisible(false);
 
         fileListModel = new DefaultListModel<>();
-        fileListModel.addElement("");
+        fileListModel.addElement("Папка не обрана");
         fileList = new JList<>(fileListModel);
         fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         fileListScrollPane = new JScrollPane();
@@ -135,16 +135,16 @@ public abstract class SearchPanel extends JPanel {
         addAllowedAction();
     }
 
-    public void renameAct(){
+    public void renameAct() {
         MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-        if(selectedNode != null){
+        if (selectedNode != null) {
             TreeNode[] nodes = treeModel.getPathToRoot(selectedNode);
             TreePath path = new TreePath(nodes);
             tree.startEditingAtPath(path);
         }
     }
 
-    private void addAllowedAction(){
+    private void addAllowedAction() {
         Action renameAction = new RenameAction(this);
 
         InputMap inputMap = tree.getInputMap(JComponent.WHEN_FOCUSED);
@@ -324,11 +324,10 @@ public abstract class SearchPanel extends JPanel {
                     } else {
                         childNode = new MyTreeNode(treeChild, false);
                     }
-                    node.add(childNode);
+                    treeModel.insertNodeInto(childNode, node, node.getChildCount());
                 }
             }
         }
-        treeModel.reload();
     }
 
     protected void updateFileList(MyTreeNode selectedNode) {
@@ -357,14 +356,22 @@ public abstract class SearchPanel extends JPanel {
         }
     }
 
+
     protected void updateFileList(TreeFile newParentDirectory, String suffix) {
         if (newParentDirectory.isDirectory()) {
             selectedDirectory = newParentDirectory;
             File[] targetFiles = newParentDirectory.listFiles((file) -> !file.isDirectory() && file.getName().toLowerCase().endsWith(suffix));
+            fileListModel.removeAllElements();
+            if (newParentDirectory.isRoot()) {
+                fileListModel.addElement("Файли на диску " + newParentDirectory.getAbsolutePath());
+            } else if (suffix.isEmpty()) {
+                fileListModel.addElement("Файли в папці " + newParentDirectory.getName());
+            } else {
+                fileListModel.addElement("Файли в папці " + newParentDirectory.getName() + " з розширенням " + suffix);
+            }
             if (targetFiles != null) {
-                fileListModel.removeAllElements();
-                for (File targetFile : targetFiles) {
-                    fileListModel.addElement(targetFile.getName());
+                for (File file : targetFiles) {
+                    fileListModel.addElement(file.getName());
                 }
                 fileListScrollPane.revalidate();
                 fileListScrollPane.repaint();

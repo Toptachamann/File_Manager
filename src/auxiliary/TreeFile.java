@@ -31,13 +31,21 @@ public class TreeFile extends File {
         return this.absolutePath;
     }
 
-    @Override
-    public String toString() {
+    public boolean isRoot() {
         for (File file : roots) {
             if (absolutePath.equals(file.toString())) {
-                return absolutePath;
+                return true;
             }
         }
-        return this.getName();
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        if (isRoot()) {
+            return absolutePath;
+        } else {
+            return super.getName();
+        }
     }
 }
