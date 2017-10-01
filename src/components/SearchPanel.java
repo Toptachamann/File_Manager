@@ -1,18 +1,28 @@
 package components;
 
+import actions.RenameAction;
 import auxiliary.GBC;
 import auxiliary.MyTreeNode;
 import auxiliary.TreeFile;
 
 import javax.swing.*;
 import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeWillExpandListener;
+import javax.swing.tree.DefaultTreeCellEditor;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.ExpandVetoException;
+import javax.swing.tree.TreeCellEditor;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -41,6 +51,7 @@ public abstract class SearchPanel extends JPanel {
     protected static final Pattern extensionPattern = Pattern.compile("\\*.([a-z]+|\\*)");
 
     protected TreeFile selectedDirectory;
+    protected TreeFile lastSelectedFile;
 
     public SearchPanel(JFrame frame) {
         this.frame = frame;
@@ -77,10 +88,18 @@ public abstract class SearchPanel extends JPanel {
         treeModel = new DefaultTreeModel(invisibleRootNode);
         treeModel.setAsksAllowsChildren(true);
         tree = new JTree(treeModel);
+        tree.setEditable(true);
+        MyTreeCellEditor editor = new MyTreeCellEditor(tree, (DefaultTreeCellRenderer) tree.getCellRenderer());
+        tree.setCellEditor(editor);
+        treeModel.addTreeModelListener(new MyTreeModelListener());
+
         tree.addTreeWillExpandListener(treeWillExpandListener);
         tree.addTreeSelectionListener(e -> {
             MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-            updateFileList(selectedNode);
+            if (selectedNode != null) {
+                lastSelectedFile = (TreeFile) selectedNode.getUserObject();
+                updateFileList(selectedNode);
+            }
         });
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         fileTreeScrollPane = new JScrollPane(tree);
@@ -113,9 +132,82 @@ public abstract class SearchPanel extends JPanel {
 
         this.add(splitPane, new GBC(0, 0, 1, 1, 1, 1).setFill(GBC.BOTH));
         this.add(extensionPanel, new GBC(0, 1, 1, 1, 0, 0).setAnchor(GBC.CENTER).setInsets(5, 0, 5, 10));
-
+        addAllowedAction();
     }
 
+    public void renameAct(){
+        MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+        if(selectedNode != null){
+            TreeNode[] nodes = treeModel.getPathToRoot(selectedNode);
+            TreePath path = new TreePath(nodes);
+            tree.startEditingAtPath(path);
+        }
+    }
+
+    private void addAllowedAction(){
+        Action renameAction = new RenameAction(this);
+
+        InputMap inputMap = tree.getInputMap(JComponent.WHEN_FOCUSED);
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK), "Rename action");
+
+        ActionMap actionMap = tree.getActionMap();
+        actionMap.put("Rename action", renameAction);
+    }
+
+    private class MyTreeCellEditor extends DefaultTreeCellEditor {
+
+        public MyTreeCellEditor(JTree tree, DefaultTreeCellRenderer renderer) {
+            super(tree, renderer);
+        }
+
+        public MyTreeCellEditor(JTree tree, DefaultTreeCellRenderer renderer, TreeCellEditor editor) {
+            super(tree, renderer, editor);
+        }
+
+        @Override
+        public Component getTreeCellEditorComponent(JTree tree, Object value, boolean isSelected, boolean expanded, boolean leaf, int row) {
+            if (value instanceof TreeFile) {
+                value = ((TreeFile) value).getName();
+            }
+            return super.getTreeCellEditorComponent(tree, value, isSelected, expanded, leaf, row);
+        }
+    }
+
+    private class MyTreeModelListener implements TreeModelListener {
+
+        @Override
+        public void treeNodesChanged(TreeModelEvent e) {
+            MyTreeNode changedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+            Object userObject = changedNode.getUserObject();
+            if (userObject instanceof String) {
+                String newFileName = (String) userObject;
+                MyTreeNode parentNode = (MyTreeNode) changedNode.getParent();
+                TreeFile parentFile = (TreeFile) parentNode.getUserObject();
+                TreeFile newFileInstance = new TreeFile(parentFile.getAbsolutePath() + "\\" + newFileName);
+                if (lastSelectedFile.renameTo(newFileInstance)) {
+                    changedNode.setUserObject(newFileInstance);
+                } else {
+                    changedNode.setUserObject(lastSelectedFile);
+                }
+            }
+        }
+
+        @Override
+        public void treeNodesInserted(TreeModelEvent e) {
+
+        }
+
+        @Override
+        public void treeNodesRemoved(TreeModelEvent e) {
+
+        }
+
+        @Override
+        public void treeStructureChanged(TreeModelEvent e) {
+
+        }
+    }
 
     protected class ItemAction extends AbstractAction {
 
@@ -163,6 +255,11 @@ public abstract class SearchPanel extends JPanel {
                     }
                     if (isCreated) {
                         treeModel.insertNodeInto(newNode, selectedNode, selectedNode.getChildCount());
+                        TreeNode[] nodes = treeModel.getPathToRoot(newNode);
+                        TreePath path = new TreePath(nodes);
+                        tree.scrollPathToVisible(path);
+                        tree.setSelectionPath(path);
+                        tree.startEditingAtPath(path);
                     } else {
                         JOptionPane.showMessageDialog(frame, "Програма не може створити об'єкт в обраній папці", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
                     }

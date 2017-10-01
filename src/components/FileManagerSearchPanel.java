@@ -86,20 +86,6 @@ public class FileManagerSearchPanel extends SearchPanel {
 
 
     private void addActionsToFileTree() {
-        InputMap inputMap = tree.getInputMap(JComponent.WHEN_FOCUSED);
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK), "Open action");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), "Copy action");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK), "Paste action");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK), "Cut action");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK),
-                "Copy all with extension action");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK),
-                "Copy without multiple lines action");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_DOWN_MASK|KeyEvent.SHIFT_DOWN_MASK),
-                "Copy html file action");
-        inputMap.put(KeyStroke.getKeyStroke("DELETE"), "Delete action");
-        inputMap.put(KeyStroke.getKeyStroke("F3"), "Clear content action");
-
         Action openAction = new OpenAction(this);
         Action copyAction = new CopyAction(this);
         Action cutAction = new CutAction(this);
@@ -113,40 +99,19 @@ public class FileManagerSearchPanel extends SearchPanel {
         Action newTextFileAction = new SearchPanel.ItemAction(".txt", false);
         Action newHtmlFileAction = new SearchPanel.ItemAction(".htm", false);
 
-        /*tree.setEditable(true);
-        treeModel.addTreeModelListener(new TreeModelListener() {
-            @Override
-            public void treeNodesChanged(TreeModelEvent e) {
-                MyTreeNode changedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-                if(changedNode != null){
-                    MyTreeNode parent = (MyTreeNode) changedNode.getParent();
-                    TreeFile parentFile = (TreeFile) parent.getUserObject();
-                    //TreeFile newName = (TreeFile) changedNode.getUserObject();
-                    //System.out.println(newName);
-                    String newName = (String) changedNode.getUserObject();
-                    String newPath = parentFile.getAbsolutePath() + "\\" + newName;
-                    TreeFile newFile = new TreeFile(newPath);
-
-                    changedNode.setUserObject(newFile);
-                }
-
-            }
-
-            @Override
-            public void treeNodesInserted(TreeModelEvent e) {
-
-            }
-
-            @Override
-            public void treeNodesRemoved(TreeModelEvent e) {
-
-            }
-
-            @Override
-            public void treeStructureChanged(TreeModelEvent e) {
-
-            }
-        });*/
+        InputMap inputMap = tree.getInputMap(JComponent.WHEN_FOCUSED);
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK), "Open action");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), "Copy action");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK), "Paste action");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK), "Cut action");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK),
+                "Copy all with extension action");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK),
+                "Copy without multiple lines action");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_DOWN_MASK|KeyEvent.SHIFT_DOWN_MASK),
+                "Copy html file action");
+        inputMap.put(KeyStroke.getKeyStroke("DELETE"), "Delete action");
+        inputMap.put(KeyStroke.getKeyStroke("F3"), "Clear content action");
 
         ActionMap actionMap = tree.getActionMap();
         actionMap.put("Open action", openAction);
