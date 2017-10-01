@@ -1,8 +1,8 @@
+import components.FileManagerFrame;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.util.Scanner;
-import java.util.regex.*;
 
 /**
  * Created by Timofey on 9/9/2017.
