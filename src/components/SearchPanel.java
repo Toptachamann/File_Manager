@@ -96,7 +96,7 @@ public abstract class SearchPanel extends JPanel {
             MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
             if (selectedNode != null) {
                 lastSelectedFile = (TreeFile) selectedNode.getUserObject();
-                if(lastSelectedFile.isDirectory()){
+                if (lastSelectedFile.isDirectory()) {
                     updateFileList(selectedNode);
                 }
             }
@@ -340,17 +340,18 @@ public abstract class SearchPanel extends JPanel {
     protected void updateFileList(TreeFile selectedFile) {
         String selectedItem = (String) extensionBox.getSelectedItem();
         String extension = getExtension(selectedItem);
-        if (extension.equals("*")) {
-            this.updateFileList(selectedFile, "");
-        } else {
-            this.updateFileList(selectedFile, extension);
-        }
+        this.updateFileList(selectedFile, extension);
     }
 
     protected String getExtension(String fileType) {
         Matcher matcher = extensionPattern.matcher(fileType);
         if (matcher.find()) {
-            return matcher.group(1);
+            String extension = matcher.group(1);
+            if (extension.equals("*")) {
+                return "";
+            } else {
+                return extension;
+            }
         } else {
             return null;
         }

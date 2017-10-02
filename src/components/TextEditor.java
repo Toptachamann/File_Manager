@@ -107,8 +107,15 @@ public class TextEditor extends JFrame {
         getContentPane().add(textScrollPane, BorderLayout.CENTER);
     }
 
+    private boolean canOpen(File file){
+        if(file.canRead() && (file.getName().endsWith(".txt") || file.getName().endsWith(".html"))){
+            return true;
+        }
+        return false;
+    }
 
     public void openFile(File file) {
+
         if (documentChanged) {
             if (originFile != null) {
                 int reply = JOptionPane.showConfirmDialog(this,

@@ -14,6 +14,7 @@ public class MyMenuBar extends JMenuBar {
     protected JMenu lookAndFeelMenu;
     protected JMenuItem metalItem, nimbusItem, motifItem, windowsItem, windowsClassicItem;
     protected JMenuItem copyItem, cutItem, pasteItem, deleteItem, openItem;
+    protected JMenuItem helpMenuItem;
 
     public MyMenuBar(JFrame frame) {
         super();
@@ -35,11 +36,14 @@ public class MyMenuBar extends JMenuBar {
         deleteItem = new JMenuItem("Видалити");
         openItem = new JMenuItem("Відкрити");
 
+        helpMenuItem = new JMenuItem("Список команд");
+        helpMenu.add(helpMenuItem);
+
+        fileMenu.add(openItem);
         editMenu.add(copyItem);
         editMenu.add(cutItem);
         editMenu.add(pasteItem);
         editMenu.add(deleteItem);
-        editMenu.add(openItem);
 
         lookAndFeelMenu = new JMenu("Зовнішній вигляд");
         viewMenu.add(lookAndFeelMenu);

@@ -22,6 +22,7 @@ public class FileManagerFrame extends JFrame {
     private JPanel hintPanel;
     private LeftHintPanel leftHintPanel;
     private RightHintPanel rightHintPanel;
+    private final HelpDialog helpDialog = new HelpDialog(this);
 
     public FileManagerFrame() {
         super();
@@ -66,6 +67,7 @@ public class FileManagerFrame extends JFrame {
             super.pasteItem.addActionListener(new PasteAction(searchPanel));
             super.deleteItem.addActionListener(new DeleteAction(searchPanel));
             super.openItem.addActionListener(new OpenAction(searchPanel));
+            super.helpMenuItem.addActionListener((e)->helpDialog.showDialod());
         }
     }
 }
