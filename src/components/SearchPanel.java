@@ -144,17 +144,6 @@ public abstract class SearchPanel extends JPanel {
         }
     }
 
-    private void addAllowedAction() {
-        Action renameAction = new RenameAction(this);
-
-        InputMap inputMap = tree.getInputMap(JComponent.WHEN_FOCUSED);
-
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK), "Rename action");
-
-        ActionMap actionMap = tree.getActionMap();
-        actionMap.put("Rename action", renameAction);
-    }
-
     private class MyTreeCellEditor extends DefaultTreeCellEditor {
 
         public MyTreeCellEditor(JTree tree, DefaultTreeCellRenderer renderer) {
@@ -174,21 +163,42 @@ public abstract class SearchPanel extends JPanel {
         }
     }
 
+    private void addAllowedAction() {
+        Action renameAction = new RenameAction(this);
+
+        InputMap inputMap = tree.getInputMap(JComponent.WHEN_FOCUSED);
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK), "Rename action");
+
+        ActionMap actionMap = tree.getActionMap();
+        actionMap.put("Rename action", renameAction);
+    }
+
     private class MyTreeModelListener implements TreeModelListener {
 
         @Override
         public void treeNodesChanged(TreeModelEvent e) {
             MyTreeNode changedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-            Object userObject = changedNode.getUserObject();
-            if (userObject instanceof String) {
-                String newFileName = (String) userObject;
-                MyTreeNode parentNode = (MyTreeNode) changedNode.getParent();
-                TreeFile parentFile = (TreeFile) parentNode.getUserObject();
-                TreeFile newFileInstance = new TreeFile(parentFile.getAbsolutePath() + "\\" + newFileName);
-                if (lastSelectedFile.renameTo(newFileInstance)) {
-                    changedNode.setUserObject(newFileInstance);
-                } else {
-                    changedNode.setUserObject(lastSelectedFile);
+            if(changedNode != null){
+                Object userObject = changedNode.getUserObject();
+                if (userObject instanceof String) {
+                    String newFileName = (String) userObject;
+                    MyTreeNode parentNode = (MyTreeNode) changedNode.getParent();
+                    TreeFile parentFile = (TreeFile) parentNode.getUserObject();
+                    TreeFile newFileInstance = new TreeFile(parentFile.getAbsolutePath() + File.separator + newFileName);
+                    if(newFileInstance.exists()){
+                        changedNode.setUserObject(lastSelectedFile);
+                        JOptionPane.showMessageDialog(frame, "Об'єкт з таким ім'ям вже існує в цій папці",
+                                "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else if (lastSelectedFile.renameTo(newFileInstance)) {
+                        changedNode.setUserObject(newFileInstance);
+                        lastSelectedFile = newFileInstance;
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Програмі не вдалося перейменувати файл",
+                                "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                        changedNode.setUserObject(lastSelectedFile);
+                    }
                 }
             }
         }
@@ -243,7 +253,7 @@ public abstract class SearchPanel extends JPanel {
                         untitled = untitled + '(' + i + ')';
                     }
                     untitled = untitled + extension;
-                    TreeFile fileToAdd = new TreeFile(selectedFile.getAbsolutePath() + "\\" + untitled);
+                    TreeFile fileToAdd = new TreeFile(selectedFile.getAbsolutePath() + File.separator + untitled);
                     boolean isCreated;
                     MyTreeNode newNode;
                     if (isDirectory) {
@@ -260,6 +270,7 @@ public abstract class SearchPanel extends JPanel {
                         tree.scrollPathToVisible(path);
                         tree.setSelectionPath(path);
                         tree.startEditingAtPath(path);
+                        lastSelectedFile = fileToAdd;
                     } else {
                         JOptionPane.showMessageDialog(frame, "Програма не може створити об'єкт в обраній папці", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -273,7 +284,7 @@ public abstract class SearchPanel extends JPanel {
     }
 
     protected boolean contains(File parent, String child) {
-        File childFile = new File(parent.getAbsolutePath() + "\\" + child);
+        File childFile = new File(parent.getAbsolutePath() + File.separator + child);
         return contains(parent, childFile);
     }
 
@@ -293,17 +304,6 @@ public abstract class SearchPanel extends JPanel {
             }
         } else {
             return false;
-        }
-    }
-
-    private void addRoots(MyTreeNode invisibleRootNode) {
-        File[] roots = File.listRoots();
-        for (File root : roots) {
-            TreeFile treeRoot = new TreeFile(root.toString());
-            if (treeRoot.exists()) {
-                MyTreeNode rootNode = new MyTreeNode(treeRoot);
-                invisibleRootNode.add(rootNode);
-            }
         }
     }
 
@@ -357,7 +357,6 @@ public abstract class SearchPanel extends JPanel {
         }
     }
 
-
     protected void updateFileList(TreeFile newParentDirectory, String suffix) {
         if (newParentDirectory.isDirectory()) {
             selectedDirectory = newParentDirectory;
@@ -379,4 +378,16 @@ public abstract class SearchPanel extends JPanel {
             }
         }
     }
+
+    private void addRoots(MyTreeNode invisibleRootNode) {
+        File[] roots = File.listRoots();
+        for (File root : roots) {
+            TreeFile treeRoot = new TreeFile(root.toString());
+            if (treeRoot.exists()) {
+                MyTreeNode rootNode = new MyTreeNode(treeRoot);
+                invisibleRootNode.add(rootNode);
+            }
+        }
+    }
+
 }

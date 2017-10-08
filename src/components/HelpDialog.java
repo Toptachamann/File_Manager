@@ -34,16 +34,16 @@ public class HelpDialog extends JDialog {
         JPanel mainPanel = new JPanel();
         mainPanel.setBackground(BACKGROUND_COLOR);
         mainPanel.setLayout(new GridBagLayout());
-        JLabel copyLabel = new JLabel("Ctrl + C - спопіювати файл");
-        JLabel pasteLabel = new JLabel("Ctrl + V - вставити файл");
-        JLabel cutLabel = new JLabel("Ctrl + X - вирізати файл");
-        JLabel deleteLabel = new JLabel("Delete - видалити файл");
-        JLabel openLabel = new JLabel("Ctrl + O - відкрити файл");
-        JLabel clearContentLabel = new JLabel("F3 - видалити вміст файла");
-        JLabel renameLabel = new JLabel("Ctrl + R - перейменувати файл");
+        JLabel copyLabel = new JLabel("Ctrl + C - спопіювати об'єкт");
+        JLabel pasteLabel = new JLabel("Ctrl + V - вставити об'єкт");
+        JLabel cutLabel = new JLabel("Ctrl + X - вирізати об'єкт");
+        JLabel deleteLabel = new JLabel("Delete - видалити об'єкт");
+        JLabel openLabel = new JLabel("Ctrl + O - відкрити об'єкт");
+        JLabel clearContentLabel = new JLabel("F3 - видалити вміст об'єкта");
+        JLabel renameLabel = new JLabel("Ctrl + R - перейменувати об'єкт");
         JLabel copyAllWithExtensionLabel = new JLabel("Ctrl + Shift + V - скопіювати всі файли з обраним розширенням");
         JLabel copyWithoutMultipleLinesLabel = new JLabel("Ctrl + Alt + V - скопіювати без стрічок, що повторються");
-        JLabel copyHtmlFileAction = new JLabel("Ctrl + Shift + D - скопіювати HTML файл");
+        JLabel copyHtmlFileAction = new JLabel("Ctrl + Shift + D - вставити HTML файл");
 
         JLabel[] labels = new JLabel[]{copyLabel, pasteLabel, cutLabel, deleteLabel, openLabel,
                 clearContentLabel, renameLabel, copyAllWithExtensionLabel, copyWithoutMultipleLinesLabel, copyHtmlFileAction};

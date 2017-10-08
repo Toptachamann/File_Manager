@@ -14,7 +14,9 @@ public class LeftHintPanel extends JPanel {
 
     public LeftHintPanel() {
         super();
-        setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true), "Файл", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, borderTitleFont, Color.BLUE));
+        setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY,
+                1, true), "Файл", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+                borderTitleFont, Color.BLUE));
         setLayout(new GridBagLayout());
         JLabel copyHint = new JLabel("Ctrl + C -  Скопіювати");
         JLabel pasteHint = new JLabel("Ctrl + V - Вставити");
@@ -26,9 +28,13 @@ public class LeftHintPanel extends JPanel {
         cutHint.setFont(labelFont);
         deleteHint.setFont(labelFont);
 
-        add(copyHint, new GBC(0, 0, 1, 1, 1, 1).setAnchor(GridBagConstraints.CENTER).setInsets(10, 0, 15, 0));
-        add(pasteHint, new GBC(1, 0, 1, 1, 1, 1).setAnchor(GridBagConstraints.CENTER).setInsets(10, 0, 15, 0));
-        add(cutHint, new GBC(2, 0, 1, 1, 1, 1).setAnchor(GridBagConstraints.CENTER).setInsets(10, 0, 15, 0));
-        add(deleteHint, new GBC(3, 0, 1, 1, 1, 1).setAnchor(GridBagConstraints.CENTER).setInsets(10, 0, 15, 0));
+        add(copyHint, new GBC(0, 0, 1, 1, 1, 1)
+                .setAnchor(GridBagConstraints.CENTER).setInsets(5, 0, 5, 0));
+        add(pasteHint, new GBC(1, 0, 1, 1, 1, 1)
+                .setAnchor(GridBagConstraints.CENTER).setInsets(5, 0, 5, 0));
+        add(cutHint, new GBC(0, 1, 1, 1, 1, 1)
+                .setAnchor(GridBagConstraints.CENTER).setInsets(5, 0, 5, 0));
+        add(deleteHint, new GBC(1, 1, 1, 1, 1, 1)
+                .setAnchor(GridBagConstraints.CENTER).setInsets(5, 0, 5, 0));
     }
 }

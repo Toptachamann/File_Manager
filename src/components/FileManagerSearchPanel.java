@@ -45,58 +45,6 @@ public class FileManagerSearchPanel extends SearchPanel {
         addActionsToFileTree();
     }
 
-    private boolean checkCanCopy(File fileToCopy, File parentDirectory) {
-        if (isParent(fileToCopy, parentDirectory)) {
-            JOptionPane.showMessageDialog(frame, "Обрана папка є підпапкою папки, яку ви хочете копіювати",
-                    "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    private void copyFileTo(TreeFile source, TreeFile parentDirectory, MyTreeNode parentDirectoryNode) throws IOException {
-        if (!checkCanCopy(source, parentDirectory)) {
-            return;
-        }
-        TreeFile childFile = new TreeFile(parentDirectory.getAbsolutePath() + "\\" + source.getName());
-        if (childFile.exists()) {
-            JOptionPane.showMessageDialog(this, "Файл " + childFile.getName() + " вже існує в папці " + parentDirectory.getAbsolutePath(),
-                    "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            try {
-                Files.copy(source.toPath(), childFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                if (!parentDirectoryNode.isLoaded()) {
-                    addOneLevel(parentDirectoryNode);
-                }
-                MyTreeNode childNode = insertFile(parentDirectoryNode, childFile);
-                if (source.isDirectory()) {
-                    File[] files = source.listFiles(pathname -> true);
-                    for (File file : files) {
-                        TreeFile treeFile = new TreeFile(file.getAbsolutePath());
-                        copyFileTo(treeFile, childFile, childNode);
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private MyTreeNode insertFile(MyTreeNode node, TreeFile file) {
-        if (!node.isLoaded()) {
-            addOneLevel(node);
-        }
-        MyTreeNode childNode = new MyTreeNode(file);
-        childNode.setLoaded(true);
-        if (file.isFile()) {
-            childNode.setAllowsChildren(false);
-        }
-        treeModel.insertNodeInto(childNode, node, node.getChildCount());
-        return childNode;
-    }
-
-
     private void addActionsToFileTree() {
         Action openAction = new OpenAction(this);
         Action copyAction = new CopyAction(this);
@@ -109,7 +57,7 @@ public class FileManagerSearchPanel extends SearchPanel {
         Action copyHtmlFileAction = new CopyHtmlFileAction();
         Action newFolderAction = new SearchPanel.ItemAction("", true);
         Action newTextFileAction = new SearchPanel.ItemAction(".txt", false);
-        Action newHtmlFileAction = new SearchPanel.ItemAction(".htm", false);
+        Action newHtmlFileAction = new SearchPanel.ItemAction(".html", false);
 
         InputMap inputMap = tree.getInputMap(JComponent.WHEN_FOCUSED);
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK), "Open action");
@@ -165,6 +113,58 @@ public class FileManagerSearchPanel extends SearchPanel {
         newItem.add(newHtmlFile);
 
         tree.setComponentPopupMenu(popupMenu);
+    }
+
+
+    private boolean checkCanCopy(File fileToCopy, File parentDirectory) {
+        if (isParent(fileToCopy, parentDirectory)) {
+            JOptionPane.showMessageDialog(frame, "Обрана папка є підпапкою папки, яку ви хочете копіювати",
+                    "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void copyFileTo(TreeFile source, TreeFile parentDirectory, MyTreeNode parentDirectoryNode) throws IOException {
+        if (!checkCanCopy(source, parentDirectory)) {
+            return;
+        }
+        TreeFile childFile = new TreeFile(parentDirectory.getAbsolutePath() + File.separator + source.getName());
+        if (childFile.exists()) {
+            JOptionPane.showMessageDialog(this, "Файл " + childFile.getName() + " вже існує в папці " + parentDirectory.getAbsolutePath(),
+                    "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            try {
+                Files.copy(source.toPath(), childFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                if (!parentDirectoryNode.isLoaded()) {
+                    addOneLevel(parentDirectoryNode);
+                }
+                MyTreeNode childNode = insertFile(parentDirectoryNode, childFile);
+                if (source.isDirectory()) {
+                    File[] files = source.listFiles(pathname -> true);
+                    for (File file : files) {
+                        TreeFile treeFile = new TreeFile(file.getAbsolutePath());
+                        copyFileTo(treeFile, childFile, childNode);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private MyTreeNode insertFile(MyTreeNode node, TreeFile file) {
+        if (!node.isLoaded()) {
+            addOneLevel(node);
+        }
+        MyTreeNode childNode = new MyTreeNode(file);
+        childNode.setLoaded(true);
+        if (file.isFile()) {
+            childNode.setAllowsChildren(false);
+        }
+        treeModel.insertNodeInto(childNode, node, node.getChildCount());
+        return childNode;
     }
 
     public void copyAct() {
@@ -293,7 +293,7 @@ public class FileManagerSearchPanel extends SearchPanel {
             if (selectedNode != null) {
                 TreeFile selectedDirectory = (TreeFile) selectedNode.getUserObject();
                 if (selectedDirectory.isDirectory() && fileToCopy != null) {
-                    TreeFile destinationFile = new TreeFile(selectedDirectory.getAbsolutePath() + "\\" + fileToCopy.getName());
+                    TreeFile destinationFile = new TreeFile(selectedDirectory.getAbsolutePath() + File.separator + fileToCopy.getName());
                     if (!destinationFile.exists()) {
                         try {
                             destinationFile.createNewFile();
@@ -308,7 +308,9 @@ public class FileManagerSearchPanel extends SearchPanel {
                             JOptionPane.showMessageDialog(frame, "Програма не може копіювати файл в самого себе",
                                     "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
                         } else {
-                            int reply = JOptionPane.showConfirmDialog(frame, "", "", JOptionPane.YES_NO_OPTION);
+                            int reply = JOptionPane.showConfirmDialog(frame
+                                    , "Ви хочете записати вміст файла " + fileToCopy.getName() + "\n в файл " + destinationFile.getName()
+                                    , "", JOptionPane.YES_NO_OPTION);
                             if (reply == JOptionPane.YES_OPTION) {
                                 copyWithoutMultipleLines(fileToCopy, destinationFile);
                             }
@@ -329,7 +331,7 @@ public class FileManagerSearchPanel extends SearchPanel {
                 if (selectedDirectory.isDirectory()) {
                     if (fileToCopy != null) {
                         if (fileToCopy.canRead() && fileToCopy.getName().endsWith(".html")) {
-                            TreeFile destinationFile = new TreeFile(selectedDirectory.getAbsolutePath() + "\\" + fileToCopy.getName());
+                            TreeFile destinationFile = new TreeFile(selectedDirectory.getAbsolutePath() + File.separator + fileToCopy.getName());
                             if (!destinationFile.exists()) {
                                 copyHtmlFile(fileToCopy, destinationFile);
                                 insertFile(selectedNode, destinationFile);
@@ -344,7 +346,7 @@ public class FileManagerSearchPanel extends SearchPanel {
 
                     } else {
                         if (fileToCut.canRead() && fileToCut.getName().endsWith(".html")) {
-                            TreeFile destinationFile = new TreeFile(selectedDirectory.getAbsolutePath() + "\\" + fileToCut.getName());
+                            TreeFile destinationFile = new TreeFile(selectedDirectory.getAbsolutePath() + File.separator + fileToCut.getName());
                             if (!destinationFile.exists()) {
                                 copyHtmlFile(fileToCut, destinationFile);
                                 insertFile(selectedNode, destinationFile);
@@ -387,9 +389,11 @@ public class FileManagerSearchPanel extends SearchPanel {
             String curLine = reader.readLine();
             if (prevLine != null) {
                 writer.write(prevLine);
+                writer.write('\n');
                 while (curLine != null) {
                     if (!curLine.equals(prevLine)) {
                         writer.write(curLine);
+                        writer.write('\n');
                         prevLine = curLine;
                     }
                     curLine = reader.readLine();
