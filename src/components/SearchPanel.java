@@ -179,19 +179,20 @@ public abstract class SearchPanel extends JPanel {
         @Override
         public void treeNodesChanged(TreeModelEvent e) {
             MyTreeNode changedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-            if(changedNode != null){
+            if (changedNode != null) {
                 Object userObject = changedNode.getUserObject();
                 if (userObject instanceof String) {
                     String newFileName = (String) userObject;
                     MyTreeNode parentNode = (MyTreeNode) changedNode.getParent();
                     TreeFile parentFile = (TreeFile) parentNode.getUserObject();
                     TreeFile newFileInstance = new TreeFile(parentFile.getAbsolutePath() + File.separator + newFileName);
-                    if(newFileInstance.exists()){
+                    if (newFileInstance.exists()) {
                         changedNode.setUserObject(lastSelectedFile);
-                        JOptionPane.showMessageDialog(frame, "Об'єкт з таким ім'ям вже існує в цій папці",
-                                "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    else if (lastSelectedFile.renameTo(newFileInstance)) {
+                        if (!lastSelectedFile.equals(newFileInstance)) {
+                            JOptionPane.showMessageDialog(frame, "Об'єкт з таким ім'ям вже існує в цій папці",
+                                    "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    } else if (lastSelectedFile.renameTo(newFileInstance)) {
                         changedNode.setUserObject(newFileInstance);
                         lastSelectedFile = newFileInstance;
                     } else {
@@ -272,10 +273,12 @@ public abstract class SearchPanel extends JPanel {
                         tree.startEditingAtPath(path);
                         lastSelectedFile = fileToAdd;
                     } else {
-                        JOptionPane.showMessageDialog(frame, "Програма не може створити об'єкт в обраній папці", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Програма не може створити об'єкт в обраній папці",
+                                "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Для створення нового об'єкту оберіть папку", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Для створення нового об'єкту оберіть папку",
+                            "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         } catch (IOException e) {
