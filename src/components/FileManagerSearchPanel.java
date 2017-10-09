@@ -3,7 +3,11 @@ package components;
  * Created by Timofey on 9/17/2017.
  */
 
+import actions.ClearContentAction;
 import actions.CopyAction;
+import actions.CopyAllWithExtensionAction;
+import actions.CopyHtmlFileAction;
+import actions.CopyWithoutMultipleLinesAction;
 import actions.CutAction;
 import actions.DeleteAction;
 import actions.OpenAction;
@@ -51,10 +55,10 @@ public class FileManagerSearchPanel extends SearchPanel {
         Action cutAction = new CutAction(this);
         Action pasteAction = new PasteAction(this);
         Action deleteAction = new DeleteAction(this);
-        Action clearContentAction = new ClearContentAction();
-        Action copyAllWithExtensionAction = new CopyAllWithExtensionAction();
-        Action copyWithoutMultipleLines = new CopyWithoutMultipleLinesAction();
-        Action copyHtmlFileAction = new CopyHtmlFileAction();
+        Action clearContentAction = new ClearContentAction(this);
+        Action copyAllWithExtensionAction = new CopyAllWithExtensionAction(this);
+        Action copyWithoutMultipleLines = new CopyWithoutMultipleLinesAction(this);
+        Action copyHtmlFileAction = new CopyHtmlFileAction(this);
         Action newFolderAction = new SearchPanel.ItemAction("", true);
         Action newTextFileAction = new SearchPanel.ItemAction(".txt", false);
         Action newHtmlFileAction = new SearchPanel.ItemAction(".html", false);
@@ -130,28 +134,60 @@ public class FileManagerSearchPanel extends SearchPanel {
         if (!checkCanCopy(source, parentDirectory)) {
             return;
         }
+        if (!parentDirectoryNode.isLoaded()) {
+            addOneLevel(parentDirectoryNode);
+        }
         TreeFile childFile = new TreeFile(parentDirectory.getAbsolutePath() + File.separator + source.getName());
         if (childFile.exists()) {
-            JOptionPane.showMessageDialog(this, "Файл " + childFile.getName() + " вже існує в папці " + parentDirectory.getAbsolutePath(),
-                    "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            try {
+            int reply = JOptionPane.showConfirmDialog(this,
+                    "Об'єкт " + childFile.getName() + " вже існує в папці " + parentDirectory.getAbsolutePath()
+                            + "\nВи дійсно хочете перезаписати вміст цього об'єкта?",
+                    "Запит підтвердження", JOptionPane.YES_NO_OPTION);
+            if (reply == JOptionPane.YES_OPTION) {
                 Files.copy(source.toPath(), childFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                if (!parentDirectoryNode.isLoaded()) {
-                    addOneLevel(parentDirectoryNode);
-                }
-                MyTreeNode childNode = insertFile(parentDirectoryNode, childFile);
-                if (source.isDirectory()) {
-                    File[] files = source.listFiles(pathname -> true);
-                    for (File file : files) {
-                        TreeFile treeFile = new TreeFile(file.getAbsolutePath());
-                        copyFileTo(treeFile, childFile, childNode);
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            }
+        } else {
+            Files.copy(source.toPath(), childFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
+
+        MyTreeNode childNode;
+        if (contains(parentDirectoryNode, childFile)) {
+            childNode = getNodeWithFile(parentDirectoryNode, childFile);
+            if (childNode == null) {
+                throw new RuntimeException("Something is going wrong");
+            }
+        } else {
+            childNode = insertFile(parentDirectoryNode, childFile);
+        }
+        if (source.isDirectory()) {
+            File[] files = source.listFiles(pathname -> true);
+            for (File file : files) {
+                TreeFile treeFile = new TreeFile(file.getAbsolutePath());
+                copyFileTo(treeFile, childFile, childNode);
             }
         }
+    }
+
+    private MyTreeNode getNodeWithFile(MyTreeNode parent, File child) {
+        for (int i = 0; i < parent.getChildCount(); i++) {
+            MyTreeNode node = (MyTreeNode) parent.getChildAt(i);
+            TreeFile file = (TreeFile) node.getUserObject();
+            if (file.equals(child)) {
+                return node;
+            }
+        }
+        return null;
+    }
+
+    private boolean contains(MyTreeNode parent, TreeFile child) {
+        for (int i = 0; i < parent.getChildCount(); i++) {
+            MyTreeNode node = (MyTreeNode) parent.getChildAt(i);
+            TreeFile file = (TreeFile) node.getUserObject();
+            if (file.equals(child)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private MyTreeNode insertFile(MyTreeNode node, TreeFile file) {
@@ -199,6 +235,8 @@ public class FileManagerSearchPanel extends SearchPanel {
                             if (moveFileToTrash(fileToCut)) {
                                 treeModel.removeNodeFromParent(cutFromNode);
                             }
+                            fileToCopy = new TreeFile(parentDirectory.getAbsolutePath()
+                                    + File.separator + fileToCut.getName());
                             fileToCut = null;
                         }
                         updateFileList(selectedNode);
@@ -230,90 +268,56 @@ public class FileManagerSearchPanel extends SearchPanel {
         }
     }
 
-    private class ClearContentAction extends AbstractAction {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+    public void copyAllWithExtensionAct() {
+        if (fileToCopy != null) {
             MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
             if (selectedNode != null) {
                 TreeFile selectedFile = (TreeFile) selectedNode.getUserObject();
-                clearContent(selectedFile);
-            }
-        }
-    }
-
-    private class PopupMouseListener extends MouseAdapter {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            if (SwingUtilities.isRightMouseButton(e)) {
-                showPopupMenu(e);
-            }
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            if (SwingUtilities.isRightMouseButton(e)) {
-                showPopupMenu(e);
-            }
-        }
-
-        private void showPopupMenu(MouseEvent e) {
-            popupMenu.show(e.getComponent(), e.getX(), e.getY());
-        }
-    }
-
-    private class CopyAllWithExtensionAction extends AbstractAction {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (fileToCopy != null) {
-                MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-                if (selectedNode != null) {
-                    TreeFile selectedFile = (TreeFile) selectedNode.getUserObject();
-                    if (selectedFile.isDirectory()) {
-                        try {
-                            String selectedFileType = (String) extensionBox.getSelectedItem();
-                            String extension = getExtension(selectedFileType);
-                            File[] filesWithSpecifiedExtension = fileToCopy.listFiles((dir, name) -> name.toLowerCase().endsWith(extension));
+                if (selectedFile.isDirectory()) {
+                    try {
+                        String selectedFileType = (String) extensionBox.getSelectedItem();
+                        String extension = getExtension(selectedFileType);
+                        File[] filesWithSpecifiedExtension = fileToCopy.listFiles((dir, name) -> name.toLowerCase().endsWith(extension));
+                        if (filesWithSpecifiedExtension != null) {
                             for (File file : filesWithSpecifiedExtension) {
                                 TreeFile treeFile = new TreeFile(file.getAbsolutePath());
                                 copyFileTo(treeFile, selectedFile, selectedNode);
                             }
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
                         }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
                 }
             }
         }
     }
 
-    private class CopyWithoutMultipleLinesAction extends AbstractAction {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-            if (selectedNode != null) {
-                TreeFile selectedDirectory = (TreeFile) selectedNode.getUserObject();
-                if (selectedDirectory.isDirectory() && fileToCopy != null) {
-                    TreeFile destinationFile = new TreeFile(selectedDirectory.getAbsolutePath() + File.separator + fileToCopy.getName());
-                    if (!destinationFile.exists()) {
-                        try {
-                            destinationFile.createNewFile();
+    public void copyWithoutMultipleLinesAct() {
+        MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+        if (selectedNode != null) {
+            TreeFile selectedDirectory = (TreeFile) selectedNode.getUserObject();
+            if (selectedDirectory.isDirectory() && fileToCopy != null) {
+                TreeFile destinationFile = new TreeFile(selectedDirectory.getAbsolutePath() + File.separator + fileToCopy.getName());
+                if (!destinationFile.exists()) {
+                    try {
+                        destinationFile.createNewFile();
+                        copyWithoutMultipleLines(fileToCopy, destinationFile);
+                        insertFile(selectedNode, destinationFile);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(frame, "Програма не може створити новий файл",
+                                "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } else {
+                    if (fileToCopy.equals(destinationFile)) {
+                        JOptionPane.showMessageDialog(frame, "Програма не може копіювати файл в самого себе",
+                                "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        int reply = JOptionPane.showConfirmDialog(frame
+                                , "Ви хочете записати вміст файла " + fileToCopy.getName() + "\n в файл "
+                                        + destinationFile.getName(), "Запит підтвердження", JOptionPane.YES_NO_OPTION);
+                        if (reply == JOptionPane.YES_OPTION) {
                             copyWithoutMultipleLines(fileToCopy, destinationFile);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                            JOptionPane.showMessageDialog(frame, "Програма не може створити новий файл",
-                                    "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
-                        }
-                    } else {
-                        if (fileToCopy.equals(destinationFile)) {
-                            JOptionPane.showMessageDialog(frame, "Програма не може копіювати файл в самого себе",
-                                    "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            int reply = JOptionPane.showConfirmDialog(frame
-                                    , "Ви хочете записати вміст файла " + fileToCopy.getName() + "\n в файл " + destinationFile.getName()
-                                    , "", JOptionPane.YES_NO_OPTION);
-                            if (reply == JOptionPane.YES_OPTION) {
-                                copyWithoutMultipleLines(fileToCopy, destinationFile);
-                            }
                         }
                     }
                 }
@@ -321,49 +325,47 @@ public class FileManagerSearchPanel extends SearchPanel {
         }
     }
 
-    private class CopyHtmlFileAction extends AbstractAction {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-            if (selectedNode != null) {
-                TreeFile selectedDirectory = (TreeFile) selectedNode.getUserObject();
-                if (selectedDirectory.isDirectory()) {
-                    if (fileToCopy != null) {
-                        if (fileToCopy.canRead() && fileToCopy.getName().endsWith(".html")) {
-                            TreeFile destinationFile = new TreeFile(selectedDirectory.getAbsolutePath() + File.separator + fileToCopy.getName());
-                            if (!destinationFile.exists()) {
-                                copyHtmlFile(fileToCopy, destinationFile);
-                                insertFile(selectedNode, destinationFile);
-                            } else {
-                                JOptionPane.showMessageDialog(frame, "Файл вже існує в цій папці",
-                                        "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
-                            }
+    public void copyHtmlFileAct() {
+        MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+        if (selectedNode != null) {
+            TreeFile selectedDirectory = (TreeFile) selectedNode.getUserObject();
+            if (selectedDirectory.isDirectory()) {
+                if (fileToCopy != null) {
+                    if (fileToCopy.canRead() && fileToCopy.getName().endsWith(".html")) {
+                        TreeFile destinationFile = new TreeFile(selectedDirectory.getAbsolutePath()
+                                + File.separator + fileToCopy.getName());
+                        if (!destinationFile.exists()) {
+                            copyHtmlFile(fileToCopy, destinationFile);
+                            insertFile(selectedNode, destinationFile);
                         } else {
-                            JOptionPane.showMessageDialog(frame, "Для цієї дії Ви повинні обрати файл HTML формату",
+                            JOptionPane.showMessageDialog(frame, "Файл вже існує в цій папці",
                                     "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
                         }
-
                     } else {
-                        if (fileToCut.canRead() && fileToCut.getName().endsWith(".html")) {
-                            TreeFile destinationFile = new TreeFile(selectedDirectory.getAbsolutePath() + File.separator + fileToCut.getName());
-                            if (!destinationFile.exists()) {
-                                copyHtmlFile(fileToCut, destinationFile);
-                                insertFile(selectedNode, destinationFile);
-                                moveFileToTrash(fileToCut);
-                                fileToCut = null;
-                            } else {
-                                JOptionPane.showMessageDialog(frame, "Файл вже існує в цій папці",
-                                        "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
-                            }
+                        JOptionPane.showMessageDialog(frame, "Для цієї дії Ви повинні обрати файл HTML формату",
+                                "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                    }
+
+                } else {
+                    if (fileToCut.canRead() && fileToCut.getName().endsWith(".html")) {
+                        TreeFile destinationFile = new TreeFile(selectedDirectory.getAbsolutePath()
+                                + File.separator + fileToCut.getName());
+                        if (!destinationFile.exists()) {
+                            copyHtmlFile(fileToCut, destinationFile);
+                            insertFile(selectedNode, destinationFile);
+                            moveFileToTrash(fileToCut);
+                            fileToCut = null;
                         } else {
-                            JOptionPane.showMessageDialog(frame, "Для цієї дії Ви повинні обрати файл HTML формату",
+                            JOptionPane.showMessageDialog(frame, "Файл вже існує в цій папці",
                                     "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
                         }
-
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Для цієї дії Ви повинні обрати файл HTML формату",
+                                "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
                     }
 
                 }
+
             }
         }
     }
@@ -406,20 +408,27 @@ public class FileManagerSearchPanel extends SearchPanel {
         }
     }
 
-    private void clearContent(TreeFile file) {
-        if (file.isFile() && file.getName().toLowerCase().endsWith(".txt")) {
-            int reply = JOptionPane.showConfirmDialog(frame, "Ви впевненяб що хочете назавжди видалити вміст цього файлу?", "Запит підтверждення", JOptionPane.YES_NO_OPTION);
-            if (reply == JOptionPane.YES_OPTION) {
-                try {
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                    writer.write("");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(frame, "Не вдалося видалити вміст файлу", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+    public void clearContentAct() {
+        MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+        if (selectedNode != null) {
+            TreeFile file = (TreeFile) selectedNode.getUserObject();
+            if (file.isFile() && file.getName().toLowerCase().endsWith(".txt")) {
+                int reply = JOptionPane.showConfirmDialog(frame, "Ви впевнені, що хочете назавжди видалити вміст цього файлу?",
+                        "Запит підтверждення", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    try {
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                        writer.write("");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(frame, "Не вдалося видалити вміст файлу", "Повідомлення",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(frame, "Зараз можна видаляти вміст тільки текстових файлів",
+                        "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(frame, "Зараз можна видаляти вміст тільки текстових файлів", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -430,7 +439,7 @@ public class FileManagerSearchPanel extends SearchPanel {
     }
 
     private boolean canOpen(File file) {
-        return file.isFile() && file.canRead() && (file.getName().toLowerCase().endsWith(".txt")||file.getName().toLowerCase().endsWith(".html"));
+        return file.isFile() && file.canRead() && (file.getName().toLowerCase().endsWith(".txt") || file.getName().toLowerCase().endsWith(".html"));
     }
 
     private TreePath getPath(TreeNode treeNode) {
@@ -475,4 +484,25 @@ public class FileManagerSearchPanel extends SearchPanel {
         } while (child != null);
         return false;
     }
+
+    private class PopupMouseListener extends MouseAdapter {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (SwingUtilities.isRightMouseButton(e)) {
+                showPopupMenu(e);
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if (SwingUtilities.isRightMouseButton(e)) {
+                showPopupMenu(e);
+            }
+        }
+
+        private void showPopupMenu(MouseEvent e) {
+            popupMenu.show(e.getComponent(), e.getX(), e.getY());
+        }
+    }
+
 }

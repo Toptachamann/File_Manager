@@ -9,6 +9,12 @@ import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Timofey on 9/14/2017.
@@ -46,19 +52,19 @@ public class TextEditor extends JFrame {
         openFile(file);
     }
 
-    public void highlightTitle(){
+    public void highlightTitle() {
         highlightTitle(textArea.getText(), 0);
     }
 
     private void highlightTitle(String text, int fromIndex) {
         int start = text.indexOf("<title>", fromIndex);
-        if(start != -1){
+        if (start != -1) {
             int end = text.indexOf("</title>", start);
-            if(end != -1){
-                try{
+            if (end != -1) {
+                try {
                     highlighter.addHighlight(start + "<title>".length(), end, painter);
                     highlightTitle(text, end + 1);
-                } catch (BadLocationException e){
+                } catch (BadLocationException e) {
                     e.printStackTrace();
                 }
             }
@@ -78,7 +84,7 @@ public class TextEditor extends JFrame {
         textScrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         highlighter = textArea.getHighlighter();
-        painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(135,206,250));
+        painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(135, 206, 250));
         //popupMenu = new MyPopupMenu();
         MouseListener mouseListener = new MouseAdapter() {
             @Override
@@ -107,8 +113,8 @@ public class TextEditor extends JFrame {
         getContentPane().add(textScrollPane, BorderLayout.CENTER);
     }
 
-    private boolean canOpen(File file){
-        if(file.canRead() && (file.getName().endsWith(".txt") || file.getName().endsWith(".html"))){
+    private boolean canOpen(File file) {
+        if (file.canRead() && (file.getName().endsWith(".txt") || file.getName().endsWith(".html"))) {
             return true;
         }
         return false;
@@ -180,10 +186,27 @@ public class TextEditor extends JFrame {
         Action searchWordAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String word = JOptionPane.showInputDialog(TextEditor.this, "Введіть слово для пошуку", "Пошук", JOptionPane.QUESTION_MESSAGE);
-                if(word != null && word.length() > 0){
+                String word = JOptionPane.showInputDialog(TextEditor.this,
+                        "Введіть слово для пошуку", "Пошук", JOptionPane.QUESTION_MESSAGE);
+                if (word != null && word.length() > 0) {
                     highlighter.removeAllHighlights();
-                    highlightChoosenWord(word);
+                    Set<String> differentWords = getAllDifferent(word);
+                    StringBuilder builder = new StringBuilder();
+                    if (differentWords.size() > 1) {
+                        builder.append("Файл містить декілька слів, що задовольняють вказаній послідовності символів\n");
+                    } else if (differentWords.size() == 1) {
+                        builder.append("Файл містить єдине слово, що задовольняють вказаній послідовності символів\n");
+                    } else {
+                        builder.append("Файл не містить слів, що задовольняють вказаній послідовності символів\n");
+
+                    }
+                    for (String matchedWord : differentWords) {
+                        builder.append(matchedWord);
+                        builder.append("\n");
+                        highlightChoosenWord(matchedWord);
+                    }
+                    JOptionPane.showMessageDialog(TextEditor.this,
+                            builder.toString(), "Результати пошуку", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         };
@@ -230,8 +253,25 @@ public class TextEditor extends JFrame {
         this.addWindowListener(windowListener);
     }
 
+    private Set<String> getAllDifferent(String pattern) {
+        HashSet<String> ans = new HashSet<>();
+        Pattern wordPattern = Pattern.compile("([a-zA-Z]+)");
+        for (String line : textArea.getText().split("\n")) {
+            Matcher matcher = wordPattern.matcher(line);
+            while (matcher.find()) {
+                String candidate = matcher.group(1);
+                if (candidate.contains(pattern)) {
+                    if (!ans.contains(candidate)) {
+                        ans.add(candidate);
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+
     private void highlightChoosenWord(String word) {
-        try{
+        try {
             int lengthCount = 0;
             for (String line : textArea.getText().split("\\n")) {
                 int index = line.indexOf(word);
@@ -241,7 +281,7 @@ public class TextEditor extends JFrame {
                 }
                 lengthCount += line.length() + 1;
             }
-        } catch (BadLocationException e){
+        } catch (BadLocationException e) {
             e.printStackTrace();
         }
 

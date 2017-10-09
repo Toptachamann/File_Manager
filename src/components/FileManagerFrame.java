@@ -38,8 +38,8 @@ public class FileManagerFrame extends JFrame {
         searchPanel.setBorder(BorderFactory.createTitledBorder(new LineBorder(Color.GRAY, 1, true), "Панель пошуку"));
 
         hintPanel = new JPanel();
-        leftHintPanel = new LeftHintPanel();
-        rightHintPanel = new RightHintPanel();
+        leftHintPanel = new LeftHintPanel(searchPanel);
+        rightHintPanel = new RightHintPanel(searchPanel);
         hintPanel.setLayout(new GridBagLayout());
         hintPanel.add(leftHintPanel, new GBC(0, 0, 1, 1, 1, 0).setFill(GBC.HORIZONTAL));
         hintPanel.add(rightHintPanel, new GBC(1, 0, 1, 1, 1, 0).setFill(GBC.HORIZONTAL));
