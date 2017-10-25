@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 public class TextEditor extends JFrame {
 
     private static final String UNTITLED = "Untitled";
-    private static final String FRAME_NAME = "Файловий менеджер";
+    private static final String FRAME_NAME = "Text Editor";
 
     private TextEditorMenuBar menuBar;
     private JScrollPane textScrollPane;
@@ -125,7 +125,7 @@ public class TextEditor extends JFrame {
         if (documentChanged) {
             if (originFile != null) {
                 int reply = JOptionPane.showConfirmDialog(this,
-                        "Файл містить незбережені зміни\nВи хочете їх зберегти?", "Запит підтвердження", JOptionPane.YES_NO_CANCEL_OPTION);
+                        "File contains unsaved changes\nDo you want to save them?", "Confirm dialog", JOptionPane.YES_NO_CANCEL_OPTION);
                 if (reply == JOptionPane.YES_OPTION) {
                     saveDocument(originFile);
                 } else if (reply == JOptionPane.CANCEL_OPTION) {
@@ -187,17 +187,17 @@ public class TextEditor extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String word = JOptionPane.showInputDialog(TextEditor.this,
-                        "Введіть слово для пошуку", "Пошук", JOptionPane.QUESTION_MESSAGE);
+                        "Enter a word for searching", "Search", JOptionPane.QUESTION_MESSAGE);
                 if (word != null && word.length() > 0) {
                     highlighter.removeAllHighlights();
                     Set<String> differentWords = getAllDifferent(word);
                     StringBuilder builder = new StringBuilder();
                     if (differentWords.size() > 1) {
-                        builder.append("Файл містить декілька слів, що задовольняють вказаній послідовності символів\n");
+                        builder.append("File contains several words, which satisfy specified character sequence \n");
                     } else if (differentWords.size() == 1) {
-                        builder.append("Файл містить єдине слово, що задовольняють вказаній послідовності символів\n");
+                        builder.append("File contains single work, which satisfy specified character sequence\n");
                     } else {
-                        builder.append("Файл не містить слів, що задовольняють вказаній послідовності символів\n");
+                        builder.append("File doesn't contain works, which satisfy specified character sequence\n");
 
                     }
                     for (String matchedWord : differentWords) {
@@ -206,7 +206,7 @@ public class TextEditor extends JFrame {
                         highlightChoosenWord(matchedWord);
                     }
                     JOptionPane.showMessageDialog(TextEditor.this,
-                            builder.toString(), "Результати пошуку", JOptionPane.INFORMATION_MESSAGE);
+                            builder.toString(), "Search results", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         };
@@ -240,7 +240,7 @@ public class TextEditor extends JFrame {
             public void windowClosing(WindowEvent e) {
                 if (documentChanged) {
                     int result = JOptionPane.showConfirmDialog(TextEditor.this,
-                            "Файл містить незбережені зміни.\n Ви хочете їх зберегти?", "Запит підтвердження", JOptionPane.YES_NO_CANCEL_OPTION);
+                            "File contains unsaved changes\nDo you want to save them?", "Confirm dialog", JOptionPane.YES_NO_CANCEL_OPTION);
                     if (result == JOptionPane.YES_OPTION) {
                         saveDocument(originFile);
                         dispose();
@@ -306,14 +306,14 @@ public class TextEditor extends JFrame {
     private class TextEditorMenuBar extends MyMenuBar {
         public TextEditorMenuBar(TextEditor frame) {
             super(frame);
-            JMenuItem newItem = new JMenuItem("Новий"), open = new JMenuItem("Відкрити"),
-                    save = new JMenuItem("Зберегти"), saveAs = new JMenuItem("Зберегти як...");
+            JMenuItem newItem = new JMenuItem("New"), open = new JMenuItem("Open"),
+                    save = new JMenuItem("Save"), saveAs = new JMenuItem("Save as...");
             newItem.addActionListener(new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (documentChanged) {
                         int result = JOptionPane.showConfirmDialog(TextEditor.this,
-                                "Файл містить незбережені зміни.\n Ви хочете їх зберегти?", "Запит підтвердження", JOptionPane.YES_NO_CANCEL_OPTION);
+                                "File contains unsaved changes\nDo you want to save them?", "Confirm dialog", JOptionPane.YES_NO_CANCEL_OPTION);
                         if (result == JOptionPane.YES_OPTION) {
                             saveDocument(originFile);
                         }

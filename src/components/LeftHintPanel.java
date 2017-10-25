@@ -21,7 +21,7 @@ public class LeftHintPanel extends JPanel {
         super();
         this.searchPanel = searchPanel;
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY,
-                1, true), "Файл", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+                1, true), "File", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
                 borderTitleFont, Color.BLUE));
         setLayout(new GridBagLayout());
         /*JLabel copyHint = new JLabel("Ctrl + C -  Скопіювати");
@@ -43,10 +43,10 @@ public class LeftHintPanel extends JPanel {
         add(deleteHint, new GBC(1, 1, 1, 1, 1, 1)
                 .setAnchor(GridBagConstraints.CENTER).setInsets(5, 0, 5, 0));
 */
-        JButton copyButton = new JButton("Скопіювати");
-        JButton pasteButton = new JButton("Вставити");
-        JButton cutButton = new JButton("Вирізати");
-        JButton deleteButton = new JButton("Видалити");
+        JButton copyButton = new JButton("Copy");
+        JButton pasteButton = new JButton("Paste");
+        JButton cutButton = new JButton("Cut");
+        JButton deleteButton = new JButton("Delete");
 
         copyButton.addActionListener(new CopyAction(searchPanel));
         pasteButton.addActionListener(new PasteAction(searchPanel));

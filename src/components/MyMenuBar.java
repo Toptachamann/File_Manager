@@ -20,23 +20,23 @@ public class MyMenuBar extends JMenuBar {
         super();
         this.frame = frame;
 
-        fileMenu = new JMenu("Файл");
-        editMenu = new JMenu("Операції");
-        viewMenu = new JMenu("Вигляд");
-        helpMenu = new JMenu("Допомога");
+        fileMenu = new JMenu("File");
+        editMenu = new JMenu("Operations");
+        viewMenu = new JMenu("View");
+        helpMenu = new JMenu("Help");
 
         this.add(fileMenu);
         this.add(editMenu);
         this.add(viewMenu);
         this.add(helpMenu);
 
-        copyItem = new JMenuItem("Скопіювати");
-        cutItem = new JMenuItem("Вирізати");
-        pasteItem = new JMenuItem("Вставити");
-        deleteItem = new JMenuItem("Видалити");
-        openItem = new JMenuItem("Відкрити");
+        copyItem = new JMenuItem("Copy");
+        cutItem = new JMenuItem("Cut");
+        pasteItem = new JMenuItem("Paste");
+        deleteItem = new JMenuItem("Delete");
+        openItem = new JMenuItem("Open");
 
-        helpMenuItem = new JMenuItem("Список команд");
+        helpMenuItem = new JMenuItem("Commands list");
         helpMenu.add(helpMenuItem);
 
         fileMenu.add(openItem);
@@ -45,14 +45,14 @@ public class MyMenuBar extends JMenuBar {
         editMenu.add(pasteItem);
         editMenu.add(deleteItem);
 
-        lookAndFeelMenu = new JMenu("Зовнішній вигляд");
+        lookAndFeelMenu = new JMenu("Look and feel");
         viewMenu.add(lookAndFeelMenu);
 
-        metalItem = new JMenuItem(new ChangeLookAndFeelAction("Металічний", LookAndFeelClassName.METAL_LOOK_AND_FEEL, frame));
-        nimbusItem = new JMenuItem(new ChangeLookAndFeelAction("Німбус", LookAndFeelClassName.NIMBUS_LOOK_AND_FEEL, frame));
-        motifItem = new JMenuItem(new ChangeLookAndFeelAction("Мотіф", LookAndFeelClassName.MOTIF_LOOK_AND_FEEL, frame));
-        windowsItem = new JMenuItem(new ChangeLookAndFeelAction("Віндоус", LookAndFeelClassName.WINDOWS_LOOK_AND_FEEL, frame));
-        windowsClassicItem = new JMenuItem(new ChangeLookAndFeelAction("Віндоус класичний", LookAndFeelClassName.WINDOWS_CLASSIC_LOOK_AND_FEEL, frame));
+        metalItem = new JMenuItem(new ChangeLookAndFeelAction("Metal", LookAndFeelClassName.METAL_LOOK_AND_FEEL, frame));
+        nimbusItem = new JMenuItem(new ChangeLookAndFeelAction("Nimbus", LookAndFeelClassName.NIMBUS_LOOK_AND_FEEL, frame));
+        motifItem = new JMenuItem(new ChangeLookAndFeelAction("Motif", LookAndFeelClassName.MOTIF_LOOK_AND_FEEL, frame));
+        windowsItem = new JMenuItem(new ChangeLookAndFeelAction("Windows", LookAndFeelClassName.WINDOWS_LOOK_AND_FEEL, frame));
+        windowsClassicItem = new JMenuItem(new ChangeLookAndFeelAction("Windows classic", LookAndFeelClassName.WINDOWS_CLASSIC_LOOK_AND_FEEL, frame));
 
         lookAndFeelMenu.add(metalItem);
         lookAndFeelMenu.add(nimbusItem);

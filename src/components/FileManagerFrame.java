@@ -14,7 +14,7 @@ import javax.swing.border.*;
 import java.awt.*;
 
 public class FileManagerFrame extends JFrame {
-    private final String TITLE = "Файловий менеджер";
+    private final String TITLE = "File Manager";
 
     private FileManagerMenuBar menuBar;
     private JPanel mainPanel;
@@ -35,7 +35,7 @@ public class FileManagerFrame extends JFrame {
         mainPanel.setLayout(new GridBagLayout());
 
         searchPanel = new FileManagerSearchPanel(this);
-        searchPanel.setBorder(BorderFactory.createTitledBorder(new LineBorder(Color.GRAY, 1, true), "Панель пошуку"));
+        searchPanel.setBorder(BorderFactory.createTitledBorder(new LineBorder(Color.GRAY, 1, true), "Search panel"));
 
         hintPanel = new JPanel();
         leftHintPanel = new LeftHintPanel(searchPanel);

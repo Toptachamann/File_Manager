@@ -50,12 +50,12 @@ public class RightHintPanel extends JPanel {
         add(pasteHtml, new GBC(2, 1, 1, 1, 1, 1)
                 .setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));*/
 
-        JButton openButton = new JButton("Редагувати");
-        JButton clearButton = new JButton("Видалити зміст");
-        JButton renameButton = new JButton("Перейменувати");
-        JButton copyWithoutMultipleLinesButton = new JButton("Скопіювати без повторень");
-        JButton pasteHtml = new JButton("Вставити HTML");
-        JButton copyAllWithExtensionButton = new JButton("Скопіювати всі з заданим розширенням");
+        JButton openButton = new JButton("Edit");
+        JButton clearButton = new JButton("Clear content");
+        JButton renameButton = new JButton("Rename");
+        JButton copyWithoutMultipleLinesButton = new JButton("Copy without repeating lines");
+        JButton pasteHtml = new JButton("Paste HTML");
+        JButton copyAllWithExtensionButton = new JButton("Copy all with chosen extension");
 
         openButton.addActionListener(new OpenAction(searchPanel));
         clearButton.addActionListener(new ClearContentAction(searchPanel));
