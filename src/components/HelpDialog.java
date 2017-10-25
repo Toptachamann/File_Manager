@@ -18,7 +18,7 @@ import java.awt.event.WindowListener;
 
 public class HelpDialog extends JDialog {
 
-    private static final String TITLE = "Список команд файлового менеджера";
+    private static final String TITLE = "File manager commands list";
     private static final Color BACKGROUND_COLOR = new Color(255, 255, 255);
     private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 12);
 
@@ -34,16 +34,16 @@ public class HelpDialog extends JDialog {
         JPanel mainPanel = new JPanel();
         mainPanel.setBackground(BACKGROUND_COLOR);
         mainPanel.setLayout(new GridBagLayout());
-        JLabel copyLabel = new JLabel("Ctrl + C - спопіювати об'єкт");
-        JLabel pasteLabel = new JLabel("Ctrl + V - вставити об'єкт");
-        JLabel cutLabel = new JLabel("Ctrl + X - вирізати об'єкт");
-        JLabel deleteLabel = new JLabel("Delete - видалити об'єкт");
-        JLabel openLabel = new JLabel("Ctrl + O - відкрити об'єкт");
-        JLabel clearContentLabel = new JLabel("F3 - видалити вміст об'єкта");
-        JLabel renameLabel = new JLabel("Ctrl + R - перейменувати об'єкт");
-        JLabel copyAllWithExtensionLabel = new JLabel("Ctrl + Shift + V - скопіювати всі файли з обраним розширенням");
-        JLabel copyWithoutMultipleLinesLabel = new JLabel("Ctrl + Alt + V - скопіювати без стрічок, що повторються");
-        JLabel copyHtmlFileAction = new JLabel("Ctrl + Shift + D - вставити HTML файл");
+        JLabel copyLabel = new JLabel("Ctrl + C - copy object");
+        JLabel pasteLabel = new JLabel("Ctrl + V - paste object");
+        JLabel cutLabel = new JLabel("Ctrl + X - cut object");
+        JLabel deleteLabel = new JLabel("Delete - delete object");
+        JLabel openLabel = new JLabel("Ctrl + O - open file");
+        JLabel clearContentLabel = new JLabel("F3 - clear content");
+        JLabel renameLabel = new JLabel("Ctrl + R - rename object");
+        JLabel copyAllWithExtensionLabel = new JLabel("Ctrl + Shift + V - copy all files with the specified extension");
+        JLabel copyWithoutMultipleLinesLabel = new JLabel("Ctrl + Alt + V - copy without repeating lines");
+        JLabel copyHtmlFileAction = new JLabel("Ctrl + Shift + D - paste HTML file");
 
         JLabel[] labels = new JLabel[]{copyLabel, pasteLabel, cutLabel, deleteLabel, openLabel,
                 clearContentLabel, renameLabel, copyAllWithExtensionLabel, copyWithoutMultipleLinesLabel, copyHtmlFileAction};
@@ -62,7 +62,7 @@ public class HelpDialog extends JDialog {
             }
         };
 
-        JButton okeyButton = new JButton("Добре");
+        JButton okeyButton = new JButton("All right");
         mainPanel.add(okeyButton, new GBC(0, labels.length, 1, 1, 0, 0)
                 .setAnchor(GBC.EAST).setInsets(10, 0, 10, 25));
         okeyButton.addActionListener((e)->setVisible(false));

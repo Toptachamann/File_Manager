@@ -107,7 +107,7 @@ public abstract class SearchPanel extends JPanel {
         tree.setRootVisible(false);
 
         fileListModel = new DefaultListModel<>();
-        fileListModel.addElement("Папка не обрана");
+        fileListModel.addElement("Folder not selected");
         fileList = new JList<>(fileListModel);
         fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         fileListScrollPane = new JScrollPane();
@@ -189,15 +189,15 @@ public abstract class SearchPanel extends JPanel {
                     if (newFileInstance.exists()) {
                         changedNode.setUserObject(lastSelectedFile);
                         if (!lastSelectedFile.equals(newFileInstance)) {
-                            JOptionPane.showMessageDialog(frame, "Об'єкт з таким ім'ям вже існує в цій папці",
-                                    "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(frame, "An object with the same name already exists in this folder",
+                                    "Message", JOptionPane.INFORMATION_MESSAGE);
                         }
                     } else if (lastSelectedFile.renameTo(newFileInstance)) {
                         changedNode.setUserObject(newFileInstance);
                         lastSelectedFile = newFileInstance;
                     } else {
-                        JOptionPane.showMessageDialog(frame, "Програмі не вдалося перейменувати файл",
-                                "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Rename failed",
+                                "Message", JOptionPane.INFORMATION_MESSAGE);
                         changedNode.setUserObject(lastSelectedFile);
                     }
                 }
@@ -239,7 +239,7 @@ public abstract class SearchPanel extends JPanel {
         try {
             MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
             if (selectedNode == null) {
-                JOptionPane.showMessageDialog(frame, "Ви не вказали папку", "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Folder not selected", "Message", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 TreeFile selectedFile = (TreeFile) selectedNode.getUserObject();
                 if (selectedFile.isDirectory()) {
@@ -273,12 +273,12 @@ public abstract class SearchPanel extends JPanel {
                         tree.startEditingAtPath(path);
                         lastSelectedFile = fileToAdd;
                     } else {
-                        JOptionPane.showMessageDialog(frame, "Програма не може створити об'єкт в обраній папці",
-                                "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Object creation failed",
+                                "Message", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Для створення нового об'єкту оберіть папку",
-                            "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Choose a folder to create a new object",
+                            "Message", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         } catch (IOException e) {
@@ -366,11 +366,11 @@ public abstract class SearchPanel extends JPanel {
             File[] targetFiles = newParentDirectory.listFiles((file) -> !file.isDirectory() && file.getName().toLowerCase().endsWith(suffix));
             fileListModel.removeAllElements();
             if (newParentDirectory.isRoot()) {
-                fileListModel.addElement("Файли на диску " + newParentDirectory.getAbsolutePath());
+                fileListModel.addElement("Files on disk " + newParentDirectory.getAbsolutePath());
             } else if (suffix.isEmpty()) {
-                fileListModel.addElement("Файли в папці " + newParentDirectory.getName());
+                fileListModel.addElement("Files in folder " + newParentDirectory.getName());
             } else {
-                fileListModel.addElement("Файли в папці " + newParentDirectory.getName() + " з розширенням " + suffix);
+                fileListModel.addElement("Files in folder " + newParentDirectory.getName() + " with extension " + suffix);
             }
             if (targetFiles != null) {
                 for (File file : targetFiles) {

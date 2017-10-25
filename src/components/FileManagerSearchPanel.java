@@ -90,14 +90,14 @@ public class FileManagerSearchPanel extends SearchPanel {
 
         popupMenu = new JPopupMenu();
         setComponentPopupMenu(popupMenu);
-        JMenuItem copyPopup = new JMenuItem("Скопіювати");
-        JMenuItem pastePopup = new JMenuItem("Вставити");
-        JMenuItem cutPopup = new JMenuItem("Вирізати");
-        JMenuItem deletePopup = new JMenuItem("Видалити");
-        JMenu newItem = new JMenu("Додати");
-        JMenuItem newFolder = new JMenuItem("Папку");
-        JMenuItem newTextFile = new JMenuItem("Текстовий файл (*txt)");
-        JMenuItem newHtmlFile = new JMenuItem("HTML файл (*.html)");
+        JMenuItem copyPopup = new JMenuItem("Copy");
+        JMenuItem pastePopup = new JMenuItem("Paste");
+        JMenuItem cutPopup = new JMenuItem("Cut");
+        JMenuItem deletePopup = new JMenuItem("Delete");
+        JMenu newItem = new JMenu("Add");
+        JMenuItem newFolder = new JMenuItem("Folder");
+        JMenuItem newTextFile = new JMenuItem("Text file (*txt)");
+        JMenuItem newHtmlFile = new JMenuItem("HTML file (*.html)");
 
         copyPopup.addActionListener(copyAction);
         pastePopup.addActionListener(pasteAction);
@@ -140,9 +140,9 @@ public class FileManagerSearchPanel extends SearchPanel {
         TreeFile childFile = new TreeFile(parentDirectory.getAbsolutePath() + File.separator + source.getName());
         if (childFile.exists()) {
             int reply = JOptionPane.showConfirmDialog(this,
-                    "Об'єкт " + childFile.getName() + " вже існує в папці " + parentDirectory.getAbsolutePath()
-                            + "\nВи дійсно хочете перезаписати вміст цього об'єкта?",
-                    "Запит підтвердження", JOptionPane.YES_NO_OPTION);
+                    "An object " + childFile.getName() + " already exists in folder " + parentDirectory.getAbsolutePath()
+                            + "\nDo you really want to rewrite the content of this file?",
+                    "Confirm dialog", JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION) {
                 Files.copy(source.toPath(), childFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
@@ -305,17 +305,17 @@ public class FileManagerSearchPanel extends SearchPanel {
                         insertFile(selectedNode, destinationFile);
                     } catch (IOException ex) {
                         ex.printStackTrace();
-                        JOptionPane.showMessageDialog(frame, "Програма не може створити новий файл",
-                                "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "File creation failed",
+                                "Message", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } else {
                     if (fileToCopy.equals(destinationFile)) {
-                        JOptionPane.showMessageDialog(frame, "Програма не може копіювати файл в самого себе",
-                                "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Can't copy a file into itself",
+                                "Message", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         int reply = JOptionPane.showConfirmDialog(frame
-                                , "Ви хочете записати вміст файла " + fileToCopy.getName() + "\n в файл "
-                                        + destinationFile.getName(), "Запит підтвердження", JOptionPane.YES_NO_OPTION);
+                                , "Do you want to write the content of a file " + fileToCopy.getName() + "\n into file "
+                                        + destinationFile.getName(), "Confirm dialog", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION) {
                             copyWithoutMultipleLines(fileToCopy, destinationFile);
                         }
@@ -338,12 +338,12 @@ public class FileManagerSearchPanel extends SearchPanel {
                             copyHtmlFile(fileToCopy, destinationFile);
                             insertFile(selectedNode, destinationFile);
                         } else {
-                            JOptionPane.showMessageDialog(frame, "Файл вже існує в цій папці",
-                                    "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(frame, "File already exists in this folder",
+                                    "Message", JOptionPane.INFORMATION_MESSAGE);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(frame, "Для цієї дії Ви повинні обрати файл HTML формату",
-                                "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "For this action you need to choose a file with .html extension",
+                                "Message", JOptionPane.INFORMATION_MESSAGE);
                     }
 
                 } else {
@@ -356,12 +356,12 @@ public class FileManagerSearchPanel extends SearchPanel {
                             moveFileToTrash(fileToCut);
                             fileToCut = null;
                         } else {
-                            JOptionPane.showMessageDialog(frame, "Файл вже існує в цій папці",
-                                    "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(frame, "File already exists in this folder",
+                                    "Message", JOptionPane.INFORMATION_MESSAGE);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(frame, "Для цієї дії Ви повинні обрати файл HTML формату",
-                                "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "For this action you need to choose a file with .html extension",
+                                "Message", JOptionPane.INFORMATION_MESSAGE);
                     }
 
                 }
@@ -413,21 +413,21 @@ public class FileManagerSearchPanel extends SearchPanel {
         if (selectedNode != null) {
             TreeFile file = (TreeFile) selectedNode.getUserObject();
             if (file.isFile() && file.getName().toLowerCase().endsWith(".txt")) {
-                int reply = JOptionPane.showConfirmDialog(frame, "Ви впевнені, що хочете назавжди видалити вміст цього файлу?",
-                        "Запит підтверждення", JOptionPane.YES_NO_OPTION);
+                int reply = JOptionPane.showConfirmDialog(frame, "Do you want to delete the content of this file forever?",
+                        "Confirm dialog", JOptionPane.YES_NO_OPTION);
                 if (reply == JOptionPane.YES_OPTION) {
                     try {
                         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                         writer.write("");
                     } catch (IOException e) {
                         e.printStackTrace();
-                        JOptionPane.showMessageDialog(frame, "Не вдалося видалити вміст файлу", "Повідомлення",
+                        JOptionPane.showMessageDialog(frame, "Can't delete the content", "Message",
                                 JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
             } else {
-                JOptionPane.showMessageDialog(frame, "Зараз можна видаляти вміст тільки текстових файлів",
-                        "Повідомлення", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "You can delete only the content of .txt files",
+                        "Message", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
@@ -456,8 +456,8 @@ public class FileManagerSearchPanel extends SearchPanel {
                     fileUtils.moveToTrash(new File[]{file});
                     return true;
                 } else {
-                    int reply = JOptionPane.showConfirmDialog(frame, "Ви дійсно хочете перемістити цю папку в корзину?",
-                            "Запит підтвердження", JOptionPane.YES_NO_OPTION);
+                    int reply = JOptionPane.showConfirmDialog(frame, "Do you want to move this folder to recycle bin?",
+                            "Confirm dialog", JOptionPane.YES_NO_OPTION);
                     if (reply == JOptionPane.YES_OPTION) {
                         fileUtils.moveToTrash(new File[]{file});
                         return true;
