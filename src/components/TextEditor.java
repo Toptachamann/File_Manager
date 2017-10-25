@@ -255,7 +255,7 @@ public class TextEditor extends JFrame {
 
     private Set<String> getAllDifferent(String pattern) {
         HashSet<String> ans = new HashSet<>();
-        Pattern wordPattern = Pattern.compile("([a-zA-Z]+)");
+        Pattern wordPattern = Pattern.compile("([a-zA-Z1-9]+)");
         for (String line : textArea.getText().split("\n")) {
             Matcher matcher = wordPattern.matcher(line);
             while (matcher.find()) {
