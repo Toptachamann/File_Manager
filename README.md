@@ -4,7 +4,7 @@ Simple cross-platform file manager, which supports basic opperations on file sys
 * paste  
 * cut  
 * delete  
-* clear contetn  
+* clear content  
 * edit   
 * create  
 Also uses JNA for moving files into recycle bin. Supports multiple standard look-and-feels
