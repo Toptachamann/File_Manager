@@ -5,6 +5,7 @@ import auxiliary.TreeFile;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -25,11 +26,11 @@ public class MyFileChooser {
 
   public MyFileChooser(JFrame owner) {
     this.owner = owner;
-    JFileChooser chooser = new JFileChooser("C:\\");
-    chooser.setVisible(true);
-    chooser.getSelectedFile();
+    createDialog();
+  }
 
-    dialog = new JDialog(owner, TITLE, true);
+  private void createDialog(){
+    dialog = new JDialog(owner, TITLE, Dialog.ModalityType.APPLICATION_MODAL);
     Image icon = new ImageIcon("images\\File_Chooser_icon.png").getImage();
     dialog.setIconImage(icon);
     dialog.setLocationRelativeTo(null);
@@ -63,8 +64,8 @@ public class MyFileChooser {
       super(frame);
 
       PopupMouseListener mouseListener = new PopupMouseListener();
-      fileListScrollPane.addMouseListener(mouseListener);
-      fileTreeScrollPane.addMouseListener(mouseListener);
+      fileList.addMouseListener(mouseListener);
+      tree.addMouseListener(mouseListener);
       fileList.addMouseListener(mouseListener);
       tree.addMouseListener(mouseListener);
 

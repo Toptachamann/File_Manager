@@ -14,6 +14,6 @@ public class RenameAction extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         SearchPanel searchPanel = (SearchPanel) getValue("Search panel");
-        searchPanel.renameAct();
+        searchPanel.startRenameAct();
     }
 }

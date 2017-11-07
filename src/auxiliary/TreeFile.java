@@ -13,6 +13,11 @@ public class TreeFile extends File {
     this.absolutePath = pathname;
   }
 
+  public TreeFile(File file){
+    super(file.getAbsolutePath());
+    this.absolutePath = file.getAbsolutePath();
+  }
+
   public TreeFile(File parent, String child) {
     super(parent, child);
     absolutePath = parent.toString() + "\\" + child;

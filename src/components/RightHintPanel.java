@@ -1,15 +1,9 @@
 package components;
 
-import actions.ClearContentAction;
-import actions.CopyAllWithExtensionAction;
-import actions.CopyHtmlFileAction;
-import actions.CopyWithoutMultipleLinesAction;
-import actions.OpenAction;
-import actions.RenameAction;
 import auxiliary.GBC;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import java.awt.Color;
@@ -20,11 +14,9 @@ public class RightHintPanel extends JPanel {
 
   protected Font borderTitleFont = new Font("Arial", Font.PLAIN, 12);
   protected Font labelFont = new Font("Arial", Font.BOLD, 12);
-  private FileManagerSearchPanel searchPanel;
 
-  public RightHintPanel(FileManagerSearchPanel searchPanel) {
+  public RightHintPanel() {
     super();
-    this.searchPanel = searchPanel;
     this.setLayout(new GridBagLayout());
     setBorder(
         BorderFactory.createTitledBorder(
@@ -34,31 +26,28 @@ public class RightHintPanel extends JPanel {
             TitledBorder.DEFAULT_POSITION,
             borderTitleFont,
             Color.BLUE));
+    addLabels();
+  }
 
-    /*JLabel openHint = new JLabel("Ctrl + O - Редагувати");
-    JLabel clearHint = new JLabel("F3 - Видалити зміст");
-    JLabel renameHint = new JLabel("Ctrl + R - перейменувати");
-    JLabel copyWithoutMultipleLines = new JLabel("Ctrl + Alt + V - скопіювати без повторів");
-    JLabel pasteHtml = new JLabel("Ctrl + Shift + D - вставити HTML");
+  private void addLabels() {
+    JLabel openHint = new JLabel("Ctrl + O - Edit");
+    JLabel clearHint = new JLabel("F3 - Clear content");
+    JLabel renameHint = new JLabel("Ctrl + R - Rename");
     JLabel copyAllWithExtension = new JLabel("Ctrl + Shift + V - скопіювати всі з розширенням");
 
     openHint.setFont(labelFont);
     clearHint.setFont(labelFont);
 
-    add(openHint, new GBC(0, 0, 1, 1, 1, 1)
-            .setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
-    add(clearHint, new GBC(1, 0, 1, 1, 1, 1)
-            .setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
-    add(renameHint, new GBC(2, 0, 1, 1, 1, 1)
-            .setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
-    add(copyWithoutMultipleLines, new GBC(0, 1, 1, 1, 1, 1)
-            .setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
-    add(copyAllWithExtension, new GBC(1, 1, 1, 1, 1, 1)
-            .setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
-    add(pasteHtml, new GBC(2, 1, 1, 1, 1, 1)
-            .setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));*/
+    add(openHint, new GBC(0, 0, 1, 1, 1, 1).setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
+    add(clearHint, new GBC(1, 0, 1, 1, 1, 1).setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
+    add(renameHint, new GBC(0, 1, 1, 1, 1, 1).setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
+    add(
+        copyAllWithExtension,
+        new GBC(1, 1, 1, 1, 1, 1).setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
+  }
+}
 
-    JButton openButton = new JButton("Edit");
+/*JButton openButton = new JButton("Edit");
     JButton clearButton = new JButton("Clear content");
     JButton renameButton = new JButton("Rename");
     JButton copyWithoutMultipleLinesButton = new JButton("Copy without repeating lines");
@@ -83,5 +72,4 @@ public class RightHintPanel extends JPanel {
     add(
         copyAllWithExtensionButton,
         new GBC(2, 1, 1, 1, 1, 1).setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
-  }
-}
+*/

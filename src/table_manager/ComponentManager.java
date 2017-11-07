@@ -68,24 +68,6 @@ public class ComponentManager {
     createJTextField();
   }
 
-  public void saveTable(AbstractTableSaver saver) throws IOException {
-    if (this.origin != null) {
-      saver.persist(origin, tableModel);
-      setSaved(true);
-    } else {
-      throw new NullPointerException("Origin is null");
-    }
-  }
-
-  public void setTableModel(ConcreteTableModel tableModel) {
-    createTable(tableModel);
-    adjustTable();
-  }
-
-  public boolean hasTableOrigin() {
-    return origin != null;
-  }
-
   private void createTable() {
     tableModel = new ConcreteTableModel(100, 100);
     table = new JTable(tableModel);
@@ -184,6 +166,24 @@ public class ComponentManager {
 
   public void setColumnWidth(int columnWidth) {
     this.columnWidth = columnWidth;
+  }
+
+  public void saveTable(AbstractTableSaver saver) throws IOException {
+    if (this.origin != null) {
+      saver.persist(origin, tableModel);
+      setSaved(true);
+    } else {
+      throw new NullPointerException("Origin is null");
+    }
+  }
+
+  public boolean hasTableOrigin() {
+    return origin != null;
+  }
+
+  public void setTableModel(ConcreteTableModel tableModel) {
+    createTable(tableModel);
+    adjustTable();
   }
 
   public boolean hasSingleSelectedCell() {

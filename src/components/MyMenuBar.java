@@ -1,6 +1,11 @@
 package components;
 /** Created by Timofey on 9/14/2017. */
 import actions.ChangeLookAndFeelAction;
+import actions.CopyAction;
+import actions.CutAction;
+import actions.DeleteAction;
+import actions.OpenAction;
+import actions.PasteAction;
 import auxiliary.LookAndFeelClassName;
 
 import javax.swing.JFrame;
@@ -10,7 +15,6 @@ import javax.swing.JMenuItem;
 
 public class MyMenuBar extends JMenuBar {
 
-  protected JFrame frame;
   protected JMenu fileMenu, editMenu, viewMenu, helpMenu;
   protected JMenu lookAndFeelMenu;
   protected JMenuItem metalItem, nimbusItem, motifItem, windowsItem, windowsClassicItem;
@@ -19,7 +23,6 @@ public class MyMenuBar extends JMenuBar {
 
   public MyMenuBar(JFrame frame) {
     super();
-    this.frame = frame;
 
     fileMenu = new JMenu("File");
     editMenu = new JMenu("Operations");

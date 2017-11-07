@@ -52,8 +52,8 @@ public class FileManagerSearchPanel extends SearchPanel {
     super(frame);
 
     MouseListener mouseListener = new PopupMouseListener();
-    fileListScrollPane.addMouseListener(mouseListener);
-    fileTreeScrollPane.addMouseListener(mouseListener);
+    super.tree.addMouseListener(mouseListener);
+    super.fileList.addMouseListener(mouseListener);
     fileList.addMouseListener(mouseListener);
     tree.addMouseListener(mouseListener);
 
