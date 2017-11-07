@@ -2,44 +2,57 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d43068b-50aa-44d9-9494-6a5bb118dc74" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/auxiliary/GBC.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/auxiliary/GBC.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/auxiliary/MyTreeNode.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/auxiliary/MyTreeNode.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/auxiliary/TreeFile.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/auxiliary/TreeFile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/FileManagerFrame$FileManagerMenuBar.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/FileManagerFrame$FileManagerMenuBar.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/FileManagerFrame.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/FileManagerFrame.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/FileManagerSearchPanel$PopupMouseListener.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/FileManagerSearchPanel$PopupMouseListener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/FileManagerSearchPanel.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/FileManagerSearchPanel.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/HelpDialog$1.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/HelpDialog$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/HelpDialog.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/HelpDialog.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/LeftHintPanel.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/LeftHintPanel.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/MyFileChooser$FileChooserSearchPanel$1.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/MyFileChooser$FileChooserSearchPanel$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/MyFileChooser$FileChooserSearchPanel$PopupMouseListener.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/MyFileChooser$FileChooserSearchPanel$PopupMouseListener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/MyFileChooser$FileChooserSearchPanel.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/MyFileChooser$FileChooserSearchPanel.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/MyFileChooser.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/MyFileChooser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/MyMenuBar.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/MyMenuBar.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/RightHintPanel.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/RightHintPanel.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/SearchPanel$1.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/SearchPanel$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/SearchPanel$ItemAction.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/SearchPanel$ItemAction.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/SearchPanel$MyTreeCellEditor.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/SearchPanel$MyTreeCellEditor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/SearchPanel$MyTreeModelListener.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/SearchPanel$MyTreeModelListener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/SearchPanel.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/SearchPanel.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$1.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$2.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$3.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$4.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$5.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$6.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$TextEditorMenuBar$1.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$TextEditorMenuBar$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$TextEditorMenuBar$2.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$TextEditorMenuBar$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$TextEditorMenuBar$3.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$TextEditorMenuBar$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$TextEditorMenuBar$4.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$TextEditorMenuBar$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$TextEditorMenuBar.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$TextEditorMenuBar.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor.class" afterPath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor.class" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/Main.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/actions/ChangeLookAndFeelAction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/actions/ClearContentAction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/actions/CopyAction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/actions/CopyAllWithExtensionAction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/actions/CopyHtmlFileAction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/actions/CopyWithoutMultipleLinesAction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/actions/CutAction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/actions/DeleteAction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/actions/OpenAction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/actions/PasteAction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/actions/RenameAction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/auxiliary/GBC.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/auxiliary/LookAndFeelClassName.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/auxiliary/MyTreeNode.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/auxiliary/TreeFile.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/FileManagerFrame$FileManagerMenuBar.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/FileManagerFrame.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/FileManagerSearchPanel$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/FileManagerSearchPanel$PopupMouseListener.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/FileManagerSearchPanel.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/HelpDialog$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/HelpDialog.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/LeftHintPanel.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/MyFileChooser$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/MyFileChooser$FileChooserSearchPanel$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/MyFileChooser$FileChooserSearchPanel$PopupMouseListener.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/MyFileChooser$FileChooserSearchPanel.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/MyFileChooser.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/MyMenuBar.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/RightHintPanel.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/SearchPanel$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/SearchPanel$ItemAction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/SearchPanel$MyTreeCellEditor.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/SearchPanel$MyTreeModelListener.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/SearchPanel.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$4.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$5.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$6.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$TextEditorMenuBar$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$TextEditorMenuBar$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$TextEditorMenuBar$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$TextEditorMenuBar$4.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor$TextEditorMenuBar.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Lab_1/components/TextEditor.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Lab_1.iml" afterPath="$PROJECT_DIR$/Lab_1.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/auxiliary/GBC.java" afterPath="$PROJECT_DIR$/src/auxiliary/GBC.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/auxiliary/LookAndFeelClassName.java" afterPath="$PROJECT_DIR$/src/auxiliary/LookAndFeelClassName.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/auxiliary/MyTreeNode.java" afterPath="$PROJECT_DIR$/src/auxiliary/MyTreeNode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/actions/RenameAction.java" afterPath="$PROJECT_DIR$/src/actions/RenameAction.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/auxiliary/TreeFile.java" afterPath="$PROJECT_DIR$/src/auxiliary/TreeFile.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/FileManagerFrame.java" afterPath="$PROJECT_DIR$/src/components/FileManagerFrame.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/FileManagerSearchPanel.java" afterPath="$PROJECT_DIR$/src/components/FileManagerSearchPanel.java" />
@@ -49,7 +62,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/MyMenuBar.java" afterPath="$PROJECT_DIR$/src/components/MyMenuBar.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/RightHintPanel.java" afterPath="$PROJECT_DIR$/src/components/RightHintPanel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/SearchPanel.java" afterPath="$PROJECT_DIR$/src/components/SearchPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/TextEditor.java" afterPath="$PROJECT_DIR$/src/components/TextEditor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/table_manager/ComponentManager.java" afterPath="$PROJECT_DIR$/src/table_manager/ComponentManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/table_manager/TableManagerFrame.java" afterPath="$PROJECT_DIR$/src/table_manager/TableManagerFrame.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.idea/" />
@@ -62,87 +76,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TableManagerFrame.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/table_manager/TableManagerFrame.java">
+      <file leaf-file-name="SearchPanel.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/SearchPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1425">
-              <caret line="69" column="33" lean-forward="true" selection-start-line="69" selection-start-column="33" selection-end-line="69" selection-end-column="33" />
+            <state relative-caret-position="475">
+              <caret line="267" column="59" lean-forward="false" selection-start-line="267" selection-start-column="59" selection-end-line="267" selection-end-column="59" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#main#0;class#TableManagerFrame#0" expanded="false" />
-                <element signature="method#readTable#0;class#TableManagerFrame#0" expanded="false" />
-                <element signature="e#4405#4879#0" expanded="true" />
-                <element signature="e#4878#4879#0" expanded="true" />
-                <element signature="e#4913#5450#0" expanded="true" />
-                <element signature="e#5449#5450#0" expanded="true" />
-                <element signature="e#5484#5641#0" expanded="true" />
-                <element signature="e#5640#5641#0" expanded="true" />
-                <element signature="e#5677#6051#0" expanded="true" />
-                <element signature="e#6050#6051#0" expanded="true" />
-                <element signature="e#7574#8307#0" expanded="true" />
-                <element signature="e#8306#8307#0" expanded="true" />
-                <element signature="method#saveToInvalidFile#0;class#TableManagerFrame#0" expanded="false" />
-                <element signature="method#openInvalidFile#0;class#TableManagerFrame#0" expanded="false" />
-                <element signature="method#ioException#0;class#TableManagerFrame#0" expanded="false" />
-                <element signature="method#setOrigin#0;class#TableManagerFrame#0" expanded="false" />
-                <element signature="method#updateTitle#0;class#TableManagerFrame#0" expanded="false" />
+                <element signature="e#6150#6151#0" expanded="true" />
+                <element signature="e#6199#6200#0" expanded="true" />
+                <element signature="e#6256#6257#0" expanded="true" />
+                <element signature="e#6315#6316#0" expanded="true" />
+                <element signature="method#folderNotSelected#0;class#SearchPanel#0" expanded="false" />
+                <element signature="method#objectCreationFailed#0;class#SearchPanel#0" expanded="false" />
+                <element signature="method#addNewFileToDirectory#0;class#SearchPanel#0" expanded="false" />
+                <element signature="method#updateFileList#0;class#SearchPanel#0" expanded="false" />
+                <element signature="method#updateFileList#1;class#SearchPanel#0" expanded="false" />
+                <element signature="method#getExtension#0;class#SearchPanel#0" expanded="false" />
+                <element signature="class#MyTreeCellEditor#0;class#SearchPanel#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Container.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/java/awt/Container.java">
+      <file leaf-file-name="LeftHintPanel.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/LeftHintPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="1541" column="37" lean-forward="false" selection-start-line="1541" selection-start-column="25" selection-end-line="1541" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ComponentManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/table_manager/ComponentManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="43" column="41" lean-forward="true" selection-start-line="43" selection-start-column="41" selection-end-line="43" selection-end-column="41" />
+            <state relative-caret-position="225">
+              <caret line="18" column="25" lean-forward="false" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#6138#6139#0" expanded="true" />
-                <element signature="e#6160#6161#0" expanded="true" />
-                <element signature="e#6202#6203#0" expanded="true" />
-                <element signature="e#6230#6231#0" expanded="true" />
-                <element signature="e#6322#6323#0" expanded="true" />
-                <element signature="e#6352#6353#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JsonTableReader.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/table_manager/JsonTableReader.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
-              <caret line="30" column="37" lean-forward="true" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="78" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MyFileChooser.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/MyFileChooser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="842">
-              <caret line="129" column="9" lean-forward="true" selection-start-line="129" selection-start-column="9" selection-end-line="129" selection-end-column="9" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1512#1513#0" expanded="true" />
-                <element signature="e#1541#1542#0" expanded="true" />
-                <element signature="e#2217#2947#0" expanded="true" />
-                <element signature="e#2946#2947#0" expanded="true" />
-                <element signature="e#4215#4390#0" expanded="true" />
+                <element signature="method#LeftHintPanel#0;class#LeftHintPanel#0" expanded="false" />
+                <element signature="method#addHelpLabels#0;class#LeftHintPanel#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -178,6 +142,7 @@
       <find>NodeCha</find>
       <find>renameAct</find>
       <find>nodesCha</find>
+      <find>MenuBar</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -191,8 +156,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/FileManagerFrame.java" />
-        <option value="$PROJECT_DIR$/src/FileManagerSearchPanel.java" />
         <option value="$PROJECT_DIR$/src/CopyAction.java" />
         <option value="$PROJECT_DIR$/src/Components/FileManagerSearchPanel.java" />
         <option value="$PROJECT_DIR$/src/Components/TextEditor.java" />
@@ -221,14 +184,6 @@
         <option value="$PROJECT_DIR$/src/auxiliary/GBC.java" />
         <option value="$PROJECT_DIR$/src/auxiliary/LookAndFeelClassName.java" />
         <option value="$PROJECT_DIR$/src/auxiliary/MyTreeNode.java" />
-        <option value="$PROJECT_DIR$/src/auxiliary/TreeFile.java" />
-        <option value="$PROJECT_DIR$/src/components/FileManagerFrame.java" />
-        <option value="$PROJECT_DIR$/src/components/FileManagerSearchPanel.java" />
-        <option value="$PROJECT_DIR$/src/components/HelpDialog.java" />
-        <option value="$PROJECT_DIR$/src/components/LeftHintPanel.java" />
-        <option value="$PROJECT_DIR$/src/components/MyMenuBar.java" />
-        <option value="$PROJECT_DIR$/src/components/RightHintPanel.java" />
-        <option value="$PROJECT_DIR$/src/components/SearchPanel.java" />
         <option value="$PROJECT_DIR$/src/components/TextEditor.java" />
         <option value="$PROJECT_DIR$/src/table_manager/AbstractTableSaver.java" />
         <option value="C:/File_Manager_Test/my table.json" />
@@ -240,8 +195,18 @@
         <option value="$PROJECT_DIR$/src/table_manager/JsonTableReader.java" />
         <option value="$PROJECT_DIR$/src/table_manager/JsonTableSaver.java" />
         <option value="$PROJECT_DIR$/src/table_manager/ComponentManager.java" />
-        <option value="$PROJECT_DIR$/src/components/MyFileChooser.java" />
+        <option value="$PROJECT_DIR$/src/components/FileManagerComponentManager.java" />
+        <option value="$PROJECT_DIR$/src/components/FileManagerFrame.java" />
+        <option value="$PROJECT_DIR$/src/auxiliary/TreeFile.java" />
+        <option value="$PROJECT_DIR$/src/components/MyMenuBar.java" />
         <option value="$PROJECT_DIR$/src/table_manager/TableManagerFrame.java" />
+        <option value="$PROJECT_DIR$/src/components/FileManagerSearchPanel.java" />
+        <option value="C:/File_Manager_Test/new table(1).json" />
+        <option value="$PROJECT_DIR$/src/components/HelpDialog.java" />
+        <option value="$PROJECT_DIR$/src/components/MyFileChooser.java" />
+        <option value="$PROJECT_DIR$/src/components/RightHintPanel.java" />
+        <option value="$PROJECT_DIR$/src/components/LeftHintPanel.java" />
+        <option value="$PROJECT_DIR$/src/components/SearchPanel.java" />
       </list>
     </option>
   </component>
@@ -295,8 +260,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -331,12 +294,14 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../JARs/commons-lang3-3.6" />
     <property name="settings.editor.selected.configurable" value="preferences.JavaFX" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -643,30 +608,32 @@
       <workItem from="1509803668691" duration="13000" />
       <workItem from="1509885402901" duration="15401000" />
       <workItem from="1509963715042" duration="235000" />
-      <workItem from="1509974925250" duration="13505000" />
+      <workItem from="1509974925250" duration="13975000" />
+      <workItem from="1510044480661" duration="8942000" />
+      <workItem from="1510060650092" duration="4211000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="184934000" />
+    <option name="totallyTimeSpent" value="198557000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="1" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18325123" sideWeight="0.47708333" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17536946" sideWeight="0.38645834" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10049261" sideWeight="0.39166668" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17536946" sideWeight="0.61354166" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17536946" sideWeight="0.60833335" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15833333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15833333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -683,6 +650,7 @@
       <window_info id="Execute Anonymous" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Salesforce" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18325123" sideWeight="0.47291666" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32906404" sideWeight="0.49375" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -698,13 +666,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/components/MyFileChooser.java</url>
-          <line>145</line>
+          <line>146</line>
           <properties />
           <option name="timeStamp" value="105" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/components/MyFileChooser.java</url>
-          <line>142</line>
+          <line>143</line>
           <properties />
           <option name="timeStamp" value="106" />
         </line-breakpoint>
@@ -716,15 +684,9 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/components/SearchPanel.java</url>
-          <line>355</line>
+          <line>399</line>
           <properties />
           <option name="timeStamp" value="118" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/components/SearchPanel.java</url>
-          <line>167</line>
-          <properties />
-          <option name="timeStamp" value="130" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/components/FileManagerSearchPanel.java</url>
@@ -734,7 +696,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/table_manager/TableManagerFrame.java</url>
-          <line>283</line>
+          <line>296</line>
           <properties />
           <option name="timeStamp" value="145" />
         </line-breakpoint>
@@ -746,7 +708,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/table_manager/TableManagerFrame.java</url>
-          <line>290</line>
+          <line>303</line>
           <properties class="table_manager.TableManagerFrame" method="saveToInvalidFile">
             <option name="EMULATED" value="true" />
           </properties>
@@ -762,34 +724,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/actions/CopyWithoutMultipleLinesAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="16" column="50" lean-forward="true" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/actions/CopyHtmlFileAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="8" column="4" lean-forward="false" selection-start-line="8" selection-start-column="4" selection-end-line="16" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/actions/RenameAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="9" column="4" lean-forward="false" selection-start-line="9" selection-start-column="4" selection-end-line="17" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.base/java/nio/file/Files.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="1280" column="23" lean-forward="false" selection-start-line="1280" selection-start-column="23" selection-end-line="1280" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/actions/CopyAllWithExtensionAction.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="325">
@@ -851,13 +785,21 @@
         <state relative-caret-position="50">
           <caret line="2" column="31" lean-forward="false" selection-start-line="2" selection-start-column="31" selection-end-line="2" selection-end-column="31" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#6138#6139#0" expanded="true" />
-            <element signature="e#6160#6161#0" expanded="true" />
-            <element signature="e#6202#6203#0" expanded="true" />
-            <element signature="e#6230#6231#0" expanded="true" />
-            <element signature="e#6322#6323#0" expanded="true" />
-            <element signature="e#6352#6353#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="method#ComponentManager#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#ComponentManager#1;class#ComponentManager#0" expanded="false" />
+            <element signature="method#ComponentManager#2;class#ComponentManager#0" expanded="false" />
+            <element signature="method#ComponentManager#3;class#ComponentManager#0" expanded="false" />
+            <element signature="method#init#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#createTable#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#createTable#1;class#ComponentManager#0" expanded="false" />
+            <element signature="method#adjustTable#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#createJTextField#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#updateColumnWidth#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#setRowHeight#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#saveTable#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#setTableModel#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#hasSingleSelectedCell#0;class#ComponentManager#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -875,13 +817,21 @@
         <state relative-caret-position="125">
           <caret line="5" column="30" lean-forward="false" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#6138#6139#0" expanded="true" />
-            <element signature="e#6160#6161#0" expanded="true" />
-            <element signature="e#6202#6203#0" expanded="true" />
-            <element signature="e#6230#6231#0" expanded="true" />
-            <element signature="e#6322#6323#0" expanded="true" />
-            <element signature="e#6352#6353#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="method#ComponentManager#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#ComponentManager#1;class#ComponentManager#0" expanded="false" />
+            <element signature="method#ComponentManager#2;class#ComponentManager#0" expanded="false" />
+            <element signature="method#ComponentManager#3;class#ComponentManager#0" expanded="false" />
+            <element signature="method#init#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#createTable#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#createTable#1;class#ComponentManager#0" expanded="false" />
+            <element signature="method#adjustTable#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#createJTextField#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#updateColumnWidth#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#setRowHeight#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#saveTable#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#setTableModel#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#hasSingleSelectedCell#0;class#ComponentManager#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -966,115 +916,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/auxiliary/TreeFile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="610">
-          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-          <folding>
-            <element signature="e#592#593#0" expanded="false" />
-            <element signature="e#626#627#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/FileManagerFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="23" column="3" lean-forward="false" selection-start-line="23" selection-start-column="3" selection-end-line="23" selection-end-column="3" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/FileManagerSearchPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="72" column="59" lean-forward="false" selection-start-line="72" selection-start-column="59" selection-end-line="72" selection-end-column="59" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/HelpDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1460">
-          <caret line="78" column="18" lean-forward="false" selection-start-line="78" selection-start-column="18" selection-end-line="78" selection-end-column="18" />
-          <folding>
-            <element signature="e#2479#2626#0" expanded="false" />
-            <element signature="e#2625#2626#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/LeftHintPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/MyMenuBar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="68" column="11" lean-forward="false" selection-start-line="68" selection-start-column="11" selection-end-line="68" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/RightHintPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="68" column="4" lean-forward="false" selection-start-line="68" selection-start-column="4" selection-end-line="68" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/SearchPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2046">
-          <caret line="59" column="9" lean-forward="false" selection-start-line="59" selection-start-column="9" selection-end-line="59" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/TextEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="379" column="0" lean-forward="false" selection-start-line="379" selection-start-column="0" selection-end-line="379" selection-end-column="0" />
-          <folding>
-            <element signature="e#2095#2096#0" expanded="false" />
-            <element signature="e#2142#2143#0" expanded="false" />
-            <element signature="e#3542#3543#0" expanded="false" />
-            <element signature="e#3584#3585#0" expanded="false" />
-            <element signature="e#3656#3657#0" expanded="false" />
-            <element signature="e#3698#3699#0" expanded="false" />
-            <element signature="e#5870#6134#0" expanded="false" />
-            <element signature="e#6133#6134#0" expanded="false" />
-            <element signature="e#6170#6319#0" expanded="false" />
-            <element signature="e#6318#6319#0" expanded="false" />
-            <element signature="e#6360#7902#0" expanded="false" />
-            <element signature="e#7901#7902#0" expanded="false" />
-            <element signature="e#8761#9446#0" expanded="false" />
-            <element signature="e#9445#9446#0" expanded="false" />
-            <element signature="e#11209#11886#0" expanded="false" />
-            <element signature="e#11885#11886#0" expanded="false" />
-            <element signature="e#11929#12211#0" expanded="false" />
-            <element signature="e#12210#12211#0" expanded="false" />
-            <element signature="e#12256#12415#0" expanded="false" />
-            <element signature="e#12414#12415#0" expanded="false" />
-            <element signature="e#12458#12704#0" expanded="false" />
-            <element signature="e#12703#12704#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/javax/swing/JFileChooser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="279">
@@ -1096,7 +937,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1100">
           <caret line="140" column="13" lean-forward="false" selection-start-line="140" selection-start-column="13" selection-end-line="140" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1104,7 +944,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1112,7 +951,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="235">
           <caret line="354" column="11" lean-forward="false" selection-start-line="354" selection-start-column="11" selection-end-line="354" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1120,9 +958,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="219">
           <caret line="153" column="0" lean-forward="false" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
-          <folding>
-            <element signature="e#4513#4514#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1131,10 +966,10 @@
         <state relative-caret-position="100">
           <caret line="4" column="53" lean-forward="false" selection-start-line="4" selection-start-column="53" selection-end-line="4" selection-end-column="53" />
           <folding>
-            <element signature="e#137#138#0" expanded="true" />
-            <element signature="e#154#155#0" expanded="true" />
-            <element signature="e#203#204#0" expanded="true" />
-            <element signature="e#227#228#0" expanded="true" />
+            <element signature="e#137#138#0" expanded="false" />
+            <element signature="e#154#155#0" expanded="false" />
+            <element signature="e#203#204#0" expanded="false" />
+            <element signature="e#227#228#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1143,7 +978,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="554" column="21" lean-forward="false" selection-start-line="554" selection-start-column="21" selection-end-line="554" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1151,7 +985,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="2458" lean-forward="false" selection-start-line="0" selection-start-column="2458" selection-end-line="0" selection-end-column="2458" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1167,28 +1000,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/java/awt/Container.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="1541" column="37" lean-forward="false" selection-start-line="1541" selection-start-column="25" selection-end-line="1541" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/table_manager/JsonTableSaver.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="350">
           <caret line="30" column="52" lean-forward="false" selection-start-line="30" selection-start-column="52" selection-end-line="30" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/table_manager/JsonTableReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="30" column="37" lean-forward="true" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="78" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1205,60 +1020,228 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/java/awt/Container.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="1541" column="37" lean-forward="false" selection-start-line="1541" selection-start-column="25" selection-end-line="1541" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/table_manager/ComponentManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="43" column="41" lean-forward="true" selection-start-line="43" selection-start-column="41" selection-end-line="43" selection-end-column="41" />
+        <state relative-caret-position="1825">
+          <caret line="183" column="23" lean-forward="true" selection-start-line="183" selection-start-column="23" selection-end-line="183" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="method#ComponentManager#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#ComponentManager#1;class#ComponentManager#0" expanded="false" />
+            <element signature="method#ComponentManager#2;class#ComponentManager#0" expanded="false" />
+            <element signature="method#ComponentManager#3;class#ComponentManager#0" expanded="false" />
+            <element signature="method#init#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#createTable#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#createTable#1;class#ComponentManager#0" expanded="false" />
+            <element signature="method#adjustTable#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#createJTextField#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#updateColumnWidth#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#setRowHeight#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#saveTable#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#setTableModel#0;class#ComponentManager#0" expanded="false" />
+            <element signature="method#hasSingleSelectedCell#0;class#ComponentManager#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/table_manager/JsonTableReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="30" column="37" lean-forward="true" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="78" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6138#6139#0" expanded="true" />
-            <element signature="e#6160#6161#0" expanded="true" />
-            <element signature="e#6202#6203#0" expanded="true" />
-            <element signature="e#6230#6231#0" expanded="true" />
-            <element signature="e#6322#6323#0" expanded="true" />
-            <element signature="e#6352#6353#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/FileManagerFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="889">
+          <caret line="55" column="19" lean-forward="true" selection-start-line="55" selection-start-column="19" selection-end-line="55" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/MyMenuBar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="23" column="34" lean-forward="false" selection-start-line="23" selection-start-column="34" selection-end-line="23" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/table_manager/TableManagerFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1325">
+          <caret line="72" column="32" lean-forward="false" selection-start-line="72" selection-start-column="32" selection-end-line="72" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#TableManagerFrame#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#TableManagerFrame#1;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#main#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#openNewTable#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#openNewTable#1;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#readTable#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#saveCurrentTableToFile#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#saveCurrentTable#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#saveCurrentTableAs#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#getFileFromFileChooser#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#addMenu#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#createComponents#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#createComponents#1;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#addComponents#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#addListeners#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#setOrigin#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#updateTitle#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#wantsToSave#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#saveToInvalidFile#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#openInvalidFile#0;class#TableManagerFrame#0" expanded="false" />
+            <element signature="method#ioException#0;class#TableManagerFrame#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/File_Manager_Test/new table(1).json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-400">
+          <caret line="311" column="3" lean-forward="true" selection-start-line="311" selection-start-column="3" selection-end-line="315" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/HelpDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="28" column="34" lean-forward="false" selection-start-line="28" selection-start-column="34" selection-end-line="28" selection-end-column="34" />
+          <folding>
+            <element signature="method#HelpDialog#0;class#HelpDialog#0" expanded="false" />
+            <element signature="method#init#0;class#HelpDialog#0" expanded="false" />
+            <element signature="method#addHelpLabels#0;class#HelpDialog#0" expanded="false" />
+            <element signature="method#addUserButton#0;class#HelpDialog#0" expanded="false" />
+            <element signature="method#showDialog#0;class#HelpDialog#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/RightHintPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding>
+            <element signature="method#RightHintPanel#0;class#RightHintPanel#0" expanded="false" />
+            <element signature="method#addLabels#0;class#RightHintPanel#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/auxiliary/TreeFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="15" column="27" lean-forward="true" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
+          <folding>
+            <element signature="method#TreeFile#0;class#TreeFile#0" expanded="false" />
+            <element signature="method#TreeFile#1;class#TreeFile#0" expanded="false" />
+            <element signature="method#TreeFile#2;class#TreeFile#0" expanded="false" />
+            <element signature="method#TreeFile#3;class#TreeFile#0" expanded="false" />
+            <element signature="method#isRoot#0;class#TreeFile#0" expanded="false" />
+            <element signature="method#toString#0;class#TreeFile#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/FileManagerComponentManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#createFileManagerMenuBar#0;class#FileManagerComponentManager#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/MyFileChooser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="842">
-          <caret line="129" column="9" lean-forward="true" selection-start-line="129" selection-start-column="9" selection-end-line="129" selection-end-column="9" />
+        <state relative-caret-position="587">
+          <caret line="73" column="10" lean-forward="true" selection-start-line="73" selection-start-column="10" selection-end-line="73" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1512#1513#0" expanded="true" />
-            <element signature="e#1541#1542#0" expanded="true" />
-            <element signature="e#2217#2947#0" expanded="true" />
-            <element signature="e#2946#2947#0" expanded="true" />
-            <element signature="e#4215#4390#0" expanded="true" />
+            <element signature="method#createDialog#0;class#MyFileChooser#0" expanded="false" />
+            <element signature="e#2191#2921#0" expanded="true" />
+            <element signature="e#2920#2921#0" expanded="true" />
+            <element signature="class#PopupMouseListener#0;class#FileChooserSearchPanel#0;class#MyFileChooser#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/table_manager/TableManagerFrame.java">
+    <entry file="file://$PROJECT_DIR$/src/components/FileManagerSearchPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1425">
-          <caret line="69" column="33" lean-forward="true" selection-start-line="69" selection-start-column="33" selection-end-line="69" selection-end-column="33" />
+        <state relative-caret-position="25">
+          <caret line="55" column="18" lean-forward="false" selection-start-line="55" selection-start-column="18" selection-end-line="55" selection-end-column="18" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#TableManagerFrame#0" expanded="false" />
-            <element signature="method#readTable#0;class#TableManagerFrame#0" expanded="false" />
-            <element signature="e#4405#4879#0" expanded="true" />
-            <element signature="e#4878#4879#0" expanded="true" />
-            <element signature="e#4913#5450#0" expanded="true" />
-            <element signature="e#5449#5450#0" expanded="true" />
-            <element signature="e#5484#5641#0" expanded="true" />
-            <element signature="e#5640#5641#0" expanded="true" />
-            <element signature="e#5677#6051#0" expanded="true" />
-            <element signature="e#6050#6051#0" expanded="true" />
-            <element signature="e#7574#8307#0" expanded="true" />
-            <element signature="e#8306#8307#0" expanded="true" />
-            <element signature="method#saveToInvalidFile#0;class#TableManagerFrame#0" expanded="false" />
-            <element signature="method#openInvalidFile#0;class#TableManagerFrame#0" expanded="false" />
-            <element signature="method#ioException#0;class#TableManagerFrame#0" expanded="false" />
-            <element signature="method#setOrigin#0;class#TableManagerFrame#0" expanded="false" />
-            <element signature="method#updateTitle#0;class#TableManagerFrame#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/TextEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="347" column="16" lean-forward="false" selection-start-line="347" selection-start-column="16" selection-end-line="347" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../JARs/commons-lang3-3.6/commons-lang3-3.6-sources.jar!/org/apache/commons/lang3/Validate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1119">
+          <caret line="180" column="23" lean-forward="false" selection-start-line="180" selection-start-column="23" selection-end-line="180" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.base/java/io/File.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="1017" column="19" lean-forward="false" selection-start-line="1017" selection-start-column="19" selection-end-line="1017" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/LeftHintPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="18" column="25" lean-forward="false" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
+          <folding>
+            <element signature="method#LeftHintPanel#0;class#LeftHintPanel#0" expanded="false" />
+            <element signature="method#addHelpLabels#0;class#LeftHintPanel#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/SearchPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="267" column="59" lean-forward="false" selection-start-line="267" selection-start-column="59" selection-end-line="267" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#6150#6151#0" expanded="true" />
+            <element signature="e#6199#6200#0" expanded="true" />
+            <element signature="e#6256#6257#0" expanded="true" />
+            <element signature="e#6315#6316#0" expanded="true" />
+            <element signature="method#folderNotSelected#0;class#SearchPanel#0" expanded="false" />
+            <element signature="method#objectCreationFailed#0;class#SearchPanel#0" expanded="false" />
+            <element signature="method#addNewFileToDirectory#0;class#SearchPanel#0" expanded="false" />
+            <element signature="method#updateFileList#0;class#SearchPanel#0" expanded="false" />
+            <element signature="method#updateFileList#1;class#SearchPanel#0" expanded="false" />
+            <element signature="method#getExtension#0;class#SearchPanel#0" expanded="false" />
+            <element signature="class#MyTreeCellEditor#0;class#SearchPanel#0" expanded="false" />
           </folding>
         </state>
       </provider>

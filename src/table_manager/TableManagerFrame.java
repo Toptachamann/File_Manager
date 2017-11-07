@@ -70,7 +70,7 @@ public class TableManagerFrame extends JFrame {
     int width = screenSize.width;
     int height = screenSize.height;
     setSize(new Dimension(5 * width / 6, 5 * height / 6));
-    setLocationByPlatform(true);
+    setLocationRelativeTo(null);
     mainPanel = new JPanel(new BorderLayout());
     add(mainPanel);
     addMenu();
@@ -280,6 +280,19 @@ public class TableManagerFrame extends JFrame {
         });
   }
 
+  private void setOrigin(@Nullable File origin) {
+    componentManager.setOrigin(origin);
+    updateTitle(origin);
+  }
+
+  private void updateTitle(@Nullable File origin) {
+    if (origin == null) {
+      setTitle(TITLE);
+    } else {
+      setTitle(origin.getAbsolutePath() + " - " + TITLE);
+    }
+  }
+
   private int wantsToSave() {
     return JOptionPane.showConfirmDialog(
         TableManagerFrame.this,
@@ -304,18 +317,5 @@ public class TableManagerFrame extends JFrame {
   private void ioException() {
     JOptionPane.showMessageDialog(
         TableManagerFrame.this, "Can't save table", "Warning", JOptionPane.WARNING_MESSAGE);
-  }
-
-  private void setOrigin(@Nullable File origin) {
-    componentManager.setOrigin(origin);
-    updateTitle(origin);
-  }
-
-  private void updateTitle(@Nullable File origin) {
-    if (origin == null) {
-      setTitle(TITLE);
-    } else {
-      setTitle(origin.getAbsolutePath() + " - " + TITLE);
-    }
   }
 }
