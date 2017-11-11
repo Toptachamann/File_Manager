@@ -287,7 +287,7 @@ public class TableManagerFrame extends JFrame {
 
   private void updateTitle(@Nullable File origin) {
     if (origin == null) {
-      setTitle(TITLE);
+      setTitle("Untitled" + TITLE);
     } else {
       setTitle(origin.getAbsolutePath() + " - " + TITLE);
     }
