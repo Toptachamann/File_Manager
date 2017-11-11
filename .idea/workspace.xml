@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d43068b-50aa-44d9-9494-6a5bb118dc74" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/components/TextEditor.java" afterPath="$PROJECT_DIR$/src/TextEditor/TextEditorFrame.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/table_manager/TableManagerFrame.java" afterPath="$PROJECT_DIR$/src/table_manager/TableEditorFrame.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/FileManagerComponentManager.java" afterPath="$PROJECT_DIR$/src/components/FileManagerComponentManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/FileManagerFrame.java" afterPath="$PROJECT_DIR$/src/components/FileManagerFrame.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/FileManagerSearchPanel.java" afterPath="$PROJECT_DIR$/src/components/FileManagerSearchPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/SearchPanel.java" afterPath="$PROJECT_DIR$/src/components/SearchPanel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/table_manager/ComponentManager.java" afterPath="$PROJECT_DIR$/src/table_manager/ComponentManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/table_manager/ConcreteTableModel.java" afterPath="$PROJECT_DIR$/src/table_manager/ConcreteTableModel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/table_manager/JsonTableReader.java" afterPath="$PROJECT_DIR$/src/table_manager/JsonTableReader.java" />
@@ -29,8 +22,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="33" column="69" lean-forward="false" selection-start-line="33" selection-start-column="69" selection-end-line="33" selection-end-column="69" />
+            <state relative-caret-position="443">
+              <caret line="32" column="46" lean-forward="false" selection-start-line="32" selection-start-column="46" selection-end-line="32" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -39,12 +32,10 @@
       <file leaf-file-name="TableEditorFrame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/table_manager/TableEditorFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="679">
-              <caret line="228" column="0" lean-forward="false" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
+            <state relative-caret-position="207">
+              <caret line="171" column="15" lean-forward="false" selection-start-line="171" selection-start-column="15" selection-end-line="171" selection-end-column="15" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#6195#6928#0" expanded="true" />
-                <element signature="e#6927#6928#0" expanded="true" />
                 <element signature="class#NewTableAction#0;class#TableEditorFrame#0" expanded="false" />
                 <element signature="class#OpenAction#0;class#TableEditorFrame#0" expanded="false" />
                 <element signature="class#SaveAction#0;class#TableEditorFrame#0" expanded="false" />
@@ -54,45 +45,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JTable.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/javax/swing/JTable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
-              <caret line="5631" column="0" lean-forward="false" selection-start-line="5631" selection-start-column="0" selection-end-line="5631" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JComponent.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/javax/swing/JComponent.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
-              <caret line="4906" column="0" lean-forward="false" selection-start-line="4906" selection-start-column="0" selection-end-line="4906" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ComponentManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/table_manager/ComponentManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1675">
-              <caret line="204" column="41" lean-forward="false" selection-start-line="204" selection-start-column="41" selection-end-line="204" selection-end-column="41" />
+            <state relative-caret-position="207">
+              <caret line="80" column="46" lean-forward="true" selection-start-line="80" selection-start-column="46" selection-end-line="80" selection-end-column="46" />
               <folding>
-                <element signature="method#ComponentManager#1;class#ComponentManager#0" expanded="false" />
-                <element signature="method#ComponentManager#2;class#ComponentManager#0" expanded="false" />
-                <element signature="method#ComponentManager#3;class#ComponentManager#0" expanded="false" />
-                <element signature="method#init#0;class#ComponentManager#0" expanded="false" />
-                <element signature="method#createTable#1;class#ComponentManager#0" expanded="false" />
-                <element signature="method#createJTextField#0;class#ComponentManager#0" expanded="false" />
-                <element signature="method#addListeners#0;class#ComponentManager#0" expanded="false" />
-                <element signature="e#6591#6769#0" expanded="true" />
-                <element signature="e#6768#6769#0" expanded="true" />
-                <element signature="method#updateColumnWidth#0;class#ComponentManager#0" expanded="false" />
-                <element signature="method#setTableModel#0;class#ComponentManager#0" expanded="false" />
-                <element signature="method#hasSingleSelectedCell#0;class#ComponentManager#0" expanded="false" />
-                <element signature="method#setRowHeight#0;class#ComponentManager#0" expanded="false" />
+                <element signature="e#4734#5360#0" expanded="true" />
+                <element signature="e#5359#5360#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -101,37 +61,40 @@
       <file leaf-file-name="ConcreteTableModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/table_manager/ConcreteTableModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="475">
-              <caret line="91" column="0" lean-forward="false" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
+            <state relative-caret-position="350">
+              <caret line="31" column="25" lean-forward="true" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="method#generateColumnNames#0;class#ConcreteTableModel#0" expanded="false" />
+                <element signature="method#getNameForColumn#0;class#ConcreteTableModel#0" expanded="false" />
+                <element signature="method#generateIndexation#0;class#ConcreteTableModel#0" expanded="false" />
+                <element signature="method#appendColumn#0;class#ConcreteTableModel#0" expanded="false" />
+                <element signature="e#5273#5274#0" expanded="true" />
+                <element signature="e#5299#5300#0" expanded="true" />
+                <element signature="method#getValueAt#0;class#ConcreteTableModel#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AbstractTableModel.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/javax/swing/table/AbstractTableModel.java">
+      <file leaf-file-name="JsonTableSaver.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/table_manager/JsonTableSaver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
-              <caret line="296" column="0" lean-forward="false" selection-start-line="296" selection-start-column="0" selection-end-line="296" selection-end-column="0" />
+            <state relative-caret-position="725">
+              <caret line="46" column="93" lean-forward="false" selection-start-line="46" selection-start-column="93" selection-end-line="46" selection-end-column="93" />
               <folding>
-                <element signature="e#0#10861#0" expanded="true" />
-                <element signature="e#6417#6418#0" expanded="true" />
-                <element signature="e#6504#6505#0" expanded="true" />
+                <element signature="method#persistTable#0;class#JsonTableSaver#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TableModelEvent.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/javax/swing/event/TableModelEvent.java">
+      <file leaf-file-name="JsonTableReader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/table_manager/JsonTableReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="139" column="0" lean-forward="false" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
-              <folding>
-                <element signature="e#4591#4592#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="775">
+              <caret line="50" column="88" lean-forward="false" selection-start-line="50" selection-start-column="88" selection-end-line="50" selection-end-column="88" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -171,6 +134,9 @@
       <find>fileChooser.showDialog();</find>
       <find>FileManager</find>
       <find>mouse</find>
+      <find>delete</find>
+      <find>remove</find>
+      <find>tableHeader</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -227,13 +193,13 @@
         <option value="$PROJECT_DIR$/src/TextEditor/TextEditorFrame.java" />
         <option value="$PROJECT_DIR$/src/components/FileManagerSearchPanel.java" />
         <option value="$PROJECT_DIR$/src/auxiliary/FileFormatException.java" />
-        <option value="$PROJECT_DIR$/src/table_manager/JsonTableSaver.java" />
-        <option value="$PROJECT_DIR$/src/table_manager/JsonTableReader.java" />
-        <option value="C:/File_Manager_Test/new table.json" />
         <option value="C:/File_Manager_Test/table.json" />
-        <option value="$PROJECT_DIR$/src/table_manager/ConcreteTableModel.java" />
         <option value="$PROJECT_DIR$/src/table_manager/TableEditorFrame.java" />
+        <option value="$PROJECT_DIR$/src/table_manager/JsonTableSaver.java" />
+        <option value="C:/File_Manager_Test/new table.json" />
+        <option value="$PROJECT_DIR$/src/table_manager/JsonTableReader.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/src/table_manager/ConcreteTableModel.java" />
         <option value="$PROJECT_DIR$/src/table_manager/ComponentManager.java" />
       </list>
     </option>
@@ -244,7 +210,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1" fullScreen="true">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="width" value="1366" />
     <option name="height" value="768" />
   </component>
@@ -288,7 +254,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -329,14 +295,14 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.JavaFX" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -667,37 +633,39 @@
       <workItem from="1510084643099" duration="833000" />
       <workItem from="1510130507957" duration="17669000" />
       <workItem from="1510210006922" duration="62000" />
-      <workItem from="1510388768054" duration="2642000" />
+      <workItem from="1510388768054" duration="10707000" />
+      <workItem from="1510406775108" duration="68000" />
+      <workItem from="1510410346456" duration="2380000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="226708000" />
+    <option name="totallyTimeSpent" value="237221000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1920" height="1080" extended-state="1" />
+    <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18325123" sideWeight="0.46041667" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18325123" sideWeight="0.45625" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10541872" sideWeight="0.44322917" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33103448" sideWeight="0.4640625" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10541872" sideWeight="0.55677086" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33103448" sideWeight="0.5359375" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16822916" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1765625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19211823" sideWeight="0.42239583" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33103448" sideWeight="0.45520833" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -759,30 +727,36 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/table_manager/JsonTableSaver.java</url>
-          <line>50</line>
+          <line>63</line>
           <properties />
           <option name="timeStamp" value="156" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/table_manager/ComponentManager.java</url>
-          <line>200</line>
+          <line>221</line>
           <properties />
-          <option name="timeStamp" value="159" />
+          <option name="timeStamp" value="170" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/table_manager/TableEditorFrame.java</url>
-          <line>210</line>
+          <url>file://$PROJECT_DIR$/src/table_manager/ComponentManager.java</url>
+          <line>246</line>
           <properties />
-          <option name="timeStamp" value="164" />
+          <option name="timeStamp" value="171" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/table_manager/ConcreteTableModel.java</url>
-          <line>91</line>
+          <url>file://$PROJECT_DIR$/src/table_manager/ComponentManager.java</url>
+          <line>212</line>
           <properties />
-          <option name="timeStamp" value="165" />
+          <option name="timeStamp" value="172" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/table_manager/ComponentManager.java</url>
+          <line>156</line>
+          <properties />
+          <option name="timeStamp" value="173" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="166" />
+      <option name="time" value="174" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -791,52 +765,10 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/table_manager/AbstractTableReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="11" column="10" lean-forward="false" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/java/awt/Container.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="1541" column="37" lean-forward="false" selection-start-line="1541" selection-start-column="25" selection-end-line="1541" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/File_Manager_Test/new table(1).json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-400">
-          <caret line="311" column="3" lean-forward="true" selection-start-line="311" selection-start-column="3" selection-end-line="315" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/HelpDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="28" column="34" lean-forward="false" selection-start-line="28" selection-start-column="34" selection-end-line="28" selection-end-column="34" />
-          <folding>
-            <element signature="method#HelpDialog#0;class#HelpDialog#0" expanded="false" />
-            <element signature="method#init#0;class#HelpDialog#0" expanded="false" />
-            <element signature="method#addHelpLabels#0;class#HelpDialog#0" expanded="false" />
-            <element signature="method#addUserButton#0;class#HelpDialog#0" expanded="false" />
-            <element signature="method#showDialog#0;class#HelpDialog#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/RightHintPanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
           <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding>
-            <element signature="method#RightHintPanel#0;class#RightHintPanel#0" expanded="false" />
-            <element signature="method#addLabels#0;class#RightHintPanel#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -844,14 +776,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="15" column="27" lean-forward="true" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
-          <folding>
-            <element signature="method#TreeFile#0;class#TreeFile#0" expanded="false" />
-            <element signature="method#TreeFile#1;class#TreeFile#0" expanded="false" />
-            <element signature="method#TreeFile#2;class#TreeFile#0" expanded="false" />
-            <element signature="method#TreeFile#3;class#TreeFile#0" expanded="false" />
-            <element signature="method#isRoot#0;class#TreeFile#0" expanded="false" />
-            <element signature="method#toString#0;class#TreeFile#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -894,7 +818,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
           <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -928,10 +851,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="61">
           <caret line="33" column="28" lean-forward="false" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="method#createFileManagerMenuBar#0;class#FileManagerComponentManager#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -939,7 +858,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="257">
           <caret line="33" column="59" lean-forward="false" selection-start-line="33" selection-start-column="59" selection-end-line="33" selection-end-column="59" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -954,10 +872,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="18" column="25" lean-forward="false" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
-          <folding>
-            <element signature="method#LeftHintPanel#0;class#LeftHintPanel#0" expanded="false" />
-            <element signature="method#addHelpLabels#0;class#LeftHintPanel#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -965,7 +879,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="243">
           <caret line="23" column="34" lean-forward="false" selection-start-line="23" selection-start-column="34" selection-end-line="23" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1100,7 +1013,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
           <caret line="5" column="2" lean-forward="false" selection-start-line="5" selection-start-column="2" selection-end-line="11" selection-end-column="3" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1109,13 +1021,6 @@
         <state relative-caret-position="100">
           <caret line="4" column="52" lean-forward="false" selection-start-line="4" selection-start-column="52" selection-end-line="4" selection-end-column="52" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/File_Manager_Test/new table.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1137,15 +1042,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="475">
           <caret line="42" column="9" lean-forward="false" selection-start-line="42" selection-start-column="9" selection-end-line="42" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/table_manager/JsonTableReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1160,7 +1056,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="675">
           <caret line="50" column="43" lean-forward="false" selection-start-line="50" selection-start-column="43" selection-end-line="50" selection-end-column="43" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1171,47 +1066,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/java/awt/EventDispatchThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1350">
-          <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="33" column="69" lean-forward="false" selection-start-line="33" selection-start-column="69" selection-end-line="33" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/table_manager/JsonTableSaver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="36" column="33" lean-forward="false" selection-start-line="36" selection-start-column="33" selection-end-line="36" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/table_manager/ConcreteTableModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="91" column="0" lean-forward="false" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/javax/swing/event/TableModelEvent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="219">
           <caret line="139" column="0" lean-forward="false" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
-          <folding>
-            <element signature="e#4591#4592#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1219,38 +1077,99 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="365">
           <caret line="296" column="0" lean-forward="false" selection-start-line="296" selection-start-column="0" selection-end-line="296" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#10861#0" expanded="true" />
-            <element signature="e#6417#6418#0" expanded="true" />
-            <element signature="e#6504#6505#0" expanded="true" />
-          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.base/java/util/ArrayList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="254">
+          <caret line="681" column="17" lean-forward="false" selection-start-line="681" selection-start-column="17" selection-end-line="681" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/java/awt/EventDispatchThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="209" column="0" lean-forward="false" selection-start-line="209" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/javax/swing/table/TableColumn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-345">
+          <caret line="224" column="32" lean-forward="true" selection-start-line="224" selection-start-column="32" selection-end-line="224" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/javax/swing/JTable.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="2840" column="16" lean-forward="false" selection-start-line="2840" selection-start-column="16" selection-end-line="2840" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/java/awt/event/MouseEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="254">
-          <caret line="5631" column="0" lean-forward="false" selection-start-line="5631" selection-start-column="0" selection-end-line="5631" selection-end-column="0" />
-          <folding />
+          <caret line="262" column="28" lean-forward="false" selection-start-line="262" selection-start-column="28" selection-end-line="262" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.desktop/javax/swing/JComponent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="4906" column="0" lean-forward="false" selection-start-line="4906" selection-start-column="0" selection-end-line="4906" selection-end-column="0" />
+        <state relative-caret-position="582">
+          <caret line="3181" column="16" lean-forward="false" selection-start-line="3181" selection-start-column="16" selection-end-line="3181" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/table_manager/JsonTableSaver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="725">
+          <caret line="46" column="93" lean-forward="false" selection-start-line="46" selection-start-column="93" selection-end-line="46" selection-end-column="93" />
+          <folding>
+            <element signature="method#persistTable#0;class#JsonTableSaver#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.base/java/util/Map.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="389" column="25" lean-forward="false" selection-start-line="389" selection-start-column="25" selection-end-line="389" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/File_Manager_Test/new table.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5400">
+          <caret line="216" column="13" lean-forward="true" selection-start-line="216" selection-start-column="13" selection-end-line="216" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/table_manager/JsonTableReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="775">
+          <caret line="50" column="88" lean-forward="false" selection-start-line="50" selection-start-column="88" selection-end-line="50" selection-end-column="88" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="32" column="46" lean-forward="false" selection-start-line="32" selection-start-column="46" selection-end-line="32" selection-end-column="46" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/table_manager/TableEditorFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="679">
-          <caret line="228" column="0" lean-forward="false" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
+        <state relative-caret-position="207">
+          <caret line="171" column="15" lean-forward="false" selection-start-line="171" selection-start-column="15" selection-end-line="171" selection-end-column="15" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6195#6928#0" expanded="true" />
-            <element signature="e#6927#6928#0" expanded="true" />
             <element signature="class#NewTableAction#0;class#TableEditorFrame#0" expanded="false" />
             <element signature="class#OpenAction#0;class#TableEditorFrame#0" expanded="false" />
             <element signature="class#SaveAction#0;class#TableEditorFrame#0" expanded="false" />
@@ -1259,24 +1178,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/table_manager/ConcreteTableModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="31" column="25" lean-forward="true" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#generateColumnNames#0;class#ConcreteTableModel#0" expanded="false" />
+            <element signature="method#getNameForColumn#0;class#ConcreteTableModel#0" expanded="false" />
+            <element signature="method#generateIndexation#0;class#ConcreteTableModel#0" expanded="false" />
+            <element signature="method#appendColumn#0;class#ConcreteTableModel#0" expanded="false" />
+            <element signature="e#5273#5274#0" expanded="true" />
+            <element signature="e#5299#5300#0" expanded="true" />
+            <element signature="method#getValueAt#0;class#ConcreteTableModel#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/table_manager/ComponentManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1675">
-          <caret line="204" column="41" lean-forward="false" selection-start-line="204" selection-start-column="41" selection-end-line="204" selection-end-column="41" />
+        <state relative-caret-position="207">
+          <caret line="80" column="46" lean-forward="true" selection-start-line="80" selection-start-column="46" selection-end-line="80" selection-end-column="46" />
           <folding>
-            <element signature="method#ComponentManager#1;class#ComponentManager#0" expanded="false" />
-            <element signature="method#ComponentManager#2;class#ComponentManager#0" expanded="false" />
-            <element signature="method#ComponentManager#3;class#ComponentManager#0" expanded="false" />
-            <element signature="method#init#0;class#ComponentManager#0" expanded="false" />
-            <element signature="method#createTable#1;class#ComponentManager#0" expanded="false" />
-            <element signature="method#createJTextField#0;class#ComponentManager#0" expanded="false" />
-            <element signature="method#addListeners#0;class#ComponentManager#0" expanded="false" />
-            <element signature="e#6591#6769#0" expanded="true" />
-            <element signature="e#6768#6769#0" expanded="true" />
-            <element signature="method#updateColumnWidth#0;class#ComponentManager#0" expanded="false" />
-            <element signature="method#setTableModel#0;class#ComponentManager#0" expanded="false" />
-            <element signature="method#hasSingleSelectedCell#0;class#ComponentManager#0" expanded="false" />
-            <element signature="method#setRowHeight#0;class#ComponentManager#0" expanded="false" />
+            <element signature="e#4734#5360#0" expanded="true" />
+            <element signature="e#5359#5360#0" expanded="true" />
           </folding>
         </state>
       </provider>
