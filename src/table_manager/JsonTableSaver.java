@@ -14,6 +14,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class JsonTableSaver implements AbstractTableSaver {
   private static final String extension = ".json";
@@ -46,27 +47,27 @@ public class JsonTableSaver implements AbstractTableSaver {
   }
 
   @NotNull
-  private JsonArray toArray(Object[] array) {
+  private JsonArray toArray(ArrayList<String> array) {
     JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-    for (Object obj : array) {
-      arrayBuilder.add(obj.toString());
+    for (String str : array) {
+      arrayBuilder.add(str);
     }
     return arrayBuilder.build();
   }
 
   @NotNull
-  private JsonObject getTable(Object[][] table) {
-    int rowCount = table.length;
+  private JsonObject getTable(ArrayList<ArrayList<String>> table) {
+    int rowCount = table.size();
     if (rowCount > 0) {
-      int columnCount = table[0].length;
+      int columnCount = table.get(0).size();
       JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
       for (int row = 0; row < rowCount; row++) {
         JsonArrayBuilder rowArrayBuilder = Json.createArrayBuilder();
         for (int column = 0; column < columnCount; column++) {
-          Object entry = table[row][column];
+          String entry = table.get(row).get(column);
           if (entry != null) {
             JsonObject object =
-                Json.createObjectBuilder().add(String.valueOf(column), entry.toString()).build();
+                Json.createObjectBuilder().add(String.valueOf(column), entry).build();
             rowArrayBuilder.add(object);
           }
         }

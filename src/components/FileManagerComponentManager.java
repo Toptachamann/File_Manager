@@ -15,23 +15,35 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 public class FileManagerComponentManager {
-  private JMenuBar menuBar;
-  private JPanel leftHintPanel;
+  private FileManagerFrame frame;
 
-  private JPanel rightHintPanel;
+  private JMenuBar menuBar;
   private FileManagerSearchPanel searchPanel;
+
+  private JPanel leftHintPanel;
+  private JPanel rightHintPanel;
+
   private HelpDialog helpDialog;
+
+  public FileManagerComponentManager(FileManagerFrame frame){
+    this.frame = frame;
+    createFileManagerMenuBar(frame);
+    createSearchPanel(frame);
+    createLeftHintPanel();
+    createRightHintPanel();
+    createHelpDialog(frame);
+  }
 
   private void createHelpDialog(JFrame frame) {
     helpDialog = new HelpDialog(frame);
   }
 
-  private void createRightHintPanel(FileManagerSearchPanel searchPanel) {
-    rightHintPanel = new RightHintPanel(searchPanel);
+  private void createRightHintPanel() {
+    rightHintPanel = new RightHintPanel();
   }
 
-  private void createLeftHintPanel(FileManagerSearchPanel searchPanel) {
-    leftHintPanel = new LeftHintPanel(searchPanel);
+  private void createLeftHintPanel() {
+    leftHintPanel = new LeftHintPanel();
   }
 
   private void createSearchPanel(FileManagerFrame frame) {

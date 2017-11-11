@@ -1,6 +1,8 @@
 package table_manager;
 
 import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class ConcreteTableModel extends AbstractTableModel {
   private static final int ALPHABET_SIZE = 26;
@@ -8,12 +10,11 @@ public class ConcreteTableModel extends AbstractTableModel {
   private static final int DEFAULT_ROW_COUNT = 40;
   private static final int DEFAULT_COLUMN_COUNT = 20;
 
-  private String[] columnNames;
-  private String[][] expressions;
-  private Object[][] data;
+  private ArrayList<String> columnNames;
+  private ArrayList<ArrayList<String>> expressions;
+  private ArrayList<ArrayList<String>> data;
   private int columnCount = DEFAULT_COLUMN_COUNT;
   private int rowCount = DEFAULT_ROW_COUNT;
-
 
   public ConcreteTableModel() {
     init();
@@ -25,7 +26,12 @@ public class ConcreteTableModel extends AbstractTableModel {
     init();
   }
 
-  public ConcreteTableModel(int rowCount, int columnCount, String[] columnNames, Object[][] data, String[][] expressions){
+  public ConcreteTableModel(
+      int rowCount,
+      int columnCount,
+      ArrayList<String> columnNames,
+      ArrayList<ArrayList<String>> data,
+      ArrayList<ArrayList<String>> expressions) {
     this.rowCount = rowCount;
     this.columnCount = columnCount;
     this.columnNames = columnNames;
@@ -34,23 +40,30 @@ public class ConcreteTableModel extends AbstractTableModel {
   }
 
   private void init() {
-    expressions = new String[rowCount][columnCount];
-    data = new Object[rowCount][columnCount];
+    data = new ArrayList<>(rowCount);
+    expressions = new ArrayList<>(rowCount);
+    for(int i = 0; i < rowCount; i++){
+      data.add(new ArrayList<>(Collections.nCopies(columnCount, null)));
+      expressions.add(new ArrayList<>(Collections.nCopies(columnCount, null)));
+    }
+    columnNames = new ArrayList<>(Collections.nCopies(columnCount, null));
     generateColumnNames();
     generateIndexation();
   }
 
   private void generateColumnNames() {
-    columnNames = new String[columnCount - 1];
-    for (int i = 0; i < columnCount - 1; i++) {
-      columnNames[i] = getNameForColumn(i);
+    for (int i = 0; i < columnCount; i++) {
+      columnNames.set(i, getNameForColumn(i));
     }
   }
 
   private String getNameForColumn(int column) {
     if (column == 0) {
+      return "#";
+    }else if(column == 1){
       return "A";
     }
+    --column;
     String result = "";
     while (column > 0) {
       int residue = column % ALPHABET_SIZE;
@@ -62,37 +75,45 @@ public class ConcreteTableModel extends AbstractTableModel {
 
   private void generateIndexation() {
     for (int i = 0; i < rowCount; i++) {
-      data[i][0] = String.valueOf(i + 1);
+      ArrayList<String> row = data.get(i);
+      row.set(0, String.valueOf(i + 1));
     }
   }
 
-  public String getExpression(int row, int column) {
-    return expressions[row][column];
+  public void removeColumn(int column) {
+    columnNames.remove(column);
+    for(ArrayList<String> row : data){
+      row.remove(column);
+    }
+    for(ArrayList<String> row : expressions){
+      row.remove(column);
+    }
+    --columnCount;
+    fireTableStructureChanged();
   }
 
-  public void setExpression(String expression, int row, int column) {
-    expressions[row][column] = expression;
+  public void removeRow(int row) {
+    data.remove(row);
+    expressions.remove(row);
+    --rowCount;
+    fireTableRowsDeleted(row, row);
   }
 
-  public Object[][] getValues() {
+  public ArrayList<String> getColumnNames() {
+    return columnNames;
+  }
+
+  public ArrayList<ArrayList<String>> getValues() {
     return data;
   }
 
-  public String[][] getExpressions(){
+  public ArrayList<ArrayList<String>> getExpressions() {
     return expressions;
-  }
-
-  public String[] getColumnNames(){
-    return columnNames;
   }
 
   @Override
   public String getColumnName(int column) {
-    if (column == 0) {
-      return "#";
-    } else {
-      return columnNames[column - 1];
-    }
+    return columnNames.get(column);
   }
 
   @Override
@@ -111,13 +132,21 @@ public class ConcreteTableModel extends AbstractTableModel {
   }
 
   @Override
-  public Object getValueAt(int rowIndex, int columnIndex) {
-    return data[rowIndex][columnIndex];
+  public Object getValueAt(int row, int column) {
+    return data.get(row).get(column);
   }
 
   @Override
   public void setValueAt(Object value, int row, int column) {
-    data[row][column] = value;
+    data.get(row).set(column, value.toString());
     fireTableCellUpdated(row, column);
+  }
+
+  public String getExpression(int row, int column) {
+    return expressions.get(row).get(column);
+  }
+
+  public void setExpression(String expression, int row, int column) {
+    expressions.get(row).set(column, expression);
   }
 }

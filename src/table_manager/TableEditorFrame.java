@@ -6,18 +6,7 @@ import components.MyFileChooser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -29,7 +18,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 
-public class TableManagerFrame extends JFrame {
+public class TableEditorFrame extends JFrame {
   private static String TITLE = "Table Manager";
 
   private JPanel mainPanel;
@@ -39,12 +28,12 @@ public class TableManagerFrame extends JFrame {
   private JTextField formulaField;
   private MyFileChooser fileChooser;
 
-  public TableManagerFrame() {
+  public TableEditorFrame() {
     init();
     openNewTable();
   }
 
-  public TableManagerFrame(File inputFile) throws IOException {
+  public TableEditorFrame(File inputFile) throws IOException {
     init();
     ConcreteTableModel tableModel = readTable(inputFile);
     openNewTable(tableModel, inputFile);
@@ -54,8 +43,8 @@ public class TableManagerFrame extends JFrame {
     EventQueue.invokeLater(
         () -> {
           try {
-            TableManagerFrame managerFrame =
-                new TableManagerFrame(new File("C:\\File_Manager_Test\\table.json"));
+            TableEditorFrame managerFrame =
+                new TableEditorFrame(new File("C:\\File_Manager_Test\\table.json"));
             managerFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             managerFrame.setVisible(true);
           } catch (IOException e) {
@@ -83,6 +72,7 @@ public class TableManagerFrame extends JFrame {
     repaint();
     createComponents();
     addComponents();
+    addActions();
     setOrigin(null);
     revalidate();
     repaint();
@@ -95,6 +85,7 @@ public class TableManagerFrame extends JFrame {
     createComponents(tableModel);
     addComponents();
     setOrigin(origin);
+    addActions();
     revalidate();
     repaint();
   }
@@ -136,6 +127,19 @@ public class TableManagerFrame extends JFrame {
     }
   }
 
+  private void addActions(){
+    JTable table = componentManager.getTable();
+    InputMap inputMap = table.getInputMap(JComponent.WHEN_FOCUSED);
+    inputMap.put(KeyStroke.getKeyStroke("ctrl N"), "New table action");
+    inputMap.put(KeyStroke.getKeyStroke("ctrl O"), "Open action");
+    inputMap.put(KeyStroke.getKeyStroke("ctrl S"), "Save action");
+
+    ActionMap actionMap = table.getActionMap();
+    actionMap.put("New table action", new NewTableAction());
+    actionMap.put("Open action", new OpenAction());
+    actionMap.put("Save action", new SaveAction());
+  }
+
   @Nullable
   private File getFileFromFileChooser() {
     if (fileChooser == null) {
@@ -159,64 +163,10 @@ public class TableManagerFrame extends JFrame {
     fileMenu.add(saveItem);
     fileMenu.add(saveAsItem);
 
-    Action newAction =
-        new AbstractAction() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            if (!componentManager.isSaved()) {
-              int reply = wantsToSave();
-              if (reply == JOptionPane.YES_OPTION) {
-                saveCurrentTableToFile();
-              } else if (reply == JOptionPane.NO_OPTION) {
-                openNewTable();
-              }
-            } else {
-              openNewTable();
-            }
-          }
-        };
-    Action openAction =
-        new AbstractAction() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            try {
-              File source = getFileFromFileChooser();
-              ConcreteTableModel tableModel = readTable(source);
-              saveCurrentTable();
-              openNewTable(tableModel, source);
-            } catch (InvalidFileException ex) {
-              openInvalidFile();
-            } catch (IOException ex) {
-              ex.printStackTrace();
-              ioException();
-            }
-          }
-        };
-    Action saveAction =
-        new AbstractAction() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            saveCurrentTableToFile();
-          }
-        };
-    Action saveAsAction =
-        new AbstractAction() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            try {
-              saveCurrentTableAs();
-            } catch (InvalidFileException ex) {
-              saveToInvalidFile();
-            } catch (IOException ex) {
-              ex.printStackTrace();
-              ioException();
-            }
-          }
-        };
-    newItem.addActionListener(newAction);
-    openItem.addActionListener(openAction);
-    saveItem.addActionListener(saveAction);
-    saveAsItem.addActionListener(saveAsAction);
+    newItem.addActionListener(new NewTableAction());
+    openItem.addActionListener(new OpenAction());
+    saveItem.addActionListener(new SaveAction());
+    saveAsItem.addActionListener(new SaveAction());
   }
 
   private void createComponents() {
@@ -287,7 +237,7 @@ public class TableManagerFrame extends JFrame {
 
   private void updateTitle(@Nullable File origin) {
     if (origin == null) {
-      setTitle("Untitled" + TITLE);
+      setTitle("Untitled - " + TITLE);
     } else {
       setTitle(origin.getAbsolutePath() + " - " + TITLE);
     }
@@ -295,7 +245,7 @@ public class TableManagerFrame extends JFrame {
 
   private int wantsToSave() {
     return JOptionPane.showConfirmDialog(
-        TableManagerFrame.this,
+        TableEditorFrame.this,
         "Table contains unsaved changes.\nDo you want to save them?",
         "Confirm dialog",
         JOptionPane.YES_NO_CANCEL_OPTION);
@@ -303,7 +253,7 @@ public class TableManagerFrame extends JFrame {
 
   private void saveToInvalidFile() {
     JOptionPane.showMessageDialog(
-        TableManagerFrame.this,
+        TableEditorFrame.this,
         "Tables can be saved only to *.json files",
         "Message",
         JOptionPane.INFORMATION_MESSAGE);
@@ -316,6 +266,63 @@ public class TableManagerFrame extends JFrame {
 
   private void ioException() {
     JOptionPane.showMessageDialog(
-        TableManagerFrame.this, "Can't save table", "Warning", JOptionPane.WARNING_MESSAGE);
+        TableEditorFrame.this, "Can't save table", "Warning", JOptionPane.WARNING_MESSAGE);
+  }
+
+  private class NewTableAction extends AbstractAction {
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      if (!componentManager.isSaved()) {
+        int reply = wantsToSave();
+        if (reply == JOptionPane.YES_OPTION) {
+          saveCurrentTableToFile();
+        } else if (reply == JOptionPane.NO_OPTION) {
+          openNewTable();
+        }
+      } else {
+        openNewTable();
+      }
+    }
+  }
+
+  private class OpenAction extends AbstractAction {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      try {
+        File source = getFileFromFileChooser();
+        ConcreteTableModel tableModel = readTable(source);
+        saveCurrentTable();
+        openNewTable(tableModel, source);
+      } catch (InvalidFileException ex) {
+        openInvalidFile();
+      } catch (IOException ex) {
+        ex.printStackTrace();
+        ioException();
+      }
+    }
+  }
+
+  private class SaveAction extends AbstractAction {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      saveCurrentTableToFile();
+      updateTitle(componentManager.getOrigin());
+    }
+  }
+
+  private class SaveAsAction extends AbstractAction {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      try {
+        saveCurrentTableAs();
+        updateTitle(componentManager.getOrigin());
+      } catch (InvalidFileException ex) {
+        saveToInvalidFile();
+      } catch (IOException ex) {
+        ex.printStackTrace();
+        ioException();
+      }
+    }
   }
 }

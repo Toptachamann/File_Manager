@@ -31,7 +31,7 @@ public class FileManagerFrame extends JFrame {
     mainPanel = new JPanel();
     mainPanel.setLayout(new GridBagLayout());
 
-    componentManager = new FileManagerComponentManager();
+    componentManager = new FileManagerComponentManager(this);
 
     JPanel searchPanel = componentManager.getSearchPanel();
     searchPanel.setBorder(
