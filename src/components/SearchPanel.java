@@ -13,17 +13,11 @@ import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeWillExpandListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellEditor;
-import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.ExpandVetoException;
-import javax.swing.tree.TreeCellEditor;
-import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -105,9 +99,6 @@ public abstract class SearchPanel extends JPanel {
     treeModel.setAsksAllowsChildren(true);
     tree = new JTree(treeModel);
     tree.setEditable(true);
-    MyTreeCellEditor editor =
-        new MyTreeCellEditor(tree, (DefaultTreeCellRenderer) tree.getCellRenderer());
-    tree.setCellEditor(editor);
     treeModel.addTreeModelListener(new MyTreeModelListener());
     tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
     tree.expandRow(0);
@@ -159,7 +150,6 @@ public abstract class SearchPanel extends JPanel {
             }
           }
         });
-    tree.setCellRenderer(new FileCellRenderer());
   }
 
   private void addAllowedAction() {
@@ -173,11 +163,11 @@ public abstract class SearchPanel extends JPanel {
     actionMap.put("Rename action", renameAction);
   }
 
-  protected boolean contains(File parent, @NotNull String child) {
+  protected boolean contains(TreeFile parent, @NotNull String child) {
     return new File(parent, child).exists();
   }
 
-  protected boolean contains(File parent, File child) {
+  protected boolean contains(TreeFile parent, TreeFile child) {
     return new File(parent, child.getName()).exists();
   }
 
@@ -224,23 +214,26 @@ public abstract class SearchPanel extends JPanel {
     }
   }
 
-  private void folderNotSelected() {
+  private void NodeNotSelected() {
     JOptionPane.showMessageDialog(
-        frame, "Folder not selected", "Message", JOptionPane.INFORMATION_MESSAGE);
+        frame, "Select place to add object into", "Message", JOptionPane.INFORMATION_MESSAGE);
   }
 
-  private void validateNodeTreeFile(File file) {
-    Validate.notNull(file, "Tree file is null");
+  private TreeFile validateUserObject(Object userObject) {
+    Validate.notNull(userObject, "User object is null");
+    Validate.isTrue(userObject instanceof TreeFile);
+    return (TreeFile) userObject;
   }
 
-  private void objectCreationFailed(){
+  private void objectCreationFailed() {
     JOptionPane.showMessageDialog(
         frame, "Object creation failed", "Message", JOptionPane.INFORMATION_MESSAGE);
   }
 
   @Nullable
-  private TreeFile addNewFileToDirectory(File parentDirectory, String extension, boolean isDirectory) {
-    Validate.isTrue(parentDirectory.isDirectory(), "Can't crete file in another file");
+  private TreeFile addNewFileToDirectory(
+      TreeFile parentDirectory, String extension, boolean isDirectory) {
+    Validate.isTrue(parentDirectory.isDirectory(), "Can't create file in another file");
     String untitled = "Untitled";
     String newTitle = untitled;
     int i = 0;
@@ -263,138 +256,110 @@ public abstract class SearchPanel extends JPanel {
     return isCreated ? newUntitledFile : null;
   }
 
-  private void insertFileAsChild(@NotNull File child,@NotNull DefaultMutableTreeNode parentNode){
+  private MyTreeNode insertFileAsChild(
+      @NotNull TreeFile child, @NotNull MyTreeNode parentNode) {
     Validate.notNull(child, "Child must be not null");
-    Validate.notNull(child, "parentNode must be not null");
+    MyTreeNode childNode = new MyTreeNode(child, child.isDirectory());
+    return insertNodeAsChild(childNode, parentNode);
+  }
+
+  private MyTreeNode insertNodeAsChild(
+      @NotNull MyTreeNode child, @NotNull MyTreeNode parent) {
+    treeModel.insertNodeInto(child, parent, parent.getChildCount());
+    return child;
+  }
+
+  @NotNull
+  private TreePath getPath(MyTreeNode node) {
+    return new TreePath(treeModel.getPathToRoot(node));
   }
 
   protected void addUntitledFileToSystem(@NotNull String extension, boolean isDirectory) {
     Validate.notNull(extension, "Extension must be not null");
     MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
     if (selectedNode == null) {
-      folderNotSelected();
+      NodeNotSelected();
     } else {
-      TreeFile selectedFile = (TreeFile) selectedNode.getUserObject();
-      validateNodeTreeFile(selectedFile);
-      if (selectedFile.isDirectory()) {
-        TreeFile createdFile = addNewFileToDirectory(selectedDirectory, extension, isDirectory);
-        if(createdFile != null){
-          MyTreeNode createdNode = new MyTreeNode(createdFile, isDirectory);
-          treeModel.insertNodeInto(createdNode, selectedNode, selectedNode.getChildCount());
-          TreeNode[] nodes = treeModel.getPathToRoot(createdNode);
-          TreePath path = new TreePath(nodes);
-          tree.scrollPathToVisible(path);
-          tree.setSelectionPath(path);
-          tree.startEditingAtPath(path);
-          lastSelectedFile = createdFile;
-        } else {
-          objectCreationFailed();
-        }
+      MyTreeNode parentNode = (MyTreeNode) selectedNode.getParent();
+      TreeFile selectedDirectory = validateUserObject(parentNode.getUserObject());
+      TreeFile createdFile = addNewFileToDirectory(selectedDirectory, extension, isDirectory);
+      if (createdFile != null) {
+        MyTreeNode createdNode = insertFileAsChild(createdFile, parentNode);
+        TreePath path = getPath(createdNode);
+        tree.scrollPathToVisible(path);
+        tree.setSelectionPath(path);
+        tree.startEditingAtPath(path);
+        lastSelectedFile = createdFile;
       } else {
-        JOptionPane.showMessageDialog(
-            frame,
-            "Choose a folder to create a new object",
-            "Message",
-            JOptionPane.INFORMATION_MESSAGE);
+        objectCreationFailed();
       }
     }
   }
 
-  protected void updateFileList(MyTreeNode selectedNode) {
-    if (selectedNode != null) {
+  protected void setDefaultFileListState() {
+    fileListModel.removeAllElements();
+    fileListModel.addElement("Folder not selected");
+    fileList.revalidate();
+    fileList.repaint();
+  }
+
+  protected void updateFileList(@Nullable MyTreeNode selectedNode) {
+    if (selectedNode == null) {
+      setDefaultFileListState();
+    } else {
       TreeFile selectedFile = (TreeFile) selectedNode.getUserObject();
       updateFileList(selectedFile);
     }
   }
 
-  protected void updateFileList(TreeFile selectedFile) {
-    String selectedItem = (String) extensionBox.getSelectedItem();
-    String extension = getExtension(selectedItem);
-    this.updateFileList(selectedFile, extension);
-  }
-
-  protected String getExtension(String fileType) {
-    Matcher matcher = extensionPattern.matcher(fileType);
-    if (matcher.find()) {
-      String extension = matcher.group(1);
-      if (extension.equals("*")) {
-        return "";
-      } else {
-        return extension;
-      }
+  protected void updateFileList(@Nullable TreeFile selectedFile) {
+    if (selectedFile == null) {
+      setDefaultFileListState();
     } else {
-      return null;
+      String selectedItem = (String) extensionBox.getSelectedItem();
+      String extension = getExtension(selectedItem);
+      this.updateFileList(selectedFile, extension);
     }
   }
 
-  protected void updateFileList(TreeFile newParentDirectory, String suffix) {
+  @NotNull
+  protected String getExtension(String fileType) {
+    Matcher matcher = extensionPattern.matcher(fileType);
+    Validate.isTrue(matcher.find(), "No extension");
+    String extension = matcher.group(1);
+    if (extension.equals("*")) {
+      return "";
+    } else {
+      return extension;
+    }
+  }
+
+  protected void updateFileList(@NotNull TreeFile newParentDirectory,@NotNull String extension) {
     if (newParentDirectory.isDirectory()) {
       selectedDirectory = newParentDirectory;
       File[] targetFiles =
           newParentDirectory.listFiles(
-              (file) -> !file.isDirectory() && file.getName().toLowerCase().endsWith(suffix));
+              (file) -> !file.isDirectory() && file.getName().toLowerCase().endsWith(extension));
       fileListModel.removeAllElements();
       if (newParentDirectory.isRoot()) {
         fileListModel.addElement("Files on disk " + newParentDirectory.getAbsolutePath());
-      } else if (suffix.isEmpty()) {
+      } else if (extension.isEmpty()) {
         fileListModel.addElement("Files in folder " + newParentDirectory.getName());
       } else {
         fileListModel.addElement(
-            "Files in folder " + newParentDirectory.getName() + " with extension " + suffix);
+            "Files in folder " + newParentDirectory.getName() + " with extension " + extension);
       }
       if (targetFiles != null) {
         for (File file : targetFiles) {
           fileListModel.addElement(file.getName());
         }
-        fileList.revalidate();
-        fileList.repaint();
       }
+      fileList.revalidate();
+      fileList.repaint();
     }
   }
 
-  private class FileCellRenderer implements TreeCellRenderer{
-    private Font defaultFont;
-    private DefaultTreeCellRenderer defaultRenderer;
-    public FileCellRenderer(){
-      defaultFont = new Font("Arial", Font.PLAIN, 10);
-      defaultRenderer = new DefaultTreeCellRenderer();
-    }
-
-    @Override
-    public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-      if(value instanceof DefaultMutableTreeNode){
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
-        File file = (File) node.getUserObject();
-        validateNodeTreeFile(file);
-        JLabel nameLabel = new JLabel(file.getName());
-        nameLabel.setFont(defaultFont);
-        return nameLabel;
-      }else{
-        return defaultRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
-      }
-    }
-  }
-
-  private class MyTreeCellEditor extends DefaultTreeCellEditor {
-
-    public MyTreeCellEditor(JTree tree, DefaultTreeCellRenderer renderer) {
-      super(tree, renderer);
-    }
-
-    public MyTreeCellEditor(JTree tree, DefaultTreeCellRenderer renderer, TreeCellEditor editor) {
-      super(tree, renderer, editor);
-    }
-
-    @Override
-    public Component getTreeCellEditorComponent(
-        JTree tree, Object value, boolean isSelected, boolean expanded, boolean leaf, int row) {
-      if (value instanceof TreeFile) {
-        value = ((TreeFile) value).getName();
-      }
-      return super.getTreeCellEditorComponent(tree, value, isSelected, expanded, leaf, row);
-    }
-  }
-
+//need to fix
   private class MyTreeModelListener implements TreeModelListener {
 
     @Override
@@ -438,7 +403,7 @@ public abstract class SearchPanel extends JPanel {
     @Override
     public void treeStructureChanged(TreeModelEvent e) {}
   }
-
+//need to fix
   protected class ItemAction extends AbstractAction {
 
     public ItemAction(String extension, boolean isDirectory) {

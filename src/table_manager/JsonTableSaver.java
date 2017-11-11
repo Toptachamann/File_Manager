@@ -14,6 +14,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class JsonTableSaver implements AbstractTableSaver {
   private static final String extension = ".json";
@@ -35,38 +39,48 @@ public class JsonTableSaver implements AbstractTableSaver {
         JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
         objectBuilder.add("Column count", tableModel.getColumnCount());
         objectBuilder.add("Row count", tableModel.getRowCount());
-        objectBuilder.add("Column names", toArray(tableModel.getColumnNames()));
-        objectBuilder.add("Table of values", getTable(tableModel.getValues()));
-        objectBuilder.add("Table of expressions", getTable(tableModel.getExpressions()));
-
+        objectBuilder.add("Column names", persistArray(tableModel.getColumnNames()));
+        objectBuilder.add("Row names", persistArray(tableModel.getRowNames()));
+        objectBuilder.add("Column map", persistMap(tableModel.getColumnMap()));
+        objectBuilder.add("Row map", persistMap(tableModel.getRowMap()));
+        objectBuilder.add("Table of values", persistTable(tableModel.getValues()));
+        objectBuilder.add("Table of expressions", persistTable(tableModel.getExpressions()));
         JsonObject jsonObject = objectBuilder.build();
         jsonWriter.writeObject(jsonObject);
       }
     }
   }
 
+  private JsonObject persistMap(Map<String, Integer> map){
+    JsonObjectBuilder result = Json.createObjectBuilder();
+    for(Map.Entry<String, Integer> entry : map.entrySet()){
+      result.add(entry.getKey(), entry.getValue());
+    }
+    return result.build();
+  }
+
   @NotNull
-  private JsonArray toArray(Object[] array) {
+  private JsonArray persistArray(List<String> array) {
     JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-    for (Object obj : array) {
-      arrayBuilder.add(obj.toString());
+    for (String str : array) {
+      arrayBuilder.add(str);
     }
     return arrayBuilder.build();
   }
 
   @NotNull
-  private JsonObject getTable(Object[][] table) {
-    int rowCount = table.length;
+  private JsonObject persistTable(ArrayList<ArrayList<String>> table) {
+    int rowCount = table.size();
     if (rowCount > 0) {
-      int columnCount = table[0].length;
+      int columnCount = table.get(0).size();
       JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
       for (int row = 0; row < rowCount; row++) {
         JsonArrayBuilder rowArrayBuilder = Json.createArrayBuilder();
         for (int column = 0; column < columnCount; column++) {
-          Object entry = table[row][column];
+          String entry = table.get(row).get(column);
           if (entry != null) {
             JsonObject object =
-                Json.createObjectBuilder().add(String.valueOf(column), entry.toString()).build();
+                Json.createObjectBuilder().add(String.valueOf(column), entry).build();
             rowArrayBuilder.add(object);
           }
         }

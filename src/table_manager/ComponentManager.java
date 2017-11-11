@@ -7,18 +7,25 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -37,6 +44,8 @@ public class ComponentManager {
   private ConcreteTableModel tableModel;
   private JTable table;
   private JTextField expressionTextField;
+
+  private TablePopupMenu popupMenu;
 
   private boolean saved = true;
   private File origin;
@@ -69,36 +78,13 @@ public class ComponentManager {
   }
 
   private void createTable() {
-    tableModel = new ConcreteTableModel(100, 100);
+    tableModel = new ConcreteTableModel(10, 10);
     table = new JTable(tableModel);
   }
 
   private void createTable(ConcreteTableModel tableModel) {
     this.tableModel = tableModel;
     this.table = new JTable(tableModel);
-  }
-
-  private void adjustTable() {
-    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-    table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    table.setCellSelectionEnabled(true);
-    table.putClientProperty("terminateEditOnFocusLost", true);
-    updateRowHeight();
-    updateColumnWidth();
-    DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
-    cellRenderer.setHorizontalAlignment(JLabel.CENTER);
-    table.getColumnModel().getColumn(0).setCellRenderer(cellRenderer);
-    ListSelectionModel cellSelectionModel = table.getSelectionModel();
-    cellSelectionModel.addListSelectionListener(
-        e -> {
-          int row = table.getSelectedRow();
-          int column = table.getSelectedColumn();
-          if (row != -1 && column != -1) {
-            expressionTextField.setText(tableModel.getExpression(row, column));
-          }
-        });
-    TableModelListener modelListener = e -> saved = false;
-    tableModel.addTableModelListener(modelListener);
   }
 
   private void createJTextField() {
@@ -147,6 +133,129 @@ public class ComponentManager {
     actionMap.put("Expression submit", enterAction);
   }
 
+  private void adjustTable() {
+    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+    table.setColumnSelectionInterval(3, 3);
+    table.setAutoCreateColumnsFromModel(false);
+    table.putClientProperty("terminateEditOnFocusLost", true);
+    popupMenu = new TablePopupMenu();
+    table.setComponentPopupMenu(popupMenu);
+    table.getTableHeader().setComponentPopupMenu(popupMenu);
+    updateRowHeight();
+    updateColumnWidth();
+    addListeners();
+    addActions();
+  }
+
+  private void addListeners() {
+    JTableHeader tableHeader = table.getTableHeader();
+    tableHeader.addMouseListener(
+        new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            if(e.getButton() == MouseEvent.BUTTON1){
+              int columnIndex = tableHeader.columnAtPoint(e.getPoint());
+              if (tableHeader.getCursor().getType() == Cursor.E_RESIZE_CURSOR) {
+                e.consume();
+              } else {
+                table.setColumnSelectionAllowed(true);
+                table.setRowSelectionAllowed(false);
+                table.clearSelection();
+                table.setColumnSelectionInterval(columnIndex, columnIndex);
+              }
+            }
+          }
+        });
+    table.addMouseListener(
+        new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            System.out.println(e.getButton());
+            if(e.getButton() == MouseEvent.BUTTON1){
+              int rowIndex = table.rowAtPoint(e.getPoint());
+              int columnIndex = table.columnAtPoint(e.getPoint());
+              if (columnIndex == 0) {
+                table.setColumnSelectionAllowed(false);
+                table.setRowSelectionAllowed(true);
+                table.clearSelection();
+                table.setRowSelectionInterval(rowIndex, rowIndex);
+              } else {
+                table.setColumnSelectionAllowed(true);
+                table.setRowSelectionAllowed(true);
+                table.changeSelection(rowIndex, columnIndex, false, false);
+              }
+            }
+          }
+        });
+    DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
+    cellRenderer.setHorizontalAlignment(JLabel.CENTER);
+    table.getColumnModel().getColumn(0).setCellRenderer(cellRenderer);
+    ListSelectionModel cellSelectionModel = table.getSelectionModel();
+    cellSelectionModel.addListSelectionListener(
+        e -> {
+          int row = table.getSelectedRow();
+          int column = table.getSelectedColumn();
+          if (row != -1 && column != -1) {
+            expressionTextField.setText(tableModel.getExpression(row, column));
+          }
+        });
+    TableModelListener modelListener = e -> saved = false;
+    tableModel.addTableModelListener(modelListener);
+  }
+
+  private void addActions() {
+    KeyListener removeListener =
+        new KeyAdapter() {
+          @Override
+          public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+              deletePressed();
+            }
+          }
+        };
+    table.addKeyListener(removeListener);
+    table.getTableHeader().addKeyListener(removeListener);
+  }
+
+  private void deletePressed() {
+    if (table.getColumnSelectionAllowed() && !table.getRowSelectionAllowed()) {
+      int column = table.getSelectedColumn();
+      if (column != -1 && column != 0) {
+        TableColumn tableColumn = table.getColumnModel().getColumn(column);
+        table.getColumnModel().removeColumn(tableColumn);
+        tableModel.removeColumn(column);
+      }
+    } else if (table.getRowSelectionAllowed() && !table.getColumnSelectionAllowed()) {
+      int row = table.getSelectedRow();
+      if (row != -1) {
+        tableModel.removeRow(row);
+      }
+    }
+  }
+
+  private void addColumnToTable() {
+    int column;
+    if (table.getColumnSelectionAllowed() && !table.getRowSelectionAllowed()) {
+      column = table.getSelectedColumn();
+      if (column == -1) {
+        column = tableModel.getColumnCount() - 1;
+      }
+    } else {
+      column = tableModel.getColumnCount()-1;
+    }
+    String columnHeader = tableModel.appendColumn();
+    TableColumn tableColumn = new TableColumn(tableModel.getColumnCount() - 1);
+    tableColumn.setHeaderValue(columnHeader);
+    tableColumn.setPreferredWidth(columnWidth);
+    table.addColumn(tableColumn);
+    table.moveColumn(tableModel.getColumnCount() - 1, column + 1);
+  }
+
+  private void addRowToTable() {
+    tableModel.appendRow();
+  }
+
   private void updateRowHeight() {
     table.setRowHeight(this.rowHeight);
   }
@@ -157,15 +266,6 @@ public class ComponentManager {
       TableColumn column = table.getColumnModel().getColumn(i);
       column.setPreferredWidth(this.columnWidth);
     }
-  }
-
-  public void setRowHeight(int rowHeight) {
-    this.rowHeight = rowHeight;
-    updateRowHeight();
-  }
-
-  public void setColumnWidth(int columnWidth) {
-    this.columnWidth = columnWidth;
   }
 
   public void saveTable(AbstractTableSaver saver) throws IOException {
@@ -214,5 +314,28 @@ public class ComponentManager {
 
   public void setOrigin(File origin) {
     this.origin = origin;
+  }
+
+  public void setRowHeight(int rowHeight) {
+    this.rowHeight = rowHeight;
+    updateRowHeight();
+  }
+
+  public void setColumnWidth(int columnWidth) {
+    this.columnWidth = columnWidth;
+  }
+
+  private class TablePopupMenu extends JPopupMenu {
+    private JMenuItem newColumnItem;
+    private JMenuItem newRowItem;
+
+    public TablePopupMenu() {
+      newColumnItem = new JMenuItem("New column");
+      newRowItem = new JMenuItem("New row");
+      add(newColumnItem);
+      add(newRowItem);
+      newColumnItem.addActionListener((e) -> addColumnToTable());
+      newRowItem.addActionListener((e) -> addRowToTable());
+    }
   }
 }

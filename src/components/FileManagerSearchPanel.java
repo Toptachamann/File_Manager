@@ -1,5 +1,6 @@
 package components;
 /** Created by Timofey on 9/17/2017. */
+import TextEditor.TextEditorFrame;
 import actions.ClearContentAction;
 import actions.CopyAction;
 import actions.CopyAllWithExtensionAction;
@@ -9,6 +10,7 @@ import actions.CutAction;
 import actions.DeleteAction;
 import actions.OpenAction;
 import actions.PasteAction;
+import auxiliary.InvalidFileException;
 import auxiliary.MyTreeNode;
 import auxiliary.TreeFile;
 import com.sun.jna.platform.FileUtils;
@@ -60,6 +62,14 @@ public class FileManagerSearchPanel extends SearchPanel {
     addActionsToFileTree();
   }
 
+  private void init() {}
+
+  private void addComponents() {}
+
+  private void addActions() {}
+
+  private void addListeners() {}
+
   private void addActionsToFileTree() {
     Action openAction = new OpenAction(this);
     Action copyAction = new CopyAction(this);
@@ -102,34 +112,7 @@ public class FileManagerSearchPanel extends SearchPanel {
     actionMap.put("Copy without multiple lines action", copyWithoutMultipleLines);
     actionMap.put("Copy html file action", copyHtmlFileAction);
 
-    popupMenu = new JPopupMenu();
-    setComponentPopupMenu(popupMenu);
-    JMenuItem copyPopup = new JMenuItem("Copy");
-    JMenuItem pastePopup = new JMenuItem("Paste");
-    JMenuItem cutPopup = new JMenuItem("Cut");
-    JMenuItem deletePopup = new JMenuItem("Delete");
-    JMenu newItem = new JMenu("Add");
-    JMenuItem newFolder = new JMenuItem("Folder");
-    JMenuItem newTextFile = new JMenuItem("Text file (*txt)");
-    JMenuItem newHtmlFile = new JMenuItem("HTML file (*.html)");
-
-    copyPopup.addActionListener(copyAction);
-    pastePopup.addActionListener(pasteAction);
-    cutPopup.addActionListener(cutAction);
-    deletePopup.addActionListener(deleteAction);
-    newFolder.addActionListener(newFolderAction);
-    newTextFile.addActionListener(newTextFileAction);
-    newHtmlFile.addActionListener(newHtmlFileAction);
-
-    popupMenu.add(copyPopup);
-    popupMenu.add(pastePopup);
-    popupMenu.add(cutPopup);
-    popupMenu.add(deletePopup);
-    popupMenu.add(newItem);
-    newItem.add(newFolder);
-    newItem.add(newTextFile);
-    newItem.add(newHtmlFile);
-
+    popupMenu = new FileManagerPopupMenu();
     tree.setComponentPopupMenu(popupMenu);
   }
 
@@ -421,10 +404,16 @@ public class FileManagerSearchPanel extends SearchPanel {
       Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.COPY_ATTRIBUTES);
       EventQueue.invokeLater(
           () -> {
-            TextEditor editor = new TextEditor(destination);
-            editor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            editor.highlightTitle();
-            editor.setVisible(true);
+            try {
+              TextEditorFrame editor = new TextEditorFrame(destination);
+              editor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+              editor.highlightTitle();
+              editor.setVisible(true);
+            } catch (InvalidFileException e) {
+              e.printStackTrace();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
           });
     } catch (IOException e) {
       e.printStackTrace();
@@ -487,9 +476,15 @@ public class FileManagerSearchPanel extends SearchPanel {
   }
 
   private void openFile(File file) {
-    TextEditor editor = new TextEditor(file);
-    editor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    editor.setVisible(true);
+    try {
+      TextEditorFrame editor = new TextEditorFrame(file);
+      editor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      editor.setVisible(true);
+    } catch (InvalidFileException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   private boolean canOpen(File file) {
@@ -544,6 +539,43 @@ public class FileManagerSearchPanel extends SearchPanel {
       child = child.getParentFile();
     } while (child != null);
     return false;
+  }
+
+  private class FileManagerPopupMenu extends JPopupMenu {
+    public FileManagerPopupMenu(){
+      setComponentPopupMenu(popupMenu);
+      JMenuItem copyItem = new JMenuItem("Copy");
+      JMenuItem pasteItem = new JMenuItem("Paste");
+      JMenuItem cutItem = new JMenuItem("Cut");
+      JMenuItem deleteItem = new JMenuItem("Delete");
+      JMenu newObjectMenu = new JMenu("Add");
+
+      add(copyItem);
+      add(pasteItem);
+      add(cutItem);
+      add(deleteItem);
+      add(newObjectMenu);
+
+      JMenuItem newFolderItem = new JMenuItem("Folder");
+      JMenuItem newJsonItem = new JMenuItem("Json file (*.json");
+      JMenuItem newHtmlFile = new JMenuItem("HTML file (*.html)");
+      JMenuItem newTextFile = new JMenuItem("Text file (*txt)");
+
+      newObjectMenu.add(newFolderItem);
+      newObjectMenu.add(newJsonItem);
+      newObjectMenu.add(newHtmlFile);
+      newObjectMenu.add(newTextFile);
+
+
+      /*copyItem.addActionListener(new CopyAction());
+      pasteItem.addActionListener(new PasteAction());
+      cutItem.addActionListener(new CutAction());
+      deleteItem.addActionListener(new DeleteAction());
+      newFolderItem.addActionListener(newFolderAction);
+      newTextFile.addActionListener(newTextFileAction);
+      newHtmlFile.addActionListener(newHtmlFileAction);*/
+
+    }
   }
 
   private class PopupMouseListener extends MouseAdapter {
