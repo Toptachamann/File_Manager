@@ -1,5 +1,6 @@
 package table_manager;
 
+import auxiliary.EvaluationException;
 import expression_analyses.BooleanComputer;
 import org.jetbrains.annotations.NotNull;
 
@@ -62,12 +63,18 @@ public class ConcreteTableModel extends AbstractTableModel {
 
   public void compute(int startX, int startY) {
     if (isBooleanEq(expressions.get(startX).get(startY))) {
-      BooleanComputer computer = new BooleanComputer();
-      String[][] newData =
-          computer.compute(toArray(data), toArray(expressions), columnMap, rowMap, startX, startX);
-      for (int i = 0; i < newData.length; i++) {
-        data.set(i, new ArrayList<>(Arrays.asList(newData[i])));
+      BooleanComputer computer = new BooleanComputer(toArray(data), toArray(expressions), columnMap, rowMap);
+      try{
+        String[][] newData =
+            computer.compute(startX, startX);
+        for (int i = 0; i < newData.length; i++) {
+          data.set(i, new ArrayList<>(Arrays.asList(newData[i])));
+        }
+      }catch(EvaluationException e){
+        e.printStackTrace();
       }
+
+
     }
   }
 
