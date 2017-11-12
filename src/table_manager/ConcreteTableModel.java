@@ -1,9 +1,11 @@
 package table_manager;
 
+import expression_analyses.BooleanComputer;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -27,22 +29,6 @@ public class ConcreteTableModel extends AbstractTableModel {
 
   public ConcreteTableModel() {
     init();
-  }
-
-  public int getColumnCreated() {
-    return columnCreated;
-  }
-
-  public void setColumnCreated(int columnCreated) {
-    this.columnCreated = columnCreated;
-  }
-
-  public int getRowCreated() {
-    return rowCreated;
-  }
-
-  public void setRowCreated(int rowCreated) {
-    this.rowCreated = rowCreated;
   }
 
   public ConcreteTableModel(int rowCount, int columnCount) {
@@ -72,6 +58,29 @@ public class ConcreteTableModel extends AbstractTableModel {
     this.rowMap = rowMap;
     this.data = data;
     this.expressions = expressions;
+  }
+
+  public void compute(int startX, int startY) {
+    if (isBooleanEq(expressions.get(startX).get(startY))) {
+      BooleanComputer computer = new BooleanComputer();
+      String[][] newData =
+          computer.compute(toArray(data), toArray(expressions), columnMap, rowMap, startX, startX);
+      for (int i = 0; i < newData.length; i++) {
+        data.set(i, new ArrayList<>(Arrays.asList(newData[i])));
+      }
+    }
+  }
+
+  private boolean isBooleanEq(String s) {
+    return s.matches("not|or|and|true|false");
+  }
+
+  private String[][] toArray(ArrayList<ArrayList<String>> arr) {
+    String[][] result = new String[arr.size()][];
+    for (int i = 0; i < arr.size(); i++) {
+      result[i] = (String[]) arr.get(i).toArray();
+    }
+    return result;
   }
 
   private void init() {
@@ -189,6 +198,7 @@ public class ConcreteTableModel extends AbstractTableModel {
     return String.valueOf(++columnCreated);
   }
 
+  @NotNull
   private String getNextColumnName() {
     return getNameForColumn(++columnCreated);
   }
@@ -258,5 +268,21 @@ public class ConcreteTableModel extends AbstractTableModel {
 
   public void setExpression(String expression, int row, int column) {
     expressions.get(row).set(column, expression);
+  }
+
+  public int getColumnCreated() {
+    return columnCreated;
+  }
+
+  public void setColumnCreated(int columnCreated) {
+    this.columnCreated = columnCreated;
+  }
+
+  public int getRowCreated() {
+    return rowCreated;
+  }
+
+  public void setRowCreated(int rowCreated) {
+    this.rowCreated = rowCreated;
   }
 }

@@ -51,8 +51,8 @@ public class JsonTableReader implements AbstractTableReader {
       ArrayList<String> columnNames =
           arrayFromObject(tableObject.getJsonArray("Column names"), columnCount);
       ArrayList<String> rowNames = arrayFromObject(tableObject.getJsonArray("Row names"), rowCount);
-      HashMap<String, Integer> columnMap = mapFromObejct(tableObject.getJsonObject("Column map"));
-      HashMap<String, Integer> rowMap = mapFromObejct(tableObject.getJsonObject("Row map"));
+      HashMap<String, Integer> columnMap = mapFromObject(tableObject.getJsonObject("Column map"));
+      HashMap<String, Integer> rowMap = mapFromObject(tableObject.getJsonObject("Row map"));
       ArrayList<ArrayList<String>> data =
           tableFromObject(tableObject.getJsonObject("Table of values"), rowCount, columnCount);
       ArrayList<ArrayList<String>> expressions =
@@ -110,7 +110,7 @@ public class JsonTableReader implements AbstractTableReader {
     return result;
   }
 
-  private HashMap<String, Integer> mapFromObejct(JsonObject map) throws FileFormatException {
+  private HashMap<String, Integer> mapFromObject(JsonObject map) throws FileFormatException {
     HashMap<String, Integer> result = new HashMap<>();
     for (Map.Entry<String, JsonValue> entry : map.entrySet()) {
       JsonValue.ValueType type = entry.getValue().getValueType();
