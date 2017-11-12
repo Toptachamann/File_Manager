@@ -29,6 +29,22 @@ public class ConcreteTableModel extends AbstractTableModel {
     init();
   }
 
+  public int getColumnCreated() {
+    return columnCreated;
+  }
+
+  public void setColumnCreated(int columnCreated) {
+    this.columnCreated = columnCreated;
+  }
+
+  public int getRowCreated() {
+    return rowCreated;
+  }
+
+  public void setRowCreated(int rowCreated) {
+    this.rowCreated = rowCreated;
+  }
+
   public ConcreteTableModel(int rowCount, int columnCount) {
     this.rowCount = rowCount;
     this.columnCount = columnCount;
@@ -38,6 +54,8 @@ public class ConcreteTableModel extends AbstractTableModel {
   public ConcreteTableModel(
       int rowCount,
       int columnCount,
+      int columnCreated,
+      int rowCreated,
       ArrayList<String> columnNames,
       ArrayList<String> rowNames,
       HashMap<String, Integer> columnMap,
@@ -46,6 +64,8 @@ public class ConcreteTableModel extends AbstractTableModel {
       ArrayList<ArrayList<String>> expressions) {
     this.rowCount = rowCount;
     this.columnCount = columnCount;
+    this.columnCreated = columnCreated;
+    this.rowCreated = rowCreated;
     this.columnNames = columnNames;
     this.rowNames = rowNames;
     this.columnMap = columnMap;
@@ -124,10 +144,12 @@ public class ConcreteTableModel extends AbstractTableModel {
   }
 
   public void removeRow(int row) {
-    rowNames.remove(row);
+    String rowName = rowNames.remove(row);
+    rowMap.remove(rowName);
     for (int i = row; i < rowCount - 1; i++) {
-      int index = rowMap.get(String.valueOf(i));
-      rowMap.put(String.valueOf(i), index - 1);
+      String rowN = rowNames.get(i);
+      int index = rowMap.get(rowN);
+      rowMap.put(rowN, index - 1);
     }
     data.remove(row);
     expressions.remove(row);

@@ -18,6 +18,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
@@ -222,8 +223,13 @@ public class ComponentManager {
     if (table.getColumnSelectionAllowed() && !table.getRowSelectionAllowed()) {
       int column = table.getSelectedColumn();
       if (column != -1 && column != 0) {
-        TableColumn tableColumn = table.getColumnModel().getColumn(column);
-        table.getColumnModel().removeColumn(tableColumn);
+        TableColumnModel tableColumnModel = table.getColumnModel();
+        TableColumn tableColumn = tableColumnModel.getColumn(column);
+        tableColumnModel.removeColumn(tableColumn);
+        for(int i = column; i < tableModel.getColumnCount() - 1; i++){
+          TableColumn col = tableColumnModel.getColumn(i);
+          col.setModelIndex(i);
+        }
         tableModel.removeColumn(column);
       }
     } else if (table.getRowSelectionAllowed() && !table.getColumnSelectionAllowed()) {
@@ -235,21 +241,11 @@ public class ComponentManager {
   }
 
   private void addColumnToTable() {
-    int column;
-    if (table.getColumnSelectionAllowed() && !table.getRowSelectionAllowed()) {
-      column = table.getSelectedColumn();
-      if (column == -1) {
-        column = tableModel.getColumnCount() - 1;
-      }
-    } else {
-      column = tableModel.getColumnCount()-1;
-    }
     String columnHeader = tableModel.appendColumn();
     TableColumn tableColumn = new TableColumn(tableModel.getColumnCount() - 1);
     tableColumn.setHeaderValue(columnHeader);
     tableColumn.setPreferredWidth(columnWidth);
     table.addColumn(tableColumn);
-    table.moveColumn(tableModel.getColumnCount() - 1, column + 1);
   }
 
   private void addRowToTable() {

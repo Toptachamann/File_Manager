@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,17 +46,28 @@ public class JsonTableReader implements AbstractTableReader {
       JsonObject tableObject = jsonReader.readObject();
       rowCount = tableObject.getInt("Row count");
       columnCount = tableObject.getInt("Column count");
-      ArrayList<String> columnNames = arrayFromObject(tableObject.getJsonArray("Column names"), columnCount);
-      ArrayList<String> rowNames = arrayFromObject(tableObject.getJsonArray("Row names"), columnCount);
+      int columnCreated = tableObject.getInt("Column created");
+      int rowCreated = tableObject.getInt("Row created");
+      ArrayList<String> columnNames =
+          arrayFromObject(tableObject.getJsonArray("Column names"), columnCount);
+      ArrayList<String> rowNames = arrayFromObject(tableObject.getJsonArray("Row names"), rowCount);
       HashMap<String, Integer> columnMap = mapFromObejct(tableObject.getJsonObject("Column map"));
       HashMap<String, Integer> rowMap = mapFromObejct(tableObject.getJsonObject("Row map"));
       ArrayList<ArrayList<String>> data =
           tableFromObject(tableObject.getJsonObject("Table of values"), rowCount, columnCount);
       ArrayList<ArrayList<String>> expressions =
           tableFromObject(tableObject.getJsonObject("Table of expressions"), rowCount, columnCount);
-      ConcreteTableModel tableModel =
-          new ConcreteTableModel(rowCount, columnCount, columnNames, rowNames, columnMap, rowMap, data, expressions);
-      return tableModel;
+      return new ConcreteTableModel(
+          rowCount,
+          columnCount,
+          columnCreated,
+          rowCreated,
+          columnNames,
+          rowNames,
+          columnMap,
+          rowMap,
+          data,
+          expressions);
     }
   }
 
@@ -102,11 +112,11 @@ public class JsonTableReader implements AbstractTableReader {
 
   private HashMap<String, Integer> mapFromObejct(JsonObject map) throws FileFormatException {
     HashMap<String, Integer> result = new HashMap<>();
-    for(Map.Entry<String, JsonValue> entry : map.entrySet()){
+    for (Map.Entry<String, JsonValue> entry : map.entrySet()) {
       JsonValue.ValueType type = entry.getValue().getValueType();
-      if(type.equals(JsonValue.ValueType.NUMBER)){
+      if (type.equals(JsonValue.ValueType.NUMBER)) {
         result.put(entry.getKey(), Integer.parseInt(entry.getValue().toString()));
-      }else{
+      } else {
         throw new FileFormatException("Not number");
       }
     }

@@ -39,6 +39,8 @@ public class JsonTableSaver implements AbstractTableSaver {
         JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
         objectBuilder.add("Column count", tableModel.getColumnCount());
         objectBuilder.add("Row count", tableModel.getRowCount());
+        objectBuilder.add("Column created", tableModel.getColumnCreated());
+        objectBuilder.add("Row created", tableModel.getRowCreated());
         objectBuilder.add("Column names", persistArray(tableModel.getColumnNames()));
         objectBuilder.add("Row names", persistArray(tableModel.getRowNames()));
         objectBuilder.add("Column map", persistMap(tableModel.getColumnMap()));
