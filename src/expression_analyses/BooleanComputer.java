@@ -1,6 +1,7 @@
 package expression_analyses;
 
 import auxiliary.EvaluationException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +14,7 @@ public class BooleanComputer {
   private ArrayList<ArrayList<String>> expressions;
   private HashMap<String, Integer> columnMap;
   private HashMap<String, Integer> rowMap;
-  private boolean[][] visited;
+  private byte[][] visited;
   LexicalAnalyzer analyzer;
 
   public BooleanComputer(){
@@ -29,26 +30,26 @@ public class BooleanComputer {
     this.expressions = expressions;
     this.columnMap = columnMap;
     this.rowMap = rowMap;
-    this.visited = new boolean[values.size()][values.get(0).size()];
+    this.visited = new byte[values.size()][values.get(0).size()];
     for (int i = 0; i < visited.length; i++) {
-      Arrays.fill(visited[i], Boolean.FALSE);
+      Arrays.fill(visited[i], (byte) 0);
     }
     this.analyzer = new LexicalAnalyzer();
   }
 
-  public ArrayList<ArrayList<String>> compute(int x, int y) throws EvaluationException {
-    evaluate(x, y);
-    return values;
-  }
-
-  public boolean evaluate(int x, int y) throws EvaluationException {
-    if(visited[x][y]){
-      throw new EvaluationException("Cycle in expression");
+  public void calculate(int row, int column) throws EvaluationException {
+    if(visited[row][column] == 1){
+      throw new EvaluationException("Cycle in expression at [" + row + ":" + column + "]");
+    }else if(visited[row][column] == 2){
+      return;
+    }else{
+      if (!StringUtils.isBlank(expressions.get(row).get(column))){
+        visited[row][column] = 1;
+        boolean result = evaluateExpression(expressions.get(row).get(column));
+        visited[row][column] = 2;
+        values.get(row).set(column, String.valueOf(result));
+      }
     }
-    visited[x][y] = true;
-    boolean result = evaluateExpression(expressions.get(x).get(y));
-    values.get(x).set(y, String.valueOf(result));
-    return result;
   }
 
   public boolean evaluateExpression(String expression) throws EvaluationException {
@@ -62,9 +63,19 @@ public class BooleanComputer {
     if(matcher.matches()){
       String strX = matcher.group(1);
       String strY = matcher.group(2);
-      int x = columnMap.get(strX);
-      int y = rowMap.get(strY);
-      return evaluate(x, y);
+      if(!(rowMap.containsKey(strY) && columnMap.containsKey(strX))){
+        throw new EvaluationException("Invalid reference " + ref);
+      }
+      int row = rowMap.get(strY);
+      int column = columnMap.get(strX);
+      String expression = expressions.get(row).get(column);
+      String value = values.get(row).get(column);
+      if(StringUtils.isBlank(expression)){
+        return Boolean.valueOf(value);
+      }else{
+        calculate(row, column);
+        return Boolean.valueOf(values.get(row).get(column));
+      }
     }else{
       throw new EvaluationException("Invalid reference " + ref);
     }

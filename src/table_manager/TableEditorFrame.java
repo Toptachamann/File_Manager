@@ -44,7 +44,7 @@ public class TableEditorFrame extends JFrame {
         () -> {
           try {
             TableEditorFrame managerFrame =
-                new TableEditorFrame(new File("C:\\File_Manager_Test\\table.json"));
+                new TableEditorFrame(new File("C:\\File_Manager_Test\\new table.json"));
             managerFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             managerFrame.setVisible(true);
           } catch (IOException e) {
@@ -127,7 +127,7 @@ public class TableEditorFrame extends JFrame {
     }
   }
 
-  private void addActions(){
+  private void addActions() {
     JTable table = componentManager.getTable();
     InputMap inputMap = table.getInputMap(JComponent.WHEN_FOCUSED);
     inputMap.put(KeyStroke.getKeyStroke("ctrl N"), "New table action");
@@ -150,23 +150,8 @@ public class TableEditorFrame extends JFrame {
   }
 
   private void addMenu() {
-    JMenuBar menuBar = new JMenuBar();
+    JMenuBar menuBar = new TableManagerMenuBar();
     setJMenuBar(menuBar);
-    JMenu fileMenu = new JMenu("File");
-    menuBar.add(fileMenu);
-    JMenuItem newItem = new JMenuItem("New");
-    JMenuItem openItem = new JMenuItem("Open");
-    JMenuItem saveItem = new JMenuItem("Save");
-    JMenuItem saveAsItem = new JMenuItem("Save as");
-    fileMenu.add(newItem);
-    fileMenu.add(openItem);
-    fileMenu.add(saveItem);
-    fileMenu.add(saveAsItem);
-
-    newItem.addActionListener(new NewTableAction());
-    openItem.addActionListener(new OpenAction());
-    saveItem.addActionListener(new SaveAction());
-    saveAsItem.addActionListener(new SaveAction());
   }
 
   private void createComponents() {
@@ -267,6 +252,32 @@ public class TableEditorFrame extends JFrame {
   private void ioException() {
     JOptionPane.showMessageDialog(
         TableEditorFrame.this, "Can't save table", "Warning", JOptionPane.WARNING_MESSAGE);
+  }
+
+  private class TableManagerMenuBar extends JMenuBar {
+    public TableManagerMenuBar() {
+      JMenu fileMenu = new JMenu("File");
+      add(fileMenu);
+      JMenuItem newItem = new JMenuItem("New");
+      JMenuItem openItem = new JMenuItem("Open");
+      JMenuItem saveItem = new JMenuItem("Save");
+      JMenuItem saveAsItem = new JMenuItem("Save as");
+      fileMenu.add(newItem);
+      fileMenu.add(openItem);
+      fileMenu.add(saveItem);
+      fileMenu.add(saveAsItem);
+
+      newItem.addActionListener(new NewTableAction());
+      openItem.addActionListener(new OpenAction());
+      saveItem.addActionListener(new SaveAction());
+      saveAsItem.addActionListener(new SaveAction());
+
+      JMenu optionsMenu = new JMenu("Options");
+      add(optionsMenu);
+      JMenuItem switchStateItem = new JMenuItem("Switch state");
+      optionsMenu.add(switchStateItem);
+      switchStateItem.addActionListener((e) -> componentManager.getTableModel().switchState());
+    }
   }
 
   private class NewTableAction extends AbstractAction {

@@ -2,13 +2,16 @@ package table_manager;
 
 import auxiliary.EvaluationException;
 import expression_analyses.BooleanComputer;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ConcreteTableModel extends AbstractTableModel {
   private static final int ALPHABET_SIZE = 26;
@@ -27,6 +30,9 @@ public class ConcreteTableModel extends AbstractTableModel {
   private HashMap<String, Integer> rowMap;
   private int columnCount = DEFAULT_COLUMN_COUNT;
   private int rowCount = DEFAULT_ROW_COUNT;
+
+  private boolean valueState = true;
+  private boolean booleanState = true;
 
   public ConcreteTableModel() {
     init();
@@ -61,25 +67,29 @@ public class ConcreteTableModel extends AbstractTableModel {
     this.expressions = expressions;
   }
 
-  public void compute(int startX, int startY) {
-    if (isBooleanEq(expressions.get(startX).get(startY))) {
-      BooleanComputer computer = new BooleanComputer(toArray(data), toArray(expressions), columnMap, rowMap);
-      try{
-        String[][] newData =
-            computer.compute(startX, startX);
-        for (int i = 0; i < newData.length; i++) {
-          data.set(i, new ArrayList<>(Arrays.asList(newData[i])));
+  public void switchState() {
+    valueState = !valueState;
+    fireTableDataChanged();
+  }
+
+  public void recalculateAll() throws EvaluationException {
+    if (booleanState) {
+      BooleanComputer computer = new BooleanComputer(data, expressions, columnMap, rowMap);
+      for (int i = 0; i < rowCount; i++) {
+        for (int j = 0; j < columnCount; j++) {
+          if (!StringUtils.isBlank(expressions.get(i).get(j))) {
+            computer.calculate(i, j);
+          }
         }
-      }catch(EvaluationException e){
-        e.printStackTrace();
       }
-
-
     }
+    fireTableChanged(new TableModelEvent(this, 0, 0, 0, TableModelEvent.DELETE));
   }
 
   private boolean isBooleanEq(String s) {
-    return s.matches("not|or|and|true|false");
+    Pattern pattern = Pattern.compile("(&|&&|and|or|\\||\\|\\||!|not|false|true)");
+    Matcher matcher = pattern.matcher(s);
+    return matcher.find();
   }
 
   private String[][] toArray(ArrayList<ArrayList<String>> arr) {
@@ -256,17 +266,34 @@ public class ConcreteTableModel extends AbstractTableModel {
 
   @Override
   public Object getValueAt(int row, int column) {
-    if (column == 0) {
-      return rowNames.get(row);
+    if (valueState) {
+      if (column == 0) {
+        return rowNames.get(row);
+      } else {
+        return data.get(row).get(column);
+      }
     } else {
-      return data.get(row).get(column);
+      if (column == 0) {
+        return rowNames.get(row);
+      } else {
+        return expressions.get(row).get(column);
+      }
     }
   }
 
   @Override
   public void setValueAt(Object value, int row, int column) {
-    data.get(row).set(column, value.toString());
-    fireTableCellUpdated(row, column);
+    if (valueState) {
+      data.get(row).set(column, value.toString());
+      fireTableCellUpdated(row, column);
+    } else {
+      expressions.get(row).set(column, value.toString());
+      fireTableCellUpdated(row, column);
+    }
+  }
+
+  public void switchBooleanState() {
+    this.booleanState = !booleanState;
   }
 
   public String getExpression(int row, int column) {
@@ -291,5 +318,9 @@ public class ConcreteTableModel extends AbstractTableModel {
 
   public void setRowCreated(int rowCreated) {
     this.rowCreated = rowCreated;
+  }
+
+  public boolean isValueState() {
+    return valueState;
   }
 }

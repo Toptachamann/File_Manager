@@ -4,7 +4,9 @@ import auxiliary.EvaluationException;
 import org.jetbrains.annotations.NotNull;
 
 public class LexicalAnalyzer {
+  private int numOfOpenedParenthesis = 0;
   public Node buildTree(String expression) throws EvaluationException {
+    this.numOfOpenedParenthesis = 0;
     Tokenizer tokenizer = new BooleanTokenizer(expression);
     Node root = buildDisjunct(tokenizer);
     return root;
@@ -22,6 +24,9 @@ public class LexicalAnalyzer {
         }
       case RIGHT_PAREN:
         {
+          if(numOfOpenedParenthesis <= 0){
+            throw new EvaluationException("Parenthesis disbalance");
+          }
           tokenizer.ungetToken();
           return left;
         }
@@ -59,6 +64,9 @@ public class LexicalAnalyzer {
         }
       case RIGHT_PAREN:
         {
+          if(numOfOpenedParenthesis <= 0){
+            throw new EvaluationException("Parenthesis disbalance");
+          }
           tokenizer.ungetToken();
           return left;
         }
@@ -66,7 +74,7 @@ public class LexicalAnalyzer {
         {
           tokenizer.ungetToken();
           throw new EvaluationException(
-              "Invalid token " + token + " at position" + tokenizer.getCurrentPosition());
+              "Invalid token " + token + " at position " + tokenizer.getCurrentPosition());
         }
     }
   }
@@ -92,8 +100,13 @@ public class LexicalAnalyzer {
     switch (token.type) {
       case LEFT_PAREN:
         {
+          ++numOfOpenedParenthesis;
           Node disNode = buildDisjunct(tokenizer);
           Token rightParen = tokenizer.getToken(); // getting )
+          if(!rightParen.equals(Token.RIGHT_PAREN_TOKEN)){
+            throw new EvaluationException("Somebody ate right parenthesis");
+          }
+          --numOfOpenedParenthesis;
           return new Node(Token.LEFT_PAREN_TOKEN, disNode, Node.EMPTY_NODE);
         }
       case REF:

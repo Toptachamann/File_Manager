@@ -1,5 +1,7 @@
 package table_manager;
 
+import auxiliary.EvaluationException;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -14,7 +16,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.event.TreeModelEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
@@ -123,8 +127,10 @@ public class ComponentManager {
             if (row == -1 || column == -1) {
               JOptionPane.showMessageDialog(
                   owner, "Cell not selected", "Message", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+              tableModel.setExpression(expression, row, column);
+              entryUpdated();
             }
-            tableModel.setExpression(expression, row, column);
           }
         };
     InputMap inputMap = expressionTextField.getInputMap(JComponent.WHEN_FOCUSED);
@@ -134,10 +140,17 @@ public class ComponentManager {
     actionMap.put("Expression submit", enterAction);
   }
 
+  private void entryUpdated(){
+    try{
+      tableModel.recalculateAll();
+    }catch(EvaluationException e){
+      JOptionPane.showMessageDialog(owner, e.getMessage(), "Message", JOptionPane.INFORMATION_MESSAGE);
+    }
+  }
+
   private void adjustTable() {
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-    table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-    table.setColumnSelectionInterval(3, 3);
+    table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     table.setAutoCreateColumnsFromModel(false);
     table.putClientProperty("terminateEditOnFocusLost", true);
     popupMenu = new TablePopupMenu();
@@ -172,7 +185,6 @@ public class ComponentManager {
         new MouseAdapter() {
           @Override
           public void mouseClicked(MouseEvent e) {
-            System.out.println(e.getButton());
             if(e.getButton() == MouseEvent.BUTTON1){
               int rowIndex = table.rowAtPoint(e.getPoint());
               int columnIndex = table.columnAtPoint(e.getPoint());
@@ -201,7 +213,12 @@ public class ComponentManager {
             expressionTextField.setText(tableModel.getExpression(row, column));
           }
         });
-    TableModelListener modelListener = e -> saved = false;
+    TableModelListener modelListener = e -> {
+      saved = false;
+      if(e.getType() == TableModelEvent.UPDATE){
+        entryUpdated();
+      }
+    };
     tableModel.addTableModelListener(modelListener);
   }
 
@@ -275,6 +292,10 @@ public class ComponentManager {
 
   public boolean hasTableOrigin() {
     return origin != null;
+  }
+
+  public ConcreteTableModel getTableModel() {
+    return tableModel;
   }
 
   public void setTableModel(ConcreteTableModel tableModel) {
