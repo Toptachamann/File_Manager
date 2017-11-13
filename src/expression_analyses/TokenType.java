@@ -1,23 +1,24 @@
 package expression_analyses;
 
 public enum TokenType {
-  RIGHT_PAREN("Right parenthesis"),
-  LEFT_PAREN("Left parenthesis"),
+  RIGHT_PAREN(")"),
+  LEFT_PAREN("("),
   EMPTY("Empty token"),
-  PLUS("Addition"),
-  MINUS("Subtraction"),
-  INT_DIV("Integer division"),
-  MOD("Modulo"),
-  MULTIPLY("Multiplication"),
-  DIV("Division"),
-  NOT("Negation"),
-  AND("Conjunction"),
-  OR("Disjunction"),
+  PLUS("+"),
+  MINUS("-"),
+  INT_DIV("//"),
+  MOD("%"),
+  MULTIPLY("*"),
+  DIV("/"),
+  NOT("not"),
+  AND("and"),
+  OR("or"),
   REF("Cell reference"),
-  TRUE("True"),
-  FALSE("False");
+  TRUE("true"),
+  FALSE("false");
   public String name;
-  TokenType(String name){
+
+  TokenType(String name) {
     this.name = name;
   }
 }

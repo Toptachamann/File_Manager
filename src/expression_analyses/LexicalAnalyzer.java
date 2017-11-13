@@ -44,6 +44,9 @@ public class LexicalAnalyzer {
           Node result = new Node(token, left, right);
           return result;
         }
+      case EMPTY:{
+        return left;
+      }
         default:{
           tokenizer.ungetToken();
           return left;
@@ -75,7 +78,14 @@ public class LexicalAnalyzer {
       }
       case REF:{
         return new Node(token, Node.EMPTY_NODE, Node.EMPTY_NODE);
-      }default:{
+      }
+      case TRUE:{
+        return new Node(Token.TRUE_TOKEN, Node.EMPTY_NODE, Node.EMPTY_NODE);
+      }
+      case FALSE:{
+        return new Node(Token.FALSE_TOKEN, Node.EMPTY_NODE, Node.EMPTY_NODE);
+      }
+      default:{
         throw new EvaluationException("Invalid token " + token);
       }
     }

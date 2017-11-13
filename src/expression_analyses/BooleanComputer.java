@@ -13,6 +13,7 @@ public class BooleanComputer {
   private HashMap<String, Integer> columnMap;
   private HashMap<String, Integer> rowMap;
   private boolean[][] visited;
+  LexicalAnalyzer analyzer;
 
   public BooleanComputer(
       String[][] values,
@@ -27,6 +28,7 @@ public class BooleanComputer {
     for (int i = 0; i < visited.length; i++) {
       Arrays.fill(visited[i], Boolean.FALSE);
     }
+    this.analyzer = new LexicalAnalyzer();
   }
 
   public String[][] compute(int x, int y) throws EvaluationException {
@@ -35,7 +37,10 @@ public class BooleanComputer {
   }
 
   public boolean evaluate(int x, int y) throws EvaluationException {
-    LexicalAnalyzer analyzer = new LexicalAnalyzer();
+    if(visited[x][y]){
+      throw new EvaluationException("Cycle in expression");
+    }
+    visited[x][y] = true;
     Node root = analyzer.buildTree(expressions[x][y]);
     boolean value = evaluateTree(root);
     values[x][y] = String.valueOf(value);

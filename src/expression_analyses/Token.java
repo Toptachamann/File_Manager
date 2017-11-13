@@ -1,5 +1,8 @@
 package expression_analyses;
 
+
+import java.util.Objects;
+
 public class Token {
   public static final Token EMPTY_TOKEN = new Token(TokenType.EMPTY);
   public static final Token TRUE_TOKEN = new Token(TokenType.TRUE);
@@ -8,6 +11,7 @@ public class Token {
   public static final Token AND_TOKEN = new Token(TokenType.AND);
   public static final Token NOT_TOKEN = new Token(TokenType.NOT);
   public static final Token LEFT_PAREN_TOKEN = new Token(TokenType.LEFT_PAREN);
+  public static final Token RIGHT_PAREN_TOKEN = new Token(TokenType.RIGHT_PAREN);
   TokenType type;
   String strToken = null;
 
@@ -26,6 +30,18 @@ public class Token {
       return strToken;
     } else {
       return type.name;
+    }
+  }
+
+  @Override
+  public boolean equals(Object anotherObject){
+    if(this == anotherObject){
+      return true;
+    }else if(anotherObject instanceof Token){
+      Token anotherToken = (Token) anotherObject;
+      return type == anotherToken.type && Objects.equals(strToken, anotherToken.strToken);
+    }else{
+      return false;
     }
   }
 }

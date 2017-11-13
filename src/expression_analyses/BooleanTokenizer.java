@@ -58,11 +58,18 @@ public class BooleanTokenizer implements Tokenizer {
         String andStr = expression.substring(currentPosition, currentPosition + 3);
         if (andStr.equalsIgnoreCase("and")) {
           currentPosition += 3;
-          return Token.TRUE_TOKEN;
+          return Token.AND_TOKEN;
         } else {
           invalid();
         }
         break;
+      case '&':
+        if (currentPosition + 1 < length && expression.charAt(currentPosition + 1) == '&') {
+          currentPosition += 2;
+        } else {
+          currentPosition += 1;
+        }
+        return Token.AND_TOKEN;
       case 'O':
       case 'o':
         if (currentPosition + 2 > length) {
@@ -76,6 +83,13 @@ public class BooleanTokenizer implements Tokenizer {
           invalid();
         }
         break;
+      case '|':
+        if (currentPosition + 1 < length && expression.charAt(currentPosition + 1) == '|') {
+          currentPosition += 2;
+        } else {
+          currentPosition += 1;
+        }
+        return Token.OR_TOKEN;
       case 'N':
       case 'n':
         if (currentPosition + 3 > length) {
@@ -89,6 +103,9 @@ public class BooleanTokenizer implements Tokenizer {
           invalid();
         }
         break;
+      case '!':
+        currentPosition += 1;
+        return Token.NOT_TOKEN;
       case '[':
         int closingIndex = currentPosition + 1;
         for (;
@@ -100,6 +117,12 @@ public class BooleanTokenizer implements Tokenizer {
         String reference = expression.substring(currentPosition, closingIndex + 1);
         currentPosition = closingIndex + 1;
         return new Token(TokenType.REF, reference);
+      case '(':
+        currentPosition += 1;
+        return Token.LEFT_PAREN_TOKEN;
+      case ')':
+        currentPosition += 1;
+        return Token.RIGHT_PAREN_TOKEN;
       default:
         invalid();
     }
@@ -134,19 +157,36 @@ public class BooleanTokenizer implements Tokenizer {
         } else {
           currentPosition -= 3;
         }
+        break;
       case 'D':
       case 'd':
         currentPosition -= 2;
-      case 'T':
-      case 't':
-        currentPosition -= 2;
+        break;
+      case '&':
+        if (currentPosition - 1 >= 0 && expression.charAt(currentPosition - 1) == '&') {
+          currentPosition -= 1;
+        }
+        break;
       case 'R':
       case 'r':
         currentPosition -= 1;
+        break;
+      case '|':
+        if (currentPosition - 1 >= 0 && expression.charAt(currentPosition - 1) == '|') {
+          currentPosition -= 1;
+        }
+        break;
+      case 'T':
+      case 't':
+        currentPosition -= 2;
+        break;
+      case '!':
+        break;
       case ']':
         int openingIndex = currentPosition - 1;
         for (; openingIndex >= 0 && expression.charAt(openingIndex) != '['; --openingIndex) {}
         currentPosition = openingIndex;
+        break;
       default:
         invalid();
     }
