@@ -129,6 +129,11 @@ public class BooleanTokenizer implements Tokenizer {
     return Token.EMPTY_TOKEN;
   }
 
+  @Override
+  public int getCurrentPosition(){
+    return currentPosition;
+  }
+
   @Contract("_ -> fail")
   private void invalid(int position) throws EvaluationException {
     throw new EvaluationException("Invalid syntax in " + expression + " at position " + position);
@@ -186,6 +191,9 @@ public class BooleanTokenizer implements Tokenizer {
         int openingIndex = currentPosition - 1;
         for (; openingIndex >= 0 && expression.charAt(openingIndex) != '['; --openingIndex) {}
         currentPosition = openingIndex;
+        break;
+      case '(':
+      case ')':
         break;
       default:
         invalid();

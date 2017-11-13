@@ -6,5 +6,5 @@ public interface Tokenizer {
   Token getToken() throws EvaluationException;
   void ungetToken() throws EvaluationException;
   boolean hasNext();
-
+  int getCurrentPosition();
 }

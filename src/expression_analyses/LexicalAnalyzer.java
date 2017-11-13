@@ -16,20 +16,24 @@ public class LexicalAnalyzer {
     switch (token.type) {
       case OR:
         {
-          Node right = buildConjunct(tokenizer);
+          Node right = buildDisjunct(tokenizer);
           Node result = new Node(token, left, right);
           return result;
         }
-      case RIGHT_PAREN:{
-        return left;
-      }
+      case RIGHT_PAREN:
+        {
+          tokenizer.ungetToken();
+          return left;
+        }
       case EMPTY:
         {
           return left;
         }
       default:
         {
-          throw new EvaluationException("Invalid token");
+          tokenizer.ungetToken();
+          throw new EvaluationException(
+              "Invalid token " + token + " at position " + tokenizer.getCurrentPosition());
         }
     }
   }
@@ -40,30 +44,44 @@ public class LexicalAnalyzer {
     switch (token.type) {
       case AND:
         {
-          Node right = buildNeg(tokenizer);
+          Node right = buildConjunct(tokenizer);
           Node result = new Node(token, left, right);
           return result;
         }
-      case EMPTY:{
-        return left;
-      }
-        default:{
+      case OR:
+        {
           tokenizer.ungetToken();
           return left;
+        }
+      case EMPTY:
+        {
+          return left;
+        }
+      case RIGHT_PAREN:
+        {
+          tokenizer.ungetToken();
+          return left;
+        }
+      default:
+        {
+          tokenizer.ungetToken();
+          throw new EvaluationException(
+              "Invalid token " + token + " at position" + tokenizer.getCurrentPosition());
         }
     }
   }
 
   private Node buildNeg(Tokenizer tokenizer) throws EvaluationException {
     int numOfNeg = 0;
-    while (tokenizer.getToken().type == TokenType.NOT) {
+    Token token;
+    while ((token = tokenizer.getToken()).type == TokenType.NOT) {
       ++numOfNeg;
     }
     tokenizer.ungetToken();
     Node atom = buildAtom(tokenizer);
-    if(numOfNeg%2 == 1){
+    if (numOfNeg % 2 == 1) {
       return new Node(Token.NOT_TOKEN, atom, Node.EMPTY_NODE);
-    }else{
+    } else {
       return atom;
     }
   }
@@ -71,23 +89,31 @@ public class LexicalAnalyzer {
   @NotNull
   private Node buildAtom(Tokenizer tokenizer) throws EvaluationException {
     Token token = tokenizer.getToken();
-    switch(token.type){
-      case LEFT_PAREN:{
-        Node disNode =  buildDisjunct(tokenizer);
-        return new Node(Token.LEFT_PAREN_TOKEN, disNode, Node.EMPTY_NODE);
-      }
-      case REF:{
-        return new Node(token, Node.EMPTY_NODE, Node.EMPTY_NODE);
-      }
-      case TRUE:{
-        return new Node(Token.TRUE_TOKEN, Node.EMPTY_NODE, Node.EMPTY_NODE);
-      }
-      case FALSE:{
-        return new Node(Token.FALSE_TOKEN, Node.EMPTY_NODE, Node.EMPTY_NODE);
-      }
-      default:{
-        throw new EvaluationException("Invalid token " + token);
-      }
+    switch (token.type) {
+      case LEFT_PAREN:
+        {
+          Node disNode = buildDisjunct(tokenizer);
+          Token rightParen = tokenizer.getToken(); // getting )
+          return new Node(Token.LEFT_PAREN_TOKEN, disNode, Node.EMPTY_NODE);
+        }
+      case REF:
+        {
+          return new Node(token, Node.EMPTY_NODE, Node.EMPTY_NODE);
+        }
+      case TRUE:
+        {
+          return new Node(Token.TRUE_TOKEN, Node.EMPTY_NODE, Node.EMPTY_NODE);
+        }
+      case FALSE:
+        {
+          return new Node(Token.FALSE_TOKEN, Node.EMPTY_NODE, Node.EMPTY_NODE);
+        }
+      default:
+        {
+          tokenizer.ungetToken();
+          throw new EvaluationException(
+              "Invalid token " + token + " at position " + tokenizer.getCurrentPosition());
+        }
     }
   }
 }

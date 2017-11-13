@@ -2,37 +2,42 @@ package expression_analyses;
 
 import auxiliary.EvaluationException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BooleanComputer {
-  private String[][] values;
-  private String[][] expressions;
+  private ArrayList<ArrayList<String>> values;
+  private ArrayList<ArrayList<String>> expressions;
   private HashMap<String, Integer> columnMap;
   private HashMap<String, Integer> rowMap;
   private boolean[][] visited;
   LexicalAnalyzer analyzer;
 
+  public BooleanComputer(){
+    this.analyzer = new LexicalAnalyzer();
+  }
+
   public BooleanComputer(
-      String[][] values,
-      String[][] expressions,
+      ArrayList<ArrayList<String>> values,
+      ArrayList<ArrayList<String>> expressions,
       HashMap<String, Integer> columnMap,
       HashMap<String, Integer> rowMap) {
     this.values = values;
     this.expressions = expressions;
     this.columnMap = columnMap;
     this.rowMap = rowMap;
-    this.visited = new boolean[values.length][values[0].length];
+    this.visited = new boolean[values.size()][values.get(0).size()];
     for (int i = 0; i < visited.length; i++) {
       Arrays.fill(visited[i], Boolean.FALSE);
     }
     this.analyzer = new LexicalAnalyzer();
   }
 
-  public String[][] compute(int x, int y) throws EvaluationException {
-    values[x][y] = String.valueOf(evaluate(x, y));
+  public ArrayList<ArrayList<String>> compute(int x, int y) throws EvaluationException {
+    evaluate(x, y);
     return values;
   }
 
@@ -41,10 +46,14 @@ public class BooleanComputer {
       throw new EvaluationException("Cycle in expression");
     }
     visited[x][y] = true;
-    Node root = analyzer.buildTree(expressions[x][y]);
-    boolean value = evaluateTree(root);
-    values[x][y] = String.valueOf(value);
-    return value;
+    boolean result = evaluateExpression(expressions.get(x).get(y));
+    values.get(x).set(y, String.valueOf(result));
+    return result;
+  }
+
+  public boolean evaluateExpression(String expression) throws EvaluationException {
+    Node root = analyzer.buildTree(expression);
+    return evaluateTree(root);
   }
 
   public boolean evaluateRef(String ref) throws EvaluationException {

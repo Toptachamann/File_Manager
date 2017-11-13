@@ -6,8 +6,8 @@ public class Node {
   public static final Node EMPTY_NODE = new Node(Token.EMPTY_TOKEN);
   public static final Node TRUE_NODE = new Node(Token.TRUE_TOKEN, EMPTY_NODE, EMPTY_NODE);
   public static final Node FALSE_NODE = new Node(Token.FALSE_TOKEN, EMPTY_NODE, EMPTY_NODE);
-  public Node left = null;
-  public Node right = null;
+  public Node left = EMPTY_NODE;
+  public Node right = EMPTY_NODE;
   public Token token;
 
   public Node(Token token) {
