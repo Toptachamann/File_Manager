@@ -6,20 +6,7 @@ import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.ImageIcon;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
@@ -28,6 +15,7 @@ import javax.swing.text.Highlighter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -71,18 +59,31 @@ public class TextEditorFrame extends JFrame {
     init();
     originFile = null;
     updateTitle(null);
-    try{
+    try {
       openNewFile();
-    } catch(IOException e){
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
   public TextEditorFrame(File file) throws IOException {
-    init();
-    originFile = file;
-    openFile(file);
-    updateTitle(file);
+    if(isValidOrigin(file)){
+      init();
+      originFile = file;
+      openFile(file);
+      updateTitle(file);
+    }else{
+      throw new InvalidFileException("Can open only files with *.json, *.txt, or *.html extensions");
+    }
+  }
+
+  public static void main(String[] args) {
+    EventQueue.invokeLater(
+        () -> {
+          TextEditorFrame frame = new TextEditorFrame();
+          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+          frame.setVisible(true);
+        });
   }
 
   private void init() {
@@ -156,18 +157,29 @@ public class TextEditorFrame extends JFrame {
           }
         };
     textArea.addMouseListener(mouseListener);
-    this.addWindowListener(new WindowAdapter() {
-      @Override
-      public void windowClosing(WindowEvent e) {
-        try{
-          saveCurrentFile();
-        } catch (InvalidFileException ex) {
-          invalidFile();
-        } catch (IOException ex) {
-          saveFileFailed();
-        }
-      }
-    });
+    this.addWindowListener(
+        new WindowAdapter() {
+          @Override
+          public void windowClosing(WindowEvent e) {
+            try {
+              if (documentChanged) {
+                int reply = wantsToSave();
+                if (reply == JOptionPane.YES_OPTION) {
+                  saveCurrentFile();
+                  dispose();
+                } else if (reply == JOptionPane.NO_OPTION) {
+                  dispose();
+                }
+              } else {
+                dispose();
+              }
+            } catch (InvalidFileException ex) {
+              invalidFile();
+            } catch (IOException ex) {
+              saveFileFailed();
+            }
+          }
+        });
   }
 
   private void addActions() {
@@ -195,9 +207,6 @@ public class TextEditorFrame extends JFrame {
   }
 
   private void openFile(File file) throws IOException {
-    if(!isValidOrigin(file)){
-      throw new InvalidFileException("Invalid origin");
-    }
     saveCurrentFile();
     Validate.isTrue(isValidOrigin(file), "Can't open such file: " + file);
     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -238,25 +247,6 @@ public class TextEditorFrame extends JFrame {
         saveCurrentFile();
       } else {
         throw new InvalidFileException("Invalid origin");
-      }
-    }
-  }
-
-  public void highlightTitle() {
-    highlightTitle(textArea.getText(), 0);
-  }
-
-  private void highlightTitle(String text, int fromIndex) {
-    int start = text.indexOf("<title>", fromIndex);
-    if (start != -1) {
-      int end = text.indexOf("</title>", start);
-      if (end != -1) {
-        try {
-          highlighter.addHighlight(start + "<title>".length(), end, painter);
-          highlightTitle(text, end + 1);
-        } catch (BadLocationException e) {
-          e.printStackTrace();
-        }
       }
     }
   }
@@ -327,7 +317,10 @@ public class TextEditorFrame extends JFrame {
 
   private void invalidFile() {
     JOptionPane.showMessageDialog(
-        this, "Can't save to specified file", "Message", JOptionPane.INFORMATION_MESSAGE);
+        this,
+        "Can't save to file",
+        "Message",
+        JOptionPane.INFORMATION_MESSAGE);
   }
 
   private void saveFileFailed() {
@@ -342,9 +335,12 @@ public class TextEditorFrame extends JFrame {
 
   @Contract("null -> false")
   private boolean isValidOrigin(@Nullable File file) {
-    return file != null
-        && file.canRead()
-        && (file.getName().endsWith(".txt") || file.getName().endsWith(".html"));
+    if (file == null) {
+      return false;
+    }
+    String fileName = file.getName();
+    return file.canRead()
+        && (fileName.endsWith(".txt") || fileName.endsWith(".html") || fileName.endsWith(".json"));
   }
 
   private int wantsToSave() {
@@ -360,15 +356,12 @@ public class TextEditorFrame extends JFrame {
     return fileChooser.getFile();
   }
 
-  private String getWordFromUser(){
+  private String getWordFromUser() {
     return JOptionPane.showInputDialog(
-        TextEditorFrame.this,
-        "Enter a word for searching",
-        "Search",
-        JOptionPane.QUESTION_MESSAGE);
+        TextEditorFrame.this, "Enter a word for searching", "Search", JOptionPane.QUESTION_MESSAGE);
   }
 
-  private class NewDocumentAction extends AbstractAction{
+  private class NewDocumentAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -382,22 +375,24 @@ public class TextEditorFrame extends JFrame {
     }
   }
 
-  private class OpenDocumentAction extends AbstractAction{
+  private class OpenDocumentAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
       File selectedFile = getFileFromUser();
       try {
-        openFile(selectedFile);
-      } catch (InvalidFileException ex) {
-        invalidFile();
+        if(isValidOrigin(selectedFile)){
+          openFile(selectedFile);
+        }else{
+          invalidFile();
+        }
       } catch (IOException ex) {
         openFileFailed();
       }
     }
   }
 
-  private class SaveAction extends AbstractAction{
+  private class SaveAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -409,10 +404,9 @@ public class TextEditorFrame extends JFrame {
         saveFileFailed();
       }
     }
-
   }
 
-  private class SaveAsAction extends AbstractAction{
+  private class SaveAsAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -426,7 +420,7 @@ public class TextEditorFrame extends JFrame {
     }
   }
 
-  private class SearchWordAction extends AbstractAction{
+  private class SearchWordAction extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
       String word = getWordFromUser();
@@ -462,15 +456,17 @@ public class TextEditorFrame extends JFrame {
     }
   }
 
-  private class TextEditorPopupMenu extends JPopupMenu{
+  private class TextEditorPopupMenu extends JPopupMenu {
     private JMenuItem selectAllItem;
-    public TextEditorPopupMenu(){
+
+    public TextEditorPopupMenu() {
       selectAllItem = new JMenuItem("Select all");
       add(selectAllItem);
-      selectAllItem.addActionListener(e -> {
-        String text = textArea.getText();
-        textArea.select(0, text.length() - 1);
-      });
+      selectAllItem.addActionListener(
+          e -> {
+            String text = textArea.getText();
+            textArea.select(0, text.length() - 1);
+          });
     }
   }
 }

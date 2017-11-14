@@ -44,15 +44,28 @@ public class JsonTableReader implements AbstractTableReader {
     try (BufferedReader reader = new BufferedReader(new FileReader(file));
         JsonReader jsonReader = Json.createReader(reader)) {
       JsonObject tableObject = jsonReader.readObject();
+      if (!tableObject.containsKey("Column count")
+          || !tableObject.containsKey("Row count")
+          || !tableObject.containsKey("Column created")
+          || !tableObject.containsKey("Row created")
+          || !tableObject.containsKey("Column names")
+          || !tableObject.containsKey("Row names")
+          || !tableObject.containsKey("Column map")
+          || !tableObject.containsKey("Row map")
+          || !tableObject.containsKey("Table of values")
+          || !tableObject.containsKey("Table of expressions")) {
+        throw new InvalidFileException("Some data entries are absent in file");
+      }
+
       rowCount = tableObject.getInt("Row count");
       columnCount = tableObject.getInt("Column count");
-      int columnCreated = tableObject.getInt("Column created");
       int rowCreated = tableObject.getInt("Row created");
+      int columnCreated = tableObject.getInt("Column created");
+      ArrayList<String> rowNames = arrayFromObject(tableObject.getJsonArray("Row names"), rowCount);
       ArrayList<String> columnNames =
           arrayFromObject(tableObject.getJsonArray("Column names"), columnCount);
-      ArrayList<String> rowNames = arrayFromObject(tableObject.getJsonArray("Row names"), rowCount);
-      HashMap<String, Integer> columnMap = mapFromObject(tableObject.getJsonObject("Column map"));
       HashMap<String, Integer> rowMap = mapFromObject(tableObject.getJsonObject("Row map"));
+      HashMap<String, Integer> columnMap = mapFromObject(tableObject.getJsonObject("Column map"));
       ArrayList<ArrayList<String>> data =
           tableFromObject(tableObject.getJsonObject("Table of values"), rowCount, columnCount);
       ArrayList<ArrayList<String>> expressions =

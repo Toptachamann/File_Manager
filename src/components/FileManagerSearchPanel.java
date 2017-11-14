@@ -5,6 +5,7 @@ package components;
  */
 
 import TextEditor.TextEditorFrame;
+import auxiliary.InvalidFileException;
 import auxiliary.MyTreeNode;
 import auxiliary.TreeFile;
 import com.sun.jna.platform.FileUtils;
@@ -240,7 +241,10 @@ public class FileManagerSearchPanel extends SearchPanel {
             TextEditorFrame textEditorFrame = new TextEditorFrame(file);
             textEditorFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             textEditorFrame.setVisible(true);
-          } catch (IOException e) {
+          }catch(InvalidFileException ex){
+            messenger.tableEditorFailed(file, ex.getMessage());
+          }
+          catch (IOException e) {
             messenger.textEditorFailed(file);
           }
         });
@@ -253,7 +257,10 @@ public class FileManagerSearchPanel extends SearchPanel {
             TableEditorFrame textEditorFrame = new TableEditorFrame(file);
             textEditorFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             textEditorFrame.setVisible(true);
-          } catch (IOException e) {
+          } catch(InvalidFileException ex){
+            messenger.tableEditorFailed(file, ex.getMessage());
+          }
+          catch (IOException e) {
             messenger.tableEditorFailed(file);
           }
         });

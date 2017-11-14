@@ -30,6 +30,13 @@ public class LexicalAnalyzerTest {
   }
 
   @Test
+  @DisplayName("Reference")
+  public void reference() throws EvaluationException {
+    Node reference = new Node(new Token(REF, "[A:1]"));
+    assertEquals(reference, analyzer.buildTree("[A:1]"));
+  }
+
+  @Test
   @DisplayName("Simple test")
   public void simpleTest() throws EvaluationException {
     assertEquals(

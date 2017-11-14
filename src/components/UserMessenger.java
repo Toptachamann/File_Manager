@@ -19,10 +19,25 @@ public class UserMessenger {
         JOptionPane.INFORMATION_MESSAGE);
   }
 
+  public void textEditorFailed(File file, String message) {
+    JOptionPane.showMessageDialog(
+        owner,
+        "Can't open " + file.getName() + " in Text Editor:\n" + message,
+        "Message",
+        JOptionPane.INFORMATION_MESSAGE);
+  }
+
   public void tableEditorFailed(File file) {
     JOptionPane.showMessageDialog(
         owner,
         "Can't open " + file.getName() + " in Table Editor",
+        "Message",
+        JOptionPane.INFORMATION_MESSAGE);
+  }
+  public void tableEditorFailed(File file, String message) {
+    JOptionPane.showMessageDialog(
+        owner,
+        "Can't open " + file.getName() + " in Table Editor:\n" + message,
         "Message",
         JOptionPane.INFORMATION_MESSAGE);
   }

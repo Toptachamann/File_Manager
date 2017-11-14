@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,11 +25,16 @@ public class JsonTableSaver implements AbstractTableSaver {
 
   @Override
   public boolean isValidFile(@Nullable File file) {
-    return file != null && file.exists() && file.isFile() && file.canWrite() && file.getName().toLowerCase().endsWith(extension);
+    return file != null
+        && file.exists()
+        && file.isFile()
+        && file.canWrite()
+        && file.getName().toLowerCase().endsWith(extension);
   }
 
   @Override
-  public void persist(@Nullable File file, @NotNull ConcreteTableModel tableModel) throws IOException {
+  public void persist(@Nullable File file, @NotNull ConcreteTableModel tableModel)
+      throws IOException {
     if (!isValidFile(file)) {
       throw new InvalidFileException("Can't write to specified file: " + file);
     } else {
@@ -53,9 +57,9 @@ public class JsonTableSaver implements AbstractTableSaver {
     }
   }
 
-  private JsonObject persistMap(Map<String, Integer> map){
+  private JsonObject persistMap(Map<String, Integer> map) {
     JsonObjectBuilder result = Json.createObjectBuilder();
-    for(Map.Entry<String, Integer> entry : map.entrySet()){
+    for (Map.Entry<String, Integer> entry : map.entrySet()) {
       result.add(entry.getKey(), entry.getValue());
     }
     return result.build();
