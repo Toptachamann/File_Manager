@@ -21,7 +21,7 @@ public class RightHintPanel extends JPanel {
     setBorder(
         BorderFactory.createTitledBorder(
             BorderFactory.createLineBorder(Color.GRAY, 1, true),
-            "Операції",
+            "Operations",
             TitledBorder.DEFAULT_JUSTIFICATION,
             TitledBorder.DEFAULT_POSITION,
             borderTitleFont,

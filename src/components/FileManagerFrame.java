@@ -1,10 +1,5 @@
 package components;
 /** Created by Timofey on 9/9/2017. */
-import actions.CopyAction;
-import actions.CutAction;
-import actions.DeleteAction;
-import actions.OpenAction;
-import actions.PasteAction;
 import auxiliary.GBC;
 
 import javax.swing.BorderFactory;
@@ -15,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -49,6 +45,15 @@ public class FileManagerFrame extends JFrame {
     mainPanel.add(searchPanel, new GBC(0, 0, 1, 1, 1, 1).setFill(GBC.BOTH));
     mainPanel.add(hintPanel, new GBC(0, 1, 1, 1, 1, 0).setFill(GBC.HORIZONTAL));
     this.getContentPane().add(mainPanel);
+  }
+
+
+  public static void main(String[] args) {
+    EventQueue.invokeLater(()->{
+      FileManagerFrame frame = new FileManagerFrame();
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.setVisible(true);
+    });
   }
 
   private void init(){

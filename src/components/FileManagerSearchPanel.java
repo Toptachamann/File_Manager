@@ -1,42 +1,28 @@
 package components;
-/** Created by Timofey on 9/17/2017. */
+
+/*
+ * Created by Timofey on 9/17/2017.
+ */
+
 import TextEditor.TextEditorFrame;
-import actions.ClearContentAction;
-import actions.CopyAction;
-import actions.CopyAllWithExtensionAction;
-import actions.CopyHtmlFileAction;
-import actions.CopyWithoutMultipleLinesAction;
-import actions.CutAction;
-import actions.DeleteAction;
-import actions.OpenAction;
-import actions.PasteAction;
-import auxiliary.InvalidFileException;
 import auxiliary.MyTreeNode;
 import auxiliary.TreeFile;
 import com.sun.jna.platform.FileUtils;
+import org.apache.commons.lang3.Validate;
+import org.jetbrains.annotations.Nullable;
+import table_manager.TableEditorFrame;
 
-import javax.swing.Action;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -50,132 +36,172 @@ public class FileManagerSearchPanel extends SearchPanel {
   private TreeFile fileToCopy;
   private TreeFile fileToCut;
 
+  private UserMessenger messenger;
+
   public FileManagerSearchPanel(JFrame frame) {
     super(frame);
-
-    MouseListener mouseListener = new PopupMouseListener();
-    super.tree.addMouseListener(mouseListener);
-    super.fileList.addMouseListener(mouseListener);
-    fileList.addMouseListener(mouseListener);
-    tree.addMouseListener(mouseListener);
-
-    addActionsToFileTree();
+    init();
+    addComponents();
+    addActions();
+    addListeners();
   }
 
-  private void init() {}
+  private void init() {
+    messenger = new UserMessenger(super.frame);
+  }
 
-  private void addComponents() {}
-
-  private void addActions() {}
-
-  private void addListeners() {}
-
-  private void addActionsToFileTree() {
-    Action openAction = new OpenAction(this);
-    Action copyAction = new CopyAction(this);
-    Action cutAction = new CutAction(this);
-    Action pasteAction = new PasteAction(this);
-    Action deleteAction = new DeleteAction(this);
-    Action clearContentAction = new ClearContentAction(this);
-    Action copyAllWithExtensionAction = new CopyAllWithExtensionAction(this);
-    Action copyWithoutMultipleLines = new CopyWithoutMultipleLinesAction(this);
-    Action copyHtmlFileAction = new CopyHtmlFileAction(this);
-    Action newFolderAction = new SearchPanel.ItemAction("", true);
-    Action newTextFileAction = new SearchPanel.ItemAction(".txt", false);
-    Action newHtmlFileAction = new SearchPanel.ItemAction(".html", false);
-
-    InputMap inputMap = tree.getInputMap(JComponent.WHEN_FOCUSED);
-    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK), "Open action");
-    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), "Copy action");
-    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK), "Paste action");
-    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK), "Cut action");
-    inputMap.put(
-        KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK),
-        "Copy all with extension action");
-    inputMap.put(
-        KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK),
-        "Copy without multiple lines action");
-    inputMap.put(
-        KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK),
-        "Copy html file action");
-    inputMap.put(KeyStroke.getKeyStroke("DELETE"), "Delete action");
-    inputMap.put(KeyStroke.getKeyStroke("F3"), "Clear content action");
-
-    ActionMap actionMap = tree.getActionMap();
-    actionMap.put("Open action", openAction);
-    actionMap.put("Copy action", copyAction);
-    actionMap.put("Cut action", cutAction);
-    actionMap.put("Paste action", pasteAction);
-    actionMap.put("Delete action", deleteAction);
-    actionMap.put("Clear content action", clearContentAction);
-    actionMap.put("Copy all with extension action", copyAllWithExtensionAction);
-    actionMap.put("Copy without multiple lines action", copyWithoutMultipleLines);
-    actionMap.put("Copy html file action", copyHtmlFileAction);
-
+  private void addComponents() {
     popupMenu = new FileManagerPopupMenu();
     tree.setComponentPopupMenu(popupMenu);
   }
 
-  private boolean checkCanCopy(File fileToCopy, File parentDirectory) {
-    if (isParent(fileToCopy, parentDirectory)) {
-      JOptionPane.showMessageDialog(
-          frame,
-          "Обрана папка є підпапкою папки, яку ви хочете копіювати",
-          "Повідомлення",
-          JOptionPane.INFORMATION_MESSAGE);
-      return false;
-    } else {
-      return true;
-    }
+  private void addActions() {
+    Action copyAction = new CopyAction();
+    Action cutAction = new CutAction();
+    Action pasteAction = new PasteAction();
+    Action deleteAction = new DeleteAction();
+    Action clearContentAction = new ClearContentAction();
+    Action copyAllWithExtensionAction = new CopyAllWithExtensionAction();
+
+    InputMap inputMap = tree.getInputMap(JComponent.WHEN_FOCUSED);
+    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), "Copy action");
+    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK), "Paste action");
+    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK), "Cut action");
+    inputMap.put(KeyStroke.getKeyStroke("DELETE"), "Delete action");
+    inputMap.put(KeyStroke.getKeyStroke("F3"), "Clear content action");
+    inputMap.put(
+        KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK),
+        "Copy all with extension action");
+
+    ActionMap actionMap = tree.getActionMap();
+    actionMap.put("Copy action", copyAction);
+    actionMap.put("Paste action", pasteAction);
+    actionMap.put("Cut action", cutAction);
+    actionMap.put("Delete action", deleteAction);
+    actionMap.put("Clear content action", clearContentAction);
+    actionMap.put("Copy all with extension action", copyAllWithExtensionAction);
   }
 
-  private void copyFileTo(TreeFile source, TreeFile parentDirectory, MyTreeNode parentDirectoryNode)
-      throws IOException {
-    if (!checkCanCopy(source, parentDirectory)) {
-      return;
+  private void addListeners() {
+    MouseListener mouseListener =
+        new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            if (SwingUtilities.isRightMouseButton(e)) {
+              showPopupMenu(e);
+            }
+          }
+
+          @Override
+          public void mousePressed(MouseEvent e) {
+            if (SwingUtilities.isRightMouseButton(e)) {
+              showPopupMenu(e);
+            }
+          }
+
+          private void showPopupMenu(MouseEvent e) {
+            popupMenu.show(e.getComponent(), e.getX(), e.getY());
+          }
+        };
+    fileList.addMouseListener(mouseListener);
+    tree.addMouseListener(mouseListener);
+  }
+
+  @Nullable
+  public TreeFile prepareToMove(TreeFile source, TreeFile targetFolder) throws IOException {
+    Validate.isTrue(source.exists(), "Source should exist");
+    Validate.isTrue(targetFolder.isDirectory(), "Folder to copy in should be an existing folder");
+    if (isAncestor(source, targetFolder)) {
+      messenger.fileIsAncestor(source, targetFolder);
+      return null;
     }
-    if (!parentDirectoryNode.isLoaded()) {
-      addOneLevel(parentDirectoryNode);
-    }
-    TreeFile childFile =
-        new TreeFile(parentDirectory.getAbsolutePath() + File.separator + source.getName());
-    if (childFile.exists()) {
+    TreeFile childObject =
+        new TreeFile(targetFolder.getAbsolutePath() + File.separator + source.getName());
+    if (childObject.exists()) {
       int reply =
-          JOptionPane.showConfirmDialog(
-              this,
-              "An object "
-                  + childFile.getName()
-                  + " already exists in folder "
-                  + parentDirectory.getAbsolutePath()
-                  + "\nDo you really want to rewrite the content of this file?",
-              "Confirm dialog",
-              JOptionPane.YES_NO_OPTION);
-      if (reply == JOptionPane.YES_OPTION) {
-        Files.copy(source.toPath(), childFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+          source.isFile()
+              ? messenger.wantsToOverwriteFile(childObject, targetFolder)
+              : messenger.wantsToOverwriteDirectory(source, childObject, targetFolder);
+      if (reply != JOptionPane.YES_OPTION) {
+        return null;
+      } else {
+        moveFileToTrash(childObject);
+        return childObject;
       }
     } else {
-      Files.copy(source.toPath(), childFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      return childObject;
     }
-
-    MyTreeNode childNode;
-    if (contains(parentDirectoryNode, childFile)) {
-      childNode = getNodeWithFile(parentDirectoryNode, childFile);
-      if (childNode == null) {
-        throw new RuntimeException("Something is going wrong");
-      }
+  }
+  // copies all content of a source folder into target folder
+  private void copyFolder(TreeFile sourceFolder, TreeFile targetFolder) throws IOException {
+    if (sourceFolder.isFile()) {
+      copyFile(sourceFolder, targetFolder);
     } else {
-      childNode = insertFile(parentDirectoryNode, childFile);
-    }
-    if (source.isDirectory()) {
-      File[] files = source.listFiles(pathname -> true);
-      for (File file : files) {
-        TreeFile treeFile = new TreeFile(file.getAbsolutePath());
-        copyFileTo(treeFile, childFile, childNode);
+      Validate.isTrue(sourceFolder.isDirectory(), "Source should exist");
+      if (targetFolder.exists()) {
+        moveFileToTrash(targetFolder);
+      }
+      if (targetFolder.mkdir()) {
+        File[] children = sourceFolder.listFiles(pathname -> true);
+        if (children != null) {
+          for (File child : children) {
+            TreeFile treeChild = new TreeFile(child);
+            TreeFile targetFile =
+                new TreeFile(targetFolder.getAbsolutePath() + File.separator + treeChild.getName());
+            copyFolder(treeChild, targetFile);
+          }
+        }
+      } else {
+        throw new IOException("Can't create " + targetFolder.getAbsolutePath());
       }
     }
   }
+  // finished
+  private void copyFile(TreeFile sourceFile, TreeFile targetFile) throws IOException {
+    Validate.isTrue(sourceFile.isFile(), "Source should exist an existing file");
+    if (targetFile.exists()) {
+      moveFileToTrash(targetFile);
+    }
+    Files.copy(
+        sourceFile.toPath(),
+        targetFile.toPath(),
+        StandardCopyOption.REPLACE_EXISTING,
+        StandardCopyOption.COPY_ATTRIBUTES);
+  }
+  // moves all content of the source folder into target folder
+  private void moveFolder(TreeFile sourceFolder, TreeFile targetFolder) throws IOException {
+    if (sourceFolder.isFile()) {
+      moveFile(sourceFolder, targetFolder);
+    } else {
+      if (targetFolder.exists()) {
+        moveFileToTrash(targetFolder);
+      }
+      if (targetFolder.mkdir()) {
+        File[] children = sourceFolder.listFiles();
+        if (children != null) {
+          for (File child : children) {
+            TreeFile treeChild = new TreeFile(child);
+            TreeFile destinationFile =
+                new TreeFile(targetFolder.getAbsolutePath() + File.separator + treeChild.getName());
+            moveFolder(treeChild, destinationFile);
+          }
+        }
+        moveFileToTrash(sourceFolder);
+      } else {
+        throw new IOException("Can't create " + targetFolder.getAbsolutePath());
+      }
+    }
+  }
+  // finished
+  private void moveFile(TreeFile source, TreeFile targetFile) throws IOException {
+    Validate.isTrue(source.exists(), "Source should exist");
+    Files.move(
+        source.toPath(),
+        targetFile.toPath(),
+        StandardCopyOption.REPLACE_EXISTING);
+  }
 
-  private MyTreeNode getNodeWithFile(MyTreeNode parent, File child) {
+  private MyTreeNode getChildNodeWithFile(MyTreeNode parent, File child) {
     for (int i = 0; i < parent.getChildCount(); i++) {
       MyTreeNode node = (MyTreeNode) parent.getChildAt(i);
       TreeFile file = (TreeFile) node.getUserObject();
@@ -186,352 +212,18 @@ public class FileManagerSearchPanel extends SearchPanel {
     return null;
   }
 
-  private boolean contains(MyTreeNode parent, TreeFile child) {
-    for (int i = 0; i < parent.getChildCount(); i++) {
-      MyTreeNode node = (MyTreeNode) parent.getChildAt(i);
-      TreeFile file = (TreeFile) node.getUserObject();
-      if (file.equals(child)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private MyTreeNode insertFile(MyTreeNode node, TreeFile file) {
-    if (!node.isLoaded()) {
-      addOneLevel(node);
-    }
-    MyTreeNode childNode = new MyTreeNode(file);
-    childNode.setLoaded(true);
-    if (file.isFile()) {
-      childNode.setAllowsChildren(false);
-    }
-    treeModel.insertNodeInto(childNode, node, node.getChildCount());
-    return childNode;
-  }
-
-  public void copyAct() {
-    MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-    if (selectedNode != null) {
-      fileToCopy = (TreeFile) selectedNode.getUserObject();
-      fileToCut = null;
-      cutFromNode = null;
-    }
-  }
-
-  public void cutAct() {
-    MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-    if (selectedNode != null) {
-      fileToCopy = null;
-      fileToCut = (TreeFile) selectedNode.getUserObject();
-      cutFromNode = selectedNode;
-    }
-  }
-
-  public void pasteAct() {
-    if (fileToCopy != null || fileToCut != null) {
-      MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-      if (selectedNode != null) {
-        TreeFile parentDirectory = (TreeFile) selectedNode.getUserObject();
-        if (parentDirectory.isDirectory()) {
-          try {
-            if (fileToCopy != null) { // need to copy
-              copyFileTo(fileToCopy, parentDirectory, selectedNode);
-            } else { // need to cut
-              copyFileTo(fileToCut, parentDirectory, selectedNode);
-              if (moveFileToTrash(fileToCut)) {
-                treeModel.removeNodeFromParent(cutFromNode);
-              }
-              fileToCopy =
-                  new TreeFile(
-                      parentDirectory.getAbsolutePath() + File.separator + fileToCut.getName());
-              fileToCut = null;
-            }
-            updateFileList(selectedNode);
-          } catch (IOException exception) {
-            exception.printStackTrace();
-          }
-        }
-      }
-    }
-  }
-
-  public void openAct() {
-    MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-    if (selectedNode != null) {
-      TreeFile selectedFile = (TreeFile) selectedNode.getUserObject();
-      if (canOpen(selectedFile)) {
-        openFile(selectedFile);
-      }
-    }
-  }
-
-  public void deleteAct() {
-    MyTreeNode node = (MyTreeNode) tree.getLastSelectedPathComponent();
-    TreeFile file = (TreeFile) node.getUserObject();
-    if (moveFileToTrash(file)) {
-      MyTreeNode parent = (MyTreeNode) node.getParent();
-      tree.setSelectionPath(getPath(parent));
-      treeModel.removeNodeFromParent(node);
-    }
-  }
-
-  public void copyAllWithExtensionAct() {
-    if (fileToCopy != null) {
-      MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-      if (selectedNode != null) {
-        TreeFile selectedFile = (TreeFile) selectedNode.getUserObject();
-        if (selectedFile.isDirectory()) {
-          try {
-            String selectedFileType = (String) extensionBox.getSelectedItem();
-            String extension = getExtension(selectedFileType);
-            File[] filesWithSpecifiedExtension =
-                fileToCopy.listFiles((dir, name) -> name.toLowerCase().endsWith(extension));
-            if (filesWithSpecifiedExtension != null) {
-              for (File file : filesWithSpecifiedExtension) {
-                TreeFile treeFile = new TreeFile(file.getAbsolutePath());
-                copyFileTo(treeFile, selectedFile, selectedNode);
-              }
-            }
-          } catch (IOException ex) {
-            ex.printStackTrace();
-          }
-        }
-      }
-    }
-  }
-
-  public void copyWithoutMultipleLinesAct() {
-    MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-    if (selectedNode != null) {
-      TreeFile selectedDirectory = (TreeFile) selectedNode.getUserObject();
-      if (selectedDirectory.isDirectory() && fileToCopy != null) {
-        TreeFile destinationFile =
-            new TreeFile(
-                selectedDirectory.getAbsolutePath() + File.separator + fileToCopy.getName());
-        if (!destinationFile.exists()) {
-          try {
-            destinationFile.createNewFile();
-            copyWithoutMultipleLines(fileToCopy, destinationFile);
-            insertFile(selectedNode, destinationFile);
-          } catch (IOException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(
-                frame, "File creation failed", "Message", JOptionPane.INFORMATION_MESSAGE);
-          }
-        } else {
-          if (fileToCopy.equals(destinationFile)) {
-            JOptionPane.showMessageDialog(
-                frame, "Can't copy a file into itself", "Message", JOptionPane.INFORMATION_MESSAGE);
-          } else {
-            int reply =
-                JOptionPane.showConfirmDialog(
-                    frame,
-                    "Do you want to write the content of a file "
-                        + fileToCopy.getName()
-                        + "\n into file "
-                        + destinationFile.getName(),
-                    "Confirm dialog",
-                    JOptionPane.YES_NO_OPTION);
-            if (reply == JOptionPane.YES_OPTION) {
-              copyWithoutMultipleLines(fileToCopy, destinationFile);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  public void copyHtmlFileAct() {
-    MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-    if (selectedNode != null) {
-      TreeFile selectedDirectory = (TreeFile) selectedNode.getUserObject();
-      if (selectedDirectory.isDirectory()) {
-        if (fileToCopy != null) {
-          if (fileToCopy.canRead() && fileToCopy.getName().endsWith(".html")) {
-            TreeFile destinationFile =
-                new TreeFile(
-                    selectedDirectory.getAbsolutePath() + File.separator + fileToCopy.getName());
-            if (!destinationFile.exists()) {
-              copyHtmlFile(fileToCopy, destinationFile);
-              insertFile(selectedNode, destinationFile);
-            } else {
-              JOptionPane.showMessageDialog(
-                  frame,
-                  "File already exists in this folder",
-                  "Message",
-                  JOptionPane.INFORMATION_MESSAGE);
-            }
-          } else {
-            JOptionPane.showMessageDialog(
-                frame,
-                "For this action you need to choose a file with .html extension",
-                "Message",
-                JOptionPane.INFORMATION_MESSAGE);
-          }
-
-        } else {
-          if (fileToCut.canRead() && fileToCut.getName().endsWith(".html")) {
-            TreeFile destinationFile =
-                new TreeFile(
-                    selectedDirectory.getAbsolutePath() + File.separator + fileToCut.getName());
-            if (!destinationFile.exists()) {
-              copyHtmlFile(fileToCut, destinationFile);
-              insertFile(selectedNode, destinationFile);
-              moveFileToTrash(fileToCut);
-              fileToCut = null;
-            } else {
-              JOptionPane.showMessageDialog(
-                  frame,
-                  "File already exists in this folder",
-                  "Message",
-                  JOptionPane.INFORMATION_MESSAGE);
-            }
-          } else {
-            JOptionPane.showMessageDialog(
-                frame,
-                "For this action you need to choose a file with .html extension",
-                "Message",
-                JOptionPane.INFORMATION_MESSAGE);
-          }
-        }
-      }
-    }
-  }
-
-  private void copyHtmlFile(File source, File destination) {
-    try {
-      Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.COPY_ATTRIBUTES);
-      EventQueue.invokeLater(
-          () -> {
-            try {
-              TextEditorFrame editor = new TextEditorFrame(destination);
-              editor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-              editor.highlightTitle();
-              editor.setVisible(true);
-            } catch (InvalidFileException e) {
-              e.printStackTrace();
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
-          });
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  private void copyWithoutMultipleLines(File source, File destination) {
-    try (BufferedReader reader = new BufferedReader(new FileReader(source));
-        BufferedWriter writer = new BufferedWriter(new FileWriter(destination))) {
-      String prevLine = reader.readLine();
-      String curLine = reader.readLine();
-      if (prevLine != null) {
-        writer.write(prevLine);
-        writer.write('\n');
-        while (curLine != null) {
-          if (!curLine.equals(prevLine)) {
-            writer.write(curLine);
-            writer.write('\n');
-            prevLine = curLine;
-          }
-          curLine = reader.readLine();
-        }
-      } else {
-        return;
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  public void clearContentAct() {
-    MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
-    if (selectedNode != null) {
-      TreeFile file = (TreeFile) selectedNode.getUserObject();
-      if (file.isFile() && file.getName().toLowerCase().endsWith(".txt")) {
-        int reply =
-            JOptionPane.showConfirmDialog(
-                frame,
-                "Do you want to delete the content of this file forever?",
-                "Confirm dialog",
-                JOptionPane.YES_NO_OPTION);
-        if (reply == JOptionPane.YES_OPTION) {
-          try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write("");
-          } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(
-                frame, "Can't delete the content", "Message", JOptionPane.INFORMATION_MESSAGE);
-          }
-        }
-      } else {
-        JOptionPane.showMessageDialog(
-            frame,
-            "You can delete only the content of .txt files",
-            "Message",
-            JOptionPane.INFORMATION_MESSAGE);
-      }
-    }
-  }
-
-  private void openFile(File file) {
-    try {
-      TextEditorFrame editor = new TextEditorFrame(file);
-      editor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-      editor.setVisible(true);
-    } catch (InvalidFileException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  private boolean canOpen(File file) {
-    return file.isFile()
-        && file.canRead()
-        && (file.getName().toLowerCase().endsWith(".txt")
-            || file.getName().toLowerCase().endsWith(".html"));
-  }
-
+  // finished
   private TreePath getPath(TreeNode treeNode) {
     TreeNode[] nodes = treeModel.getPathToRoot(treeNode);
-    TreePath path = new TreePath(nodes);
-    return path;
+    return new TreePath(nodes);
   }
-
-  private boolean moveFileToTrash(File file) {
+  // finished
+  private void moveFileToTrash(File file) throws IOException {
     FileUtils fileUtils = FileUtils.getInstance();
-    try {
-      if (file.exists()) {
-        if (file.isFile()) {
-          fileUtils.moveToTrash(new File[] {file});
-          return true;
-        } else {
-          int reply =
-              JOptionPane.showConfirmDialog(
-                  frame,
-                  "Do you want to move this folder to recycle bin?",
-                  "Confirm dialog",
-                  JOptionPane.YES_NO_OPTION);
-          if (reply == JOptionPane.YES_OPTION) {
-            fileUtils.moveToTrash(new File[] {file});
-            return true;
-          } else {
-            return false;
-          }
-        }
-      } else {
-        return false;
-      }
-
-    } catch (IOException e) {
-      e.printStackTrace();
-      return false;
-    }
+    fileUtils.moveToTrash(new File[] {file});
   }
-
-  private boolean isParent(File parent, File child) {
+  // finished
+  private boolean isAncestor(File parent, File child) {
     do {
       if (child.equals(parent)) {
         return true;
@@ -540,21 +232,56 @@ public class FileManagerSearchPanel extends SearchPanel {
     } while (child != null);
     return false;
   }
-
+  // finished
+  private void openTxtFile(File file) {
+    EventQueue.invokeLater(
+        () -> {
+          try {
+            TextEditorFrame textEditorFrame = new TextEditorFrame(file);
+            textEditorFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            textEditorFrame.setVisible(true);
+          } catch (IOException e) {
+            messenger.textEditorFailed(file);
+          }
+        });
+  }
+  // finished
+  private void openTableFile(File file) {
+    EventQueue.invokeLater(
+        () -> {
+          try {
+            TableEditorFrame textEditorFrame = new TableEditorFrame(file);
+            textEditorFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            textEditorFrame.setVisible(true);
+          } catch (IOException e) {
+            messenger.tableEditorFailed(file);
+          }
+        });
+  }
+  // finished
   private class FileManagerPopupMenu extends JPopupMenu {
-    public FileManagerPopupMenu(){
+    public FileManagerPopupMenu() {
       setComponentPopupMenu(popupMenu);
+      JMenu openWithItem = new JMenu("Open with");
+      JMenu newObjectMenu = new JMenu("Add");
       JMenuItem copyItem = new JMenuItem("Copy");
       JMenuItem pasteItem = new JMenuItem("Paste");
       JMenuItem cutItem = new JMenuItem("Cut");
       JMenuItem deleteItem = new JMenuItem("Delete");
-      JMenu newObjectMenu = new JMenu("Add");
 
+      add(openWithItem);
       add(copyItem);
       add(pasteItem);
       add(cutItem);
       add(deleteItem);
       add(newObjectMenu);
+
+      JMenuItem inTextEditor = new JMenuItem("Text Editor");
+      JMenuItem inTableEditor = new JMenuItem("Table Editor");
+      inTextEditor.addActionListener(new OpenTextFileAction());
+      inTableEditor.addActionListener(new OpenTableAction());
+      openWithItem.add(inTextEditor);
+      openWithItem.add(inTableEditor);
 
       JMenuItem newFolderItem = new JMenuItem("Folder");
       JMenuItem newJsonItem = new JMenuItem("Json file (*.json");
@@ -566,35 +293,185 @@ public class FileManagerSearchPanel extends SearchPanel {
       newObjectMenu.add(newHtmlFile);
       newObjectMenu.add(newTextFile);
 
-
-      /*copyItem.addActionListener(new CopyAction());
+      copyItem.addActionListener(new CopyAction());
       pasteItem.addActionListener(new PasteAction());
       cutItem.addActionListener(new CutAction());
       deleteItem.addActionListener(new DeleteAction());
-      newFolderItem.addActionListener(newFolderAction);
-      newTextFile.addActionListener(newTextFileAction);
-      newHtmlFile.addActionListener(newHtmlFileAction);*/
+      newFolderItem.addActionListener(new ItemAction("", true));
+      newJsonItem.addActionListener(new ItemAction(".json", false));
+      newTextFile.addActionListener(new ItemAction(".txt", false));
+      newHtmlFile.addActionListener(new ItemAction(".html", false));
+    }
+  }
+  // finished
+  private class OpenTextFileAction extends AbstractAction {
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+      if (selectedNode != null) {
+        TreeFile selectedFile = (TreeFile) selectedNode.getUserObject();
+        openTxtFile(selectedFile);
+      }
+    }
+  }
+  // finished
+  private class OpenTableAction extends AbstractAction {
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+      if (selectedNode != null) {
+        TreeFile selectedFile = (TreeFile) selectedNode.getUserObject();
+        openTableFile(selectedFile);
+      }
+    }
+  }
+  // finished
+  public class DeleteAction extends AbstractAction {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+      if (selectedNode != null) {
+        File selectedFile = (File) selectedNode.getUserObject();
+        try {
+          MyTreeNode parentNode = (MyTreeNode) selectedNode.getParent();
+          moveFileToTrash(selectedFile);
+          treeModel.removeNodeFromParent(selectedNode);
+          tree.setSelectionPath(getPath(parentNode));
+        } catch (IOException ex) {
+          messenger.moveToTrashFailed(selectedFile);
+        }
+      }
+    }
+  }
+  // finished
+  public class CopyAction extends AbstractAction {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+      if (selectedNode != null) {
+        fileToCopy = (TreeFile) selectedNode.getUserObject();
+        fileToCut = null;
+        cutFromNode = null;
+      }
     }
   }
 
-  private class PopupMouseListener extends MouseAdapter {
-    @Override
-    public void mouseClicked(MouseEvent e) {
-      if (SwingUtilities.isRightMouseButton(e)) {
-        showPopupMenu(e);
-      }
-    }
+  public class PasteAction extends AbstractAction {
 
     @Override
-    public void mousePressed(MouseEvent e) {
-      if (SwingUtilities.isRightMouseButton(e)) {
-        showPopupMenu(e);
+    public void actionPerformed(ActionEvent e) {
+      MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+      if (selectedNode != null) {
+        TreeFile folderToCopyIn = (TreeFile) selectedNode.getUserObject();
+        if (!folderToCopyIn.isDirectory()) {
+          messenger.selectDirectory();
+        } else {
+          if (fileToCopy != null) {
+            try {
+              TreeFile destinationFile = prepareToMove(fileToCopy, folderToCopyIn);
+              if (destinationFile != null) {
+                copyFolder(fileToCopy, destinationFile);
+                updateNode(selectedNode);
+                MyTreeNode copiedNode = getChildNodeWithFile(selectedNode, destinationFile);
+                tree.setSelectionPath(getPath(copiedNode));
+                updateFileList(selectedNode);
+              }
+            } catch (IOException ex) {
+              ex.printStackTrace();
+              messenger.copyFileFailed(fileToCopy, folderToCopyIn);
+            }
+          } else if (cutFromNode != null) {
+            try {
+              TreeFile destinationFile = prepareToMove(fileToCut, folderToCopyIn);
+              if (destinationFile != null) {
+                moveFolder(fileToCut, destinationFile);
+                updateNode(selectedNode);
+                MyTreeNode movedNode = getChildNodeWithFile(selectedNode, destinationFile);
+                tree.setSelectionPath(getPath(movedNode));
+                updateFileList(movedNode);
+                treeModel.removeNodeFromParent(cutFromNode);
+                cutFromNode = null;
+                fileToCut = null;
+              }
+            } catch (IOException ex) {
+              ex.printStackTrace();
+              messenger.moveFileFailed(fileToCut, folderToCopyIn);
+            }
+          }
+        }
       }
     }
+  }
+  // finished
+  public class CutAction extends AbstractAction {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+      if (selectedNode != null) {
+        fileToCopy = null;
+        fileToCut = (TreeFile) selectedNode.getUserObject();
+        cutFromNode = selectedNode;
+      }
+    }
+  }
+  // finished
+  private class ClearContentAction extends AbstractAction {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+      if (selectedNode != null) {
+        TreeFile file = (TreeFile) selectedNode.getUserObject();
+        if (file.isFile() && file.getName().toLowerCase().endsWith(".txt")) {
+          int reply = messenger.wantsToClear();
+          if (reply == JOptionPane.YES_OPTION) {
+            try {
+              BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+              writer.write("");
+            } catch (IOException ex) {
+              ex.printStackTrace();
+              messenger.clearContentFailed();
+            }
+          }
+        } else {
+          messenger.canClearOnlyTxt();
+        }
+      }
+    }
+  }
 
-    private void showPopupMenu(MouseEvent e) {
-      popupMenu.show(e.getComponent(), e.getX(), e.getY());
+  public class CopyAllWithExtensionAction extends AbstractAction {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      if (fileToCopy != null) {
+        MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+        if (selectedNode != null) {
+          MyTreeNode parentNode = (MyTreeNode) selectedNode.getParent();
+          TreeFile selectedDirectory = (TreeFile) parentNode.getUserObject();
+          if (selectedDirectory.isDirectory()) {
+            try {
+              String selectedFileType = (String) extensionBox.getSelectedItem();
+              String extension = getExtension(selectedFileType);
+              File[] filesWithSpecifiedExtension =
+                  fileToCopy.listFiles((dir, name) -> name.toLowerCase().endsWith(extension));
+              if (filesWithSpecifiedExtension != null) {
+                for (File file : filesWithSpecifiedExtension) {
+                  TreeFile treeFile = new TreeFile(file.getAbsolutePath());
+                  TreeFile destination = prepareToMove(treeFile, selectedDirectory);
+                  if (destination != null) {
+                    copyFolder(treeFile, destination);
+                    updateNode(parentNode);
+                  }
+                }
+              }
+            } catch (IOException ex) {
+              ex.printStackTrace();
+              // need to message about it
+            }
+          }
+        }
+      }
     }
   }
 }

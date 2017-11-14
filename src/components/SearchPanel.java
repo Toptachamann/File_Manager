@@ -1,6 +1,5 @@
 package components;
 
-import actions.RenameAction;
 import auxiliary.GBC;
 import auxiliary.MyTreeNode;
 import auxiliary.TreeFile;
@@ -122,7 +121,7 @@ public abstract class SearchPanel extends JPanel {
               treeWillCollapse(event);
             } else {
               MyTreeNode node = (MyTreeNode) pathToNode.getLastPathComponent();
-              addOneLevel(node);
+              updateNode(node);
               if (node.getChildCount() > 0) {
                 tree.setSelectionPath(pathToNode.pathByAddingChild(node.getFirstChild()));
               } else {
@@ -153,7 +152,7 @@ public abstract class SearchPanel extends JPanel {
   }
 
   private void addAllowedAction() {
-    Action renameAction = new RenameAction(this);
+    Action renameAction = new RenameAction();
 
     InputMap inputMap = tree.getInputMap(JComponent.WHEN_FOCUSED);
 
@@ -171,27 +170,37 @@ public abstract class SearchPanel extends JPanel {
     return new File(parent, child.getName()).exists();
   }
 
-  protected void addOneLevel(MyTreeNode node) {
-    if (node.isLoaded()) {
-      return;
-    }
-    node.setLoaded(true);
+  protected void updateNode(MyTreeNode node) {
     TreeFile file = (TreeFile) node.getUserObject();
     if (file.isDirectory()) {
       File[] children = file.listFiles((fileName) -> !fileName.isHidden());
       if (children != null) {
         for (File child : children) {
           TreeFile treeChild = new TreeFile(child.toString());
-          MyTreeNode childNode;
-          if (treeChild.isDirectory()) {
-            childNode = new MyTreeNode(treeChild, true);
-          } else {
-            childNode = new MyTreeNode(treeChild, false);
+          if(!contains(node, treeChild)){
+            MyTreeNode childNode;
+            if (treeChild.isDirectory()) {
+              childNode = new MyTreeNode(treeChild, true);
+            } else {
+              childNode = new MyTreeNode(treeChild, false);
+            }
+            treeModel.insertNodeInto(childNode, node, node.getChildCount());
           }
-          treeModel.insertNodeInto(childNode, node, node.getChildCount());
-        }
+          }
       }
     }
+    node.setLoaded(true);
+  }
+
+  private boolean contains(MyTreeNode parent, TreeFile child) {
+    for (int i = 0; i < parent.getChildCount(); i++) {
+      MyTreeNode node = (MyTreeNode) parent.getChildAt(i);
+      TreeFile file = (TreeFile) node.getUserObject();
+      if (file.equals(child)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private void addRoots(MyTreeNode invisibleRootNode) {
@@ -256,15 +265,13 @@ public abstract class SearchPanel extends JPanel {
     return isCreated ? newUntitledFile : null;
   }
 
-  private MyTreeNode insertFileAsChild(
-      @NotNull TreeFile child, @NotNull MyTreeNode parentNode) {
+  private MyTreeNode insertFileAsChild(@NotNull TreeFile child, @NotNull MyTreeNode parentNode) {
     Validate.notNull(child, "Child must be not null");
     MyTreeNode childNode = new MyTreeNode(child, child.isDirectory());
     return insertNodeAsChild(childNode, parentNode);
   }
 
-  private MyTreeNode insertNodeAsChild(
-      @NotNull MyTreeNode child, @NotNull MyTreeNode parent) {
+  private MyTreeNode insertNodeAsChild(@NotNull MyTreeNode child, @NotNull MyTreeNode parent) {
     treeModel.insertNodeInto(child, parent, parent.getChildCount());
     return child;
   }
@@ -334,7 +341,7 @@ public abstract class SearchPanel extends JPanel {
     }
   }
 
-  protected void updateFileList(@NotNull TreeFile newParentDirectory,@NotNull String extension) {
+  protected void updateFileList(@NotNull TreeFile newParentDirectory, @NotNull String extension) {
     if (newParentDirectory.isDirectory()) {
       selectedDirectory = newParentDirectory;
       File[] targetFiles =
@@ -359,7 +366,19 @@ public abstract class SearchPanel extends JPanel {
     }
   }
 
-//need to fix
+  public class RenameAction extends AbstractAction {
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      MyTreeNode selectedNode = (MyTreeNode) tree.getLastSelectedPathComponent();
+      if(selectedNode != null){
+        TreePath selectedPath = getPath(selectedNode);
+        tree.startEditingAtPath(selectedPath);
+      }
+    }
+  }
+
+  // need to fix
   private class MyTreeModelListener implements TreeModelListener {
 
     @Override
@@ -403,8 +422,8 @@ public abstract class SearchPanel extends JPanel {
     @Override
     public void treeStructureChanged(TreeModelEvent e) {}
   }
-//need to fix
-  protected class ItemAction extends AbstractAction {
+  // need to fix
+  public class ItemAction extends AbstractAction {
 
     public ItemAction(String extension, boolean isDirectory) {
       putValue("Extension", extension);

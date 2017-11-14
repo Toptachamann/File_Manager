@@ -1,11 +1,6 @@
 package components;
 
 import actions.ChangeLookAndFeelAction;
-import actions.CopyAction;
-import actions.CutAction;
-import actions.DeleteAction;
-import actions.OpenAction;
-import actions.PasteAction;
 import auxiliary.LookAndFeelClassName;
 
 import javax.swing.JFrame;
@@ -17,7 +12,7 @@ import javax.swing.JPanel;
 public class FileManagerComponentManager {
   private FileManagerFrame frame;
 
-  private JMenuBar menuBar;
+  private FileManagerMenuBar menuBar;
   private FileManagerSearchPanel searchPanel;
 
   private JPanel leftHintPanel;
@@ -27,7 +22,7 @@ public class FileManagerComponentManager {
 
   public FileManagerComponentManager(FileManagerFrame frame){
     this.frame = frame;
-    createFileManagerMenuBar(frame);
+    menuBar = new FileManagerMenuBar();
     createSearchPanel(frame);
     createLeftHintPanel();
     createRightHintPanel();
@@ -50,67 +45,65 @@ public class FileManagerComponentManager {
     searchPanel = new FileManagerSearchPanel(frame);
   }
 
-  private void createFileManagerMenuBar(JFrame frame) {
-    menuBar = new JMenuBar();
-    JMenu fileMenu = new JMenu("File");
-    JMenu editMenu = new JMenu("Operations");
-    JMenu viewMenu = new JMenu("View");
-    JMenu helpMenu = new JMenu("Help");
+  private class FileManagerMenuBar extends JMenuBar{
+    public FileManagerMenuBar(){
+      JMenu fileMenu = new JMenu("File");
+      JMenu editMenu = new JMenu("Operations");
+      JMenu viewMenu = new JMenu("View");
+      JMenu helpMenu = new JMenu("Help");
 
-    menuBar.add(fileMenu);
-    menuBar.add(editMenu);
-    menuBar.add(viewMenu);
-    menuBar.add(helpMenu);
+      add(fileMenu);
+      add(editMenu);
+      add(viewMenu);
+      add(helpMenu);
 
-    JMenuItem copyItem = new JMenuItem("Copy");
-    JMenuItem cutItem = new JMenuItem("Cut");
-    JMenuItem pasteItem = new JMenuItem("Paste");
-    JMenuItem deleteItem = new JMenuItem("Delete");
-    JMenuItem openItem = new JMenuItem("Open");
+      JMenuItem copyItem = new JMenuItem("Copy");
+      JMenuItem cutItem = new JMenuItem("Cut");
+      JMenuItem pasteItem = new JMenuItem("Paste");
+      JMenuItem deleteItem = new JMenuItem("Delete");
 
-    JMenuItem helpMenuItem = new JMenuItem("Commands list");
-    helpMenu.add(helpMenuItem);
+      JMenuItem helpMenuItem = new JMenuItem("Commands list");
+      helpMenu.add(helpMenuItem);
 
-    fileMenu.add(openItem);
-    editMenu.add(copyItem);
-    editMenu.add(cutItem);
-    editMenu.add(pasteItem);
-    editMenu.add(deleteItem);
+      editMenu.add(copyItem);
+      editMenu.add(cutItem);
+      editMenu.add(pasteItem);
+      editMenu.add(deleteItem);
 
-    JMenu lookAndFeelMenu = new JMenu("Look and feel");
-    viewMenu.add(lookAndFeelMenu);
+      JMenu lookAndFeelMenu = new JMenu("Look and feel");
+      viewMenu.add(lookAndFeelMenu);
 
-    JMenuItem metalItem =
-        new JMenuItem(
-            new ChangeLookAndFeelAction("Metal", LookAndFeelClassName.METAL_LOOK_AND_FEEL, frame));
-    JMenuItem nimbusItem =
-        new JMenuItem(
-            new ChangeLookAndFeelAction(
-                "Nimbus", LookAndFeelClassName.NIMBUS_LOOK_AND_FEEL, frame));
-    JMenuItem motifItem =
-        new JMenuItem(
-            new ChangeLookAndFeelAction("Motif", LookAndFeelClassName.MOTIF_LOOK_AND_FEEL, frame));
-    JMenuItem windowsItem =
-        new JMenuItem(
-            new ChangeLookAndFeelAction(
-                "Windows", LookAndFeelClassName.WINDOWS_LOOK_AND_FEEL, frame));
-    JMenuItem windowsClassicItem =
-        new JMenuItem(
-            new ChangeLookAndFeelAction(
-                "Windows classic", LookAndFeelClassName.WINDOWS_CLASSIC_LOOK_AND_FEEL, frame));
+      JMenuItem metalItem =
+          new JMenuItem(
+              new ChangeLookAndFeelAction("Metal", LookAndFeelClassName.METAL_LOOK_AND_FEEL, frame));
+      JMenuItem nimbusItem =
+          new JMenuItem(
+              new ChangeLookAndFeelAction(
+                  "Nimbus", LookAndFeelClassName.NIMBUS_LOOK_AND_FEEL, frame));
+      JMenuItem motifItem =
+          new JMenuItem(
+              new ChangeLookAndFeelAction("Motif", LookAndFeelClassName.MOTIF_LOOK_AND_FEEL, frame));
+      JMenuItem windowsItem =
+          new JMenuItem(
+              new ChangeLookAndFeelAction(
+                  "Windows", LookAndFeelClassName.WINDOWS_LOOK_AND_FEEL, frame));
+      JMenuItem windowsClassicItem =
+          new JMenuItem(
+              new ChangeLookAndFeelAction(
+                  "Windows classic", LookAndFeelClassName.WINDOWS_CLASSIC_LOOK_AND_FEEL, frame));
 
-    lookAndFeelMenu.add(metalItem);
-    lookAndFeelMenu.add(nimbusItem);
-    lookAndFeelMenu.add(motifItem);
-    lookAndFeelMenu.add(windowsItem);
-    lookAndFeelMenu.add(windowsClassicItem);
+      lookAndFeelMenu.add(metalItem);
+      lookAndFeelMenu.add(nimbusItem);
+      lookAndFeelMenu.add(motifItem);
+      lookAndFeelMenu.add(windowsItem);
+      lookAndFeelMenu.add(windowsClassicItem);
 
-    copyItem.addActionListener(new CopyAction(searchPanel));
-    cutItem.addActionListener(new CutAction(searchPanel));
-    pasteItem.addActionListener(new PasteAction(searchPanel));
-    deleteItem.addActionListener(new DeleteAction(searchPanel));
-    openItem.addActionListener(new OpenAction(searchPanel));
-    helpMenuItem.addActionListener((e) -> helpDialog.showDialog());
+//      copyItem.addActionListener(searchPanel.new CopyAction());
+//      cutItem.addActionListener(searchPanel.new CutAction());
+//      pasteItem.addActionListener(searchPanel.new PasteAction());
+//      deleteItem.addActionListener(searchPanel.new DeleteAction());
+      helpMenuItem.addActionListener((e) -> helpDialog.showDialog());
+    }
   }
 
   public JMenuBar getMenuBar() {
