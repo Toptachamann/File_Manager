@@ -12,6 +12,13 @@ public class Token {
   public static final Token NOT_TOKEN = new Token(TokenType.NOT);
   public static final Token LEFT_PAREN_TOKEN = new Token(TokenType.LEFT_PAREN);
   public static final Token RIGHT_PAREN_TOKEN = new Token(TokenType.RIGHT_PAREN);
+  public static final Token PLUS_TOKEN = new Token(TokenType.PLUS);
+  public static final Token MINUS_TOKEN = new Token(TokenType.MINUS);
+  public static final Token MULT_TOKEN = new Token(TokenType.MULTIPLY);
+  public static final Token DIV_TOKEN = new Token(TokenType.DIV);
+  public static final Token INT_DIV_TOKEN = new Token(TokenType.INT_DIV);
+  public static final Token MOD_TOKEN = new Token(TokenType.MOD);
+  public static final Token EXPONENT_TOKEN = new Token(TokenType.EXP);
   TokenType type;
   String strToken = null;
 

@@ -46,30 +46,3 @@ public class RightHintPanel extends JPanel {
         new GBC(1, 1, 1, 1, 1, 1).setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
   }
 }
-
-/*JButton openButton = new JButton("Edit");
-    JButton clearButton = new JButton("Clear content");
-    JButton renameButton = new JButton("Rename");
-    JButton copyWithoutMultipleLinesButton = new JButton("Copy without repeating lines");
-    JButton pasteHtml = new JButton("Paste HTML");
-    JButton copyAllWithExtensionButton = new JButton("Copy all with chosen extension");
-
-    openButton.addActionListener(new OpenAction(searchPanel));
-    clearButton.addActionListener(new ClearContentAction(searchPanel));
-    renameButton.addActionListener(new RenameAction(searchPanel));
-    copyAllWithExtensionButton.addActionListener(new CopyAllWithExtensionAction(searchPanel));
-    pasteHtml.addActionListener(new CopyHtmlFileAction(searchPanel));
-    copyWithoutMultipleLinesButton.addActionListener(
-        new CopyWithoutMultipleLinesAction(searchPanel));
-
-    add(openButton, new GBC(0, 0, 1, 1, 1, 1).setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
-    add(clearButton, new GBC(1, 0, 1, 1, 1, 1).setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
-    add(renameButton, new GBC(2, 0, 1, 1, 1, 1).setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
-    add(
-        copyWithoutMultipleLinesButton,
-        new GBC(0, 1, 1, 1, 1, 1).setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
-    add(pasteHtml, new GBC(1, 1, 1, 1, 1, 1).setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
-    add(
-        copyAllWithExtensionButton,
-        new GBC(2, 1, 1, 1, 1, 1).setAnchor(GBC.CENTER).setInsets(5, 0, 5, 0));
-*/

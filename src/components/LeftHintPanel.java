@@ -56,25 +56,3 @@ public class LeftHintPanel extends JPanel {
 
     }
 }
-
-/*JButton copyButton = new JButton("Copy");
-JButton pasteButton = new JButton("Paste");
-JButton cutButton = new JButton("Cut");
-JButton deleteButton = new JButton("Delete");
-
-copyButton.addActionListener(new CopyAction(searchPanel));
-pasteButton.addActionListener(new PasteAction(searchPanel));
-cutButton.addActionListener(new CutAction(searchPanel));
-deleteButton.addActionListener(new DeleteAction(searchPanel));
-add(
-    copyButton,
-    new GBC(0, 0, 1, 1, 1, 1).setAnchor(GridBagConstraints.CENTER).setInsets(5, 0, 5, 0));
-add(
-    pasteButton,
-    new GBC(1, 0, 1, 1, 1, 1).setAnchor(GridBagConstraints.CENTER).setInsets(5, 0, 5, 0));
-add(
-    cutButton,
-    new GBC(0, 1, 1, 1, 1, 1).setAnchor(GridBagConstraints.CENTER).setInsets(5, 0, 5, 0));
-add(
-    deleteButton,
-    new GBC(1, 1, 1, 1, 1, 1).setAnchor(GridBagConstraints.CENTER).setInsets(5, 0, 5, 0));*/

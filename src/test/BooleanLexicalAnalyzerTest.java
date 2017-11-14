@@ -1,7 +1,7 @@
 package test;
 
 import auxiliary.EvaluationException;
-import expression_analyses.LexicalAnalyzer;
+import expression_analyses.BooleanLexicalAnalyzer;
 import expression_analyses.Node;
 import expression_analyses.Token;
 import org.junit.jupiter.api.DisplayName;
@@ -21,12 +21,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Tests for lexical analyzer")
-public class LexicalAnalyzerTest {
-  private static LexicalAnalyzer analyzer;
+public class BooleanLexicalAnalyzerTest {
+  private static BooleanLexicalAnalyzer analyzer;
 
 
-  public LexicalAnalyzerTest(){
-    analyzer = new LexicalAnalyzer();
+  public BooleanLexicalAnalyzerTest(){
+    analyzer = new BooleanLexicalAnalyzer();
   }
 
   @Test

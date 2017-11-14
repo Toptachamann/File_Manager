@@ -15,10 +15,10 @@ public class BooleanComputer {
   private HashMap<String, Integer> columnMap;
   private HashMap<String, Integer> rowMap;
   private byte[][] visited;
-  LexicalAnalyzer analyzer;
+  BooleanLexicalAnalyzer analyzer;
 
   public BooleanComputer(){
-    this.analyzer = new LexicalAnalyzer();
+    this.analyzer = new BooleanLexicalAnalyzer();
   }
 
   public BooleanComputer(
@@ -34,7 +34,7 @@ public class BooleanComputer {
     for (int i = 0; i < visited.length; i++) {
       Arrays.fill(visited[i], (byte) 0);
     }
-    this.analyzer = new LexicalAnalyzer();
+    this.analyzer = new BooleanLexicalAnalyzer();
   }
 
   public void calculate(int row, int column) throws EvaluationException {

@@ -6,16 +6,18 @@ public enum TokenType {
   EMPTY("Empty token"),
   PLUS("+"),
   MINUS("-"),
-  INT_DIV("//"),
-  MOD("%"),
   MULTIPLY("*"),
   DIV("/"),
+  INT_DIV("//"),
+  MOD("%"),
+  EXP("^"),
   NOT("not"),
   AND("and"),
   OR("or"),
   REF("Cell reference"),
   TRUE("true"),
-  FALSE("false");
+  FALSE("false"),
+  NUMBER("number");
   public String name;
 
   TokenType(String name) {
