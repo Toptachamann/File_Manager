@@ -178,6 +178,7 @@ public class Tokenizer implements AbstractTokenizer {
             --currentPosition;
             invalid();
           }
+          currentPosition += fracPart.length();
           String whole = intPart + "." + fracPart;
           return new Token(TokenType.NUMBER, whole);
         } else {

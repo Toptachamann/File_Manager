@@ -32,7 +32,7 @@ public class ArithmeticLexicalAnalyzer implements AbstractLexicalAnalyzer {
       case PLUS:
       case MINUS:
         {
-          Node right = buildMultiplicand(tokenizer);
+          Node right = buildAddendum(tokenizer);
           return new Node(token, left, right);
         }
       case EMPTY:

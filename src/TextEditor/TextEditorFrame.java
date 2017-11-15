@@ -1,7 +1,7 @@
 package TextEditor;
 
 import auxiliary.InvalidFileException;
-import components.MyFileChooser;
+import file_manager.MyFileChooser;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;

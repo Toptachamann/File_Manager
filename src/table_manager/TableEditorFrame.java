@@ -2,7 +2,7 @@ package table_manager;
 
 import auxiliary.GBC;
 import auxiliary.InvalidFileException;
-import components.MyFileChooser;
+import file_manager.MyFileChooser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

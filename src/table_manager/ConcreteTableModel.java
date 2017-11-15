@@ -1,8 +1,12 @@
 package table_manager;
 
 import auxiliary.EvaluationException;
-import expression_analyses.BooleanComputer;
-import org.apache.commons.lang3.StringUtils;
+import expression_analyses.AbstractLexicalAnalyzer;
+import expression_analyses.ArithmeticCalculator;
+import expression_analyses.ArithmeticLexicalAnalyzer;
+import expression_analyses.BooleanCalculator;
+import expression_analyses.BooleanLexicalAnalyzer;
+import expression_analyses.Calculator;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.event.TableModelEvent;
@@ -10,8 +14,6 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ConcreteTableModel extends AbstractTableModel {
   private static final int ALPHABET_SIZE = 26;
@@ -73,31 +75,28 @@ public class ConcreteTableModel extends AbstractTableModel {
   }
 
   public void recalculateAll() throws EvaluationException {
-    if (booleanState) {
-      BooleanComputer computer = new BooleanComputer(data, expressions, columnMap, rowMap);
-      for (int i = 0; i < rowCount; i++) {
-        for (int j = 0; j < columnCount; j++) {
-          if (!StringUtils.isBlank(expressions.get(i).get(j))) {
-            computer.calculate(i, j);
-          }
-        }
-      }
-    }
+    Calculator calculator = getCalculator();
+    AbstractLexicalAnalyzer analyzer = getAnalyzer();
+    calculator.calculateAll(analyzer);
     fireTableChanged(new TableModelEvent(this, 0, 0, 0, TableModelEvent.DELETE));
   }
 
-  private boolean isBooleanEq(String s) {
-    Pattern pattern = Pattern.compile("(&|&&|and|or|\\||\\|\\||!|not|false|true)");
-    Matcher matcher = pattern.matcher(s);
-    return matcher.find();
+  @NotNull
+  private Calculator getCalculator() {
+    if (booleanState) {
+      return new BooleanCalculator(data, expressions, columnMap, rowMap);
+    } else {
+      return new ArithmeticCalculator(data, expressions, columnMap, rowMap);
+    }
   }
 
-  private String[][] toArray(ArrayList<ArrayList<String>> arr) {
-    String[][] result = new String[arr.size()][];
-    for (int i = 0; i < arr.size(); i++) {
-      result[i] = (String[]) arr.get(i).toArray();
+  @NotNull
+  private AbstractLexicalAnalyzer getAnalyzer(){
+    if(booleanState){
+      return new BooleanLexicalAnalyzer();
+    }else{
+      return new ArithmeticLexicalAnalyzer();
     }
-    return result;
   }
 
   private void init() {
@@ -154,7 +153,8 @@ public class ConcreteTableModel extends AbstractTableModel {
   }
 
   public void removeColumn(int column) {
-    columnNames.remove(column);
+    String columnName = columnNames.remove(column);
+    columnMap.remove(columnName);
     for (int i = column; i < columnCount - 1; i++) {
       int index = columnMap.get(columnNames.get(i));
       columnMap.put(columnNames.get(i), index - 1);
