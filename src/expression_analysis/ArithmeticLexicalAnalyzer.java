@@ -105,7 +105,7 @@ public class ArithmeticLexicalAnalyzer implements AbstractLexicalAnalyzer {
         }
       case EXP:
         {
-          Node right = buildUnary(tokenizer);
+          Node right = buildExponent(tokenizer);
           return new Node(token, left, right);
         }
       case RIGHT_PAREN:

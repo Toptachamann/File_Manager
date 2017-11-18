@@ -33,7 +33,7 @@ public class ConcreteTableModel extends AbstractTableModel {
   private int rowCount = DEFAULT_ROW_COUNT;
 
   private boolean valueView = true;
-  private boolean booleanState = true;
+  private boolean booleanState = false;
 
   public ConcreteTableModel() {
     init();
@@ -78,7 +78,7 @@ public class ConcreteTableModel extends AbstractTableModel {
     fireTableDataChanged();
   }
 
-  public void recalculateAll() throws EvaluationException {
+  public void recalculateAll() {
     Calculator calculator = getCalculator();
     calculator.calculateAll();
     fireTableChanged(new TableModelEvent(this, 0, 0, 0, TableModelEvent.DELETE));
@@ -160,6 +160,7 @@ public class ConcreteTableModel extends AbstractTableModel {
       row.remove(column);
     }
     --columnCount;
+    recalculateAll();
     fireTableStructureChanged();
   }
 
@@ -174,6 +175,7 @@ public class ConcreteTableModel extends AbstractTableModel {
     data.remove(row);
     expressions.remove(row);
     --rowCount;
+    recalculateAll();
     fireTableRowsDeleted(row, row);
   }
 
@@ -186,6 +188,7 @@ public class ConcreteTableModel extends AbstractTableModel {
     data.add(dataRow);
     expressions.add(expressionRow);
     ++rowCount;
+    recalculateAll();
     fireTableRowsInserted(rowCount - 1, rowCount - 1);
   }
 
@@ -200,6 +203,7 @@ public class ConcreteTableModel extends AbstractTableModel {
       row.add(null);
     }
     ++columnCount;
+    recalculateAll();
     fireTableStructureChanged();
     return newColumnName;
   }

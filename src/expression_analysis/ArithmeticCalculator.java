@@ -1,6 +1,7 @@
 package expression_analysis;
 
 import auxiliary.EvaluationException;
+import org.apache.commons.lang3.StringUtils;
 import org.nevec.rjm.BigDecimalMath;
 
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ArithmeticCalculator extends Calculator {
-  public static MathContext defaultRounder = new MathContext(4, RoundingMode.HALF_UP);
+  public static MathContext defaultRounder = new MathContext(10, RoundingMode.HALF_UP);
   private MathContext rounder;
 
   public ArithmeticCalculator(
@@ -39,23 +40,25 @@ public class ArithmeticCalculator extends Calculator {
     String value = values.get(row).get(column);
     if (value == null) {
       return new CellResult("Cell is not initialized");
+    } else if (StringUtils.isBlank(value)) {
+      return new CellResult("Cell is clank");
     } else {
       try {
         BigDecimal result = new BigDecimal(value);
         return new CellResult(result);
       } catch (NumberFormatException e) {
-        return new CellResult(value);
+        return new CellResult("##Invalid##");
       }
     }
   }
 
   @Override
   public void setValueAt(int row, int column, CellResult result) {
-    if(result.isInvalid()){
+    if (result.isInvalid()) {
       values.get(row).set(column, result.getCause());
-    }else{
+    } else {
       BigDecimal res = (BigDecimal) result.result;
-      values.get(row).set(column, res.toString());
+      values.get(row).set(column, res.toPlainString());
     }
   }
 
@@ -64,21 +67,31 @@ public class ArithmeticCalculator extends Calculator {
       case MINUS:
       case PLUS:
         {
-          CellResult leftResult = evaluate(node.left);
-          CellResult rightResult = evaluate(node.right);
-          if (leftResult.isInvalid()) {
-            return leftResult;
-          } else if (rightResult.isInvalid()) {
-            return rightResult;
-          } else {
-            BigDecimal left = (BigDecimal) leftResult.result;
-            BigDecimal right = (BigDecimal) rightResult.result;
-            if (node.token.type == TokenType.MINUS) {
-              leftResult.result = left.subtract(right, rounder);
+          if (node.right.equals(Node.EMPTY_NODE)) {
+            CellResult left = evaluate(node.left);
+            if (left.isInvalid()) {
+              return left;
             } else {
-              leftResult.result = left.add(right, rounder);
+              left.result = ((BigDecimal) left.result).negate();
+              return left;
             }
-            return leftResult;
+          } else {
+            CellResult leftResult = evaluate(node.left);
+            CellResult rightResult = evaluate(node.right);
+            if (leftResult.isInvalid()) {
+              return leftResult;
+            } else if (rightResult.isInvalid()) {
+              return rightResult;
+            } else {
+              BigDecimal left = (BigDecimal) leftResult.result;
+              BigDecimal right = (BigDecimal) rightResult.result;
+              if (node.token.type == TokenType.MINUS) {
+                leftResult.result = left.subtract(right, rounder);
+              } else {
+                leftResult.result = left.add(right, rounder);
+              }
+              return leftResult;
+            }
           }
         }
       case MULTIPLY:
@@ -113,7 +126,7 @@ public class ArithmeticCalculator extends Calculator {
               if (right.compareTo(BigDecimal.ZERO) == 0) {
                 leftResult.setInvalid("Modulo is zero");
               } else {
-                leftResult.result = left.remainder(right);
+                leftResult.result = left.remainder(right, rounder);
               }
             }
             return leftResult;
@@ -130,13 +143,29 @@ public class ArithmeticCalculator extends Calculator {
           } else {
             BigDecimal left = (BigDecimal) leftResult.result;
             BigDecimal right = (BigDecimal) rightResult.result;
-            leftResult.result = BigDecimalMath.pow(left, right);
+            if (left.compareTo(BigDecimal.ZERO) == -1) {
+              if (right.compareTo(new BigDecimal(right.toBigInteger())) == 0) {
+                leftResult.result = left.pow(right.toBigInteger().intValue(), rounder);
+              } else {
+                leftResult.setInvalid("Can't raise negative number to fractional power");
+              }
+            } else {
+              try {
+                /*right = right.setScale(10);
+                left = left.setScale(10);*/
+                leftResult.result = BigDecimalMath.pow(left, right);
+              } catch (ArithmeticException e) {
+                leftResult.setInvalid(e.getMessage());
+              }
+            }
             return leftResult;
           }
         }
       case NUMBER:
         {
-          return new CellResult(new BigDecimal(node.token.strToken));
+          BigDecimal result = new BigDecimal(node.token.strToken);
+          result = result.setScale(10, RoundingMode.HALF_UP);
+          return new CellResult(result);
         }
       case LEFT_PAREN:
         {

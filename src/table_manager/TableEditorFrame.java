@@ -44,7 +44,7 @@ public class TableEditorFrame extends JFrame {
         () -> {
           try {
             TableEditorFrame managerFrame =
-                new TableEditorFrame(new File("C:\\File_Manager_Test\\new table.json"));
+                new TableEditorFrame(new File("C:\\File_Manager_Test\\arithmetic.json"));
             managerFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             managerFrame.setVisible(true);
           } catch (IOException e) {
@@ -279,7 +279,7 @@ public class TableEditorFrame extends JFrame {
       optionsMenu.add(switchViewItem);
       optionsMenu.add(switchStateItem);
       switchViewItem.addActionListener((e) -> componentManager.getTableModel().switchView());
-      switchStateItem.addActionListener((e)->componentManager.getTableModel().switchState());
+      switchStateItem.addActionListener((e) -> componentManager.getTableModel().switchState());
     }
   }
 

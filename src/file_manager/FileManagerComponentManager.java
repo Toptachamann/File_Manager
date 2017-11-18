@@ -22,11 +22,11 @@ public class FileManagerComponentManager {
 
   public FileManagerComponentManager(FileManagerFrame frame){
     this.frame = frame;
-    menuBar = new FileManagerMenuBar();
     createSearchPanel(frame);
     createLeftHintPanel();
     createRightHintPanel();
     createHelpDialog(frame);
+    menuBar = new FileManagerMenuBar();
   }
 
   private void createHelpDialog(JFrame frame) {

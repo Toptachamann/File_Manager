@@ -17,7 +17,7 @@ public class TokenizerTest {
   @Test
   @DisplayName("Basic token distinction")
   public void test() {
-    String expression = "true false & && and | || or ! not ( ) [A:1] +-*/ //%";
+    String expression = "true false & && and | || or ! not ( ) [A:1] + - * / // % ^";
     AbstractTokenizer tokenizer = new Tokenizer(expression);
     try {
       assertEquals(Token.TRUE_TOKEN, tokenizer.getToken());
@@ -39,6 +39,7 @@ public class TokenizerTest {
       assertEquals(Token.DIV_TOKEN, tokenizer.getToken());
       assertEquals(Token.INT_DIV_TOKEN, tokenizer.getToken());
       assertEquals(Token.MOD_TOKEN, tokenizer.getToken());
+      assertEquals(Token.EXPONENT_TOKEN, tokenizer.getToken());
 
     } catch (EvaluationException e) {
       e.printStackTrace();

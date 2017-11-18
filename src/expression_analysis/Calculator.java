@@ -110,11 +110,15 @@ public abstract class Calculator {
     }
   }
 
-  protected class CellResult {
+  public class CellResult {
 
     Object result;
     private String cause;
     private boolean invalid;
+
+    public Object getResult() {
+      return result;
+    }
 
     public CellResult(Object result) {
       this.result = result;
