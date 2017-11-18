@@ -1,4 +1,4 @@
-package expression_analyses;
+package expression_analysis;
 
 import auxiliary.EvaluationException;
 import org.apache.commons.lang3.StringUtils;

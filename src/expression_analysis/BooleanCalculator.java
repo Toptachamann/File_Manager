@@ -1,4 +1,4 @@
-package expression_analyses;
+package expression_analysis;
 
 import auxiliary.EvaluationException;
 
@@ -6,11 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BooleanCalculator extends Calculator {
-  private ArrayList<ArrayList<String>> values;
-  private ArrayList<ArrayList<String>> expressions;
-  private HashMap<String, Integer> columnMap;
-  private HashMap<String, Integer> rowMap;
-  private byte[][] visited;
 
   public BooleanCalculator(
       ArrayList<ArrayList<String>> values,
@@ -48,9 +43,8 @@ public class BooleanCalculator extends Calculator {
         }
       case REF:
         {
-          evaluateRef(currentNode.token.strToken);
-          boolean refResult = String;
-          return refResult;
+          String result = evaluateRef(currentNode.token.strToken);
+          return Boolean.valueOf(result);
         }
       case TRUE:
         {
@@ -62,8 +56,7 @@ public class BooleanCalculator extends Calculator {
         }
       case LEFT_PAREN:
         {
-          boolean result = evaluate(currentNode.left);
-          return result;
+          return evaluate(currentNode.left);
         }
       default:
         throw new EvaluationException("Invalid token type");

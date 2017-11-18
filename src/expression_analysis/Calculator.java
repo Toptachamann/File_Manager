@@ -1,4 +1,4 @@
-package expression_analyses;
+package expression_analysis;
 
 import auxiliary.EvaluationException;
 import org.apache.commons.lang3.StringUtils;
@@ -44,12 +44,12 @@ public abstract class Calculator {
     initArrays(rowCount, columnCount);
     for (int i = 0; i < rowCount; i++) {
       for (int j = 0; j < columnCount; j++) {
-        try{
+        try {
           calculate(i, j);
-        } catch(EvaluationException ex){
-          if(ex.getMessage().equals("Cycle")){
+        } catch (EvaluationException ex) {
+          if (ex.getMessage().equals("Cycle")) {
             values.get(i).set(j, "##Cycle##");
-          }else{
+          } else {
             values.get(i).set(j, "##Invalid##");
           }
         }
@@ -57,7 +57,7 @@ public abstract class Calculator {
     }
   }
 
-  private void initArrays(int rowCount, int columnCount){
+  private void initArrays(int rowCount, int columnCount) {
     parent = new short[rowCount][columnCount];
     visited = new byte[rowCount][columnCount];
     for (int i = 0; i < rowCount; i++) {
@@ -67,19 +67,20 @@ public abstract class Calculator {
   }
 
   public void calculate(int row, int column) throws EvaluationException {
-    if(visited[row][column] == 1){
+    if (visited[row][column] == 1) {
+      values.get(row).set(column, "##Cycle##");
       throw new EvaluationException("Cycle");
-    }else if(visited[row][column] == 0){
+    } else if (visited[row][column] == 0) {
       String currentExpression = expressions.get(row).get(column);
-      if (!StringUtils.isBlank(currentExpression)){
+      if (!StringUtils.isBlank(currentExpression)) {
         visited[row][column] = 1;
-        try{
+        try {
           evaluateExpression(currentExpression, row, column);
           visited[row][column] = 2;
-        } catch(EvaluationException ex){
-          if(ex.getMessage().equals("Cycle")){
+        } catch (EvaluationException ex) {
+          if (ex.getMessage().equals("Cycle")) {
             values.get(row).set(column, "##Cycle##");
-          }else{
+          } else {
             values.get(row).set(column, "##Invalid##");
           }
           throw ex;
@@ -88,29 +89,35 @@ public abstract class Calculator {
     }
   }
 
-  public abstract void evaluateExpression(String expression, int row, int column) throws EvaluationException;
+  public AbstractLexicalAnalyzer getAnalyzer() {
+    return analyzer;
+  }
 
   public String evaluateRef(String ref) throws EvaluationException {
     Pattern pattern = Pattern.compile("^\\s*\\[(.+):(.*)\\]\\s*$");
     Matcher matcher = pattern.matcher(ref);
-    if(matcher.matches()){
+    if (matcher.matches()) {
       String strX = matcher.group(1);
       String strY = matcher.group(2);
-      if(!(rowMap.containsKey(strY) && columnMap.containsKey(strX))){
+      if (!(rowMap.containsKey(strY) && columnMap.containsKey(strX))) {
+
         throw new EvaluationException("Invalid reference " + ref);
       }
       int row = rowMap.get(strY);
       int column = columnMap.get(strX);
       String expression = expressions.get(row).get(column);
       String value = values.get(row).get(column);
-      if(StringUtils.isBlank(expression)){
+      if (StringUtils.isBlank(expression)) {
         return value;
-      }else{
+      } else {
         calculate(row, column);
         return values.get(row).get(column);
       }
-    }else{
+    } else {
       throw new EvaluationException("Invalid reference " + ref);
     }
   }
+
+  public abstract void evaluateExpression(String expression, int row, int column)
+      throws EvaluationException;
 }

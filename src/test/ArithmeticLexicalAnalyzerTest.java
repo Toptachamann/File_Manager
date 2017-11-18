@@ -1,19 +1,19 @@
 package test;
 
 import auxiliary.EvaluationException;
-import expression_analyses.ArithmeticLexicalAnalyzer;
-import expression_analyses.Node;
-import expression_analyses.Token;
+import expression_analysis.ArithmeticLexicalAnalyzer;
+import expression_analysis.Node;
+import expression_analysis.Token;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static expression_analyses.Node.EMPTY_NODE;
-import static expression_analyses.Token.EXPONENT_TOKEN;
-import static expression_analyses.Token.MINUS_TOKEN;
-import static expression_analyses.Token.MULT_TOKEN;
-import static expression_analyses.Token.PLUS_TOKEN;
-import static expression_analyses.TokenType.NUMBER;
-import static expression_analyses.TokenType.REF;
+import static expression_analysis.Node.EMPTY_NODE;
+import static expression_analysis.Token.EXPONENT_TOKEN;
+import static expression_analysis.Token.MINUS_TOKEN;
+import static expression_analysis.Token.MULT_TOKEN;
+import static expression_analysis.Token.PLUS_TOKEN;
+import static expression_analysis.TokenType.NUMBER;
+import static expression_analysis.TokenType.REF;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ArithmeticLexicalAnalyzerTest {

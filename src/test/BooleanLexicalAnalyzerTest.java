@@ -1,22 +1,22 @@
 package test;
 
 import auxiliary.EvaluationException;
-import expression_analyses.BooleanLexicalAnalyzer;
-import expression_analyses.Node;
-import expression_analyses.Token;
+import expression_analysis.BooleanLexicalAnalyzer;
+import expression_analysis.Node;
+import expression_analysis.Token;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static expression_analyses.Node.EMPTY_NODE;
-import static expression_analyses.Node.FALSE_NODE;
-import static expression_analyses.Node.TRUE_NODE;
-import static expression_analyses.Token.AND_TOKEN;
-import static expression_analyses.Token.LEFT_PAREN_TOKEN;
-import static expression_analyses.Token.NOT_TOKEN;
-import static expression_analyses.Token.OR_TOKEN;
-import static expression_analyses.Token.TRUE_TOKEN;
-import static expression_analyses.TokenType.AND;
-import static expression_analyses.TokenType.REF;
+import static expression_analysis.Node.EMPTY_NODE;
+import static expression_analysis.Node.FALSE_NODE;
+import static expression_analysis.Node.TRUE_NODE;
+import static expression_analysis.Token.AND_TOKEN;
+import static expression_analysis.Token.LEFT_PAREN_TOKEN;
+import static expression_analysis.Token.NOT_TOKEN;
+import static expression_analysis.Token.OR_TOKEN;
+import static expression_analysis.Token.TRUE_TOKEN;
+import static expression_analysis.TokenType.AND;
+import static expression_analysis.TokenType.REF;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

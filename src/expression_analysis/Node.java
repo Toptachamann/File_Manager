@@ -1,4 +1,4 @@
-package expression_analyses;
+package expression_analysis;
 
 import java.util.Objects;
 

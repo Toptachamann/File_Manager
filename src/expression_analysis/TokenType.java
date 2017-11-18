@@ -1,4 +1,4 @@
-package expression_analyses;
+package expression_analysis;
 
 public enum TokenType {
   RIGHT_PAREN(")"),

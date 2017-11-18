@@ -1,10 +1,10 @@
 package test;
 
 import auxiliary.EvaluationException;
-import expression_analyses.AbstractTokenizer;
-import expression_analyses.Token;
-import expression_analyses.TokenType;
-import expression_analyses.Tokenizer;
+import expression_analysis.AbstractTokenizer;
+import expression_analysis.Token;
+import expression_analysis.TokenType;
+import expression_analysis.Tokenizer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

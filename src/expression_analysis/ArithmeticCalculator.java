@@ -1,4 +1,4 @@
-package expression_analyses;
+package expression_analysis;
 
 import auxiliary.EvaluationException;
 
@@ -99,7 +99,8 @@ public class ArithmeticCalculator extends Calculator {
         }
       case REF:
         {
-          evaluateRef(node.token.toString());
+          String result = evaluateRef(node.token.toString());
+          return new BigDecimal(result);
         }
       default:
         {

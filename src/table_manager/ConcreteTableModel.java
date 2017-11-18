@@ -1,12 +1,12 @@
 package table_manager;
 
 import auxiliary.EvaluationException;
-import expression_analyses.AbstractLexicalAnalyzer;
-import expression_analyses.ArithmeticCalculator;
-import expression_analyses.ArithmeticLexicalAnalyzer;
-import expression_analyses.BooleanCalculator;
-import expression_analyses.BooleanLexicalAnalyzer;
-import expression_analyses.Calculator;
+import expression_analysis.AbstractLexicalAnalyzer;
+import expression_analysis.ArithmeticCalculator;
+import expression_analysis.ArithmeticLexicalAnalyzer;
+import expression_analysis.BooleanCalculator;
+import expression_analysis.BooleanLexicalAnalyzer;
+import expression_analysis.Calculator;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.event.TableModelEvent;
@@ -76,26 +76,16 @@ public class ConcreteTableModel extends AbstractTableModel {
 
   public void recalculateAll() throws EvaluationException {
     Calculator calculator = getCalculator();
-    AbstractLexicalAnalyzer analyzer = getAnalyzer();
-    calculator.calculateAll(analyzer);
+    calculator.calculateAll();
     fireTableChanged(new TableModelEvent(this, 0, 0, 0, TableModelEvent.DELETE));
   }
 
   @NotNull
   private Calculator getCalculator() {
     if (booleanState) {
-      return new BooleanCalculator(data, expressions, columnMap, rowMap);
+      return new BooleanCalculator(data, expressions, columnMap, rowMap, new BooleanLexicalAnalyzer());
     } else {
-      return new ArithmeticCalculator(data, expressions, columnMap, rowMap);
-    }
-  }
-
-  @NotNull
-  private AbstractLexicalAnalyzer getAnalyzer(){
-    if(booleanState){
-      return new BooleanLexicalAnalyzer();
-    }else{
-      return new ArithmeticLexicalAnalyzer();
+      return new ArithmeticCalculator(data, expressions, columnMap, rowMap, new ArithmeticLexicalAnalyzer());
     }
   }
 
