@@ -33,6 +33,11 @@ public class ConcreteTableModel extends AbstractTableModel {
   private int rowCount = DEFAULT_ROW_COUNT;
 
   private boolean valueView = true;
+
+  public boolean isBooleanState() {
+    return booleanState;
+  }
+
   private boolean booleanState = false;
 
   public ConcreteTableModel() {

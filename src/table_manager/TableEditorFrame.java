@@ -31,12 +31,14 @@ public class TableEditorFrame extends JFrame {
   public TableEditorFrame() {
     init();
     openNewTable();
+    addMenu();
   }
 
   public TableEditorFrame(File inputFile) throws IOException {
     init();
     ConcreteTableModel tableModel = readTable(inputFile);
     openNewTable(tableModel, inputFile);
+    addMenu();
   }
 
   public static void main(String[] argc) {
@@ -62,7 +64,6 @@ public class TableEditorFrame extends JFrame {
     setLocationRelativeTo(null);
     mainPanel = new JPanel(new BorderLayout());
     add(mainPanel);
-    addMenu();
     addListeners();
   }
 
@@ -255,8 +256,15 @@ public class TableEditorFrame extends JFrame {
   }
 
   private class TableManagerMenuBar extends JMenuBar {
+    JMenu fileMenu;
+    JMenu optionsMenu;
+    JMenuItem showValuesItem;
+    JMenuItem showExpressionsItem;
+    JMenuItem switchToBooleanItem;
+    JMenuItem switchToArithmeticItem;
+
     public TableManagerMenuBar() {
-      JMenu fileMenu = new JMenu("File");
+      fileMenu = new JMenu("File");
       add(fileMenu);
       JMenuItem newItem = new JMenuItem("New");
       JMenuItem openItem = new JMenuItem("Open");
@@ -272,14 +280,49 @@ public class TableEditorFrame extends JFrame {
       saveItem.addActionListener(new SaveAction());
       saveAsItem.addActionListener(new SaveAction());
 
-      JMenu optionsMenu = new JMenu("Options");
+      optionsMenu = new JMenu("Options");
       add(optionsMenu);
-      JMenuItem switchViewItem = new JMenuItem("Switch view");
-      JMenuItem switchStateItem = new JMenuItem("Switch state");
-      optionsMenu.add(switchViewItem);
-      optionsMenu.add(switchStateItem);
-      switchViewItem.addActionListener((e) -> componentManager.getTableModel().switchView());
-      switchStateItem.addActionListener((e) -> componentManager.getTableModel().switchState());
+
+      showValuesItem = new JMenuItem("Show values");
+      showExpressionsItem = new JMenuItem("Show expressions");
+      switchToBooleanItem = new JMenuItem("Switch to boolean mode");
+      switchToArithmeticItem = new JMenuItem("Switch to arithmetic mode");
+
+      showValuesItem.addActionListener((e) -> this.showValues());
+      showExpressionsItem.addActionListener((e) -> this.showExpressions());
+      switchToBooleanItem.addActionListener((e) -> this.switchToBoolean());
+      switchToArithmeticItem.addActionListener((e) -> this.switchToArithmetic());
+
+      optionsMenu.add(
+          componentManager.getTableModel().isBooleanState()
+              ? switchToArithmeticItem
+              : switchToBooleanItem);
+      optionsMenu.add(
+          componentManager.getTableModel().isValueView() ? showExpressionsItem : showValuesItem);
+    }
+
+    private void showValues() {
+      optionsMenu.remove(showValuesItem);
+      optionsMenu.add(showExpressionsItem, 1);
+      componentManager.getTableModel().switchView();
+    }
+
+    private void showExpressions() {
+      optionsMenu.remove(showExpressionsItem);
+      optionsMenu.add(showValuesItem, 1);
+      componentManager.getTableModel().switchView();
+    }
+
+    private void switchToBoolean() {
+      optionsMenu.remove(switchToBooleanItem);
+      optionsMenu.add(switchToArithmeticItem, 0);
+      componentManager.getTableModel().switchState();
+    }
+
+    private void switchToArithmetic() {
+      optionsMenu.remove(switchToArithmeticItem);
+      optionsMenu.add(switchToBooleanItem, 0);
+      componentManager.getTableModel().switchState();
     }
   }
 
