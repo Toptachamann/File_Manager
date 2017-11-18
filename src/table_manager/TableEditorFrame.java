@@ -274,9 +274,12 @@ public class TableEditorFrame extends JFrame {
 
       JMenu optionsMenu = new JMenu("Options");
       add(optionsMenu);
+      JMenuItem switchViewItem = new JMenuItem("Switch view");
       JMenuItem switchStateItem = new JMenuItem("Switch state");
+      optionsMenu.add(switchViewItem);
       optionsMenu.add(switchStateItem);
-      switchStateItem.addActionListener((e) -> componentManager.getTableModel().switchState());
+      switchViewItem.addActionListener((e) -> componentManager.getTableModel().switchView());
+      switchStateItem.addActionListener((e)->componentManager.getTableModel().switchState());
     }
   }
 

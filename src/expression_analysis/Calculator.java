@@ -1,6 +1,5 @@
 package expression_analysis;
 
-import auxiliary.EvaluationException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -44,17 +43,62 @@ public abstract class Calculator {
     initArrays(rowCount, columnCount);
     for (int i = 0; i < rowCount; i++) {
       for (int j = 0; j < columnCount; j++) {
-        try {
-          calculate(i, j);
-        } catch (EvaluationException ex) {
-          if (ex.getMessage().equals("Cycle")) {
-            values.get(i).set(j, "##Cycle##");
-          } else {
-            values.get(i).set(j, "##Invalid##");
-          }
-        }
+        calculate(i, j);
       }
     }
+  }
+
+  public CellResult calculate(int row, int column) {
+    if (visited[row][column] == 1) {
+      values.get(row).set(column, "##Cycle##");
+      return new CellResult("##Cycle##");
+    } else if (visited[row][column] == 0) {
+      String currentExpression = expressions.get(row).get(column);
+      if (!StringUtils.isBlank(currentExpression)) {
+        visited[row][column] = 1;
+        CellResult result = evaluateExpressionAt(row, column);
+        setValueAt(row, column, result);
+        visited[row][column] = 2;
+        return result;
+      } else {
+        visited[row][column] = 2;
+        return evaluateValueAt(row, column);
+      }
+    } else {
+      return evaluateValueAt(row, column);
+    }
+  }
+
+  public CellResult evaluateRef(String ref) {
+    Pattern pattern = Pattern.compile("^\\s*\\[(.+):(.*)\\]\\s*$");
+    Matcher matcher = pattern.matcher(ref);
+    if (matcher.matches()) {
+      String strX = matcher.group(1);
+      String strY = matcher.group(2);
+      if (!(rowMap.containsKey(strY) && columnMap.containsKey(strX))) {
+        return new CellResult("##Invalid reference##");
+      }
+      int row = rowMap.get(strY);
+      int column = columnMap.get(strX);
+      String expression = expressions.get(row).get(column);
+      if (StringUtils.isBlank(expression)) {
+        return evaluateValueAt(row, column);
+      } else {
+        return calculate(row, column);
+      }
+    } else {
+      return new CellResult("##Invalid reference##");
+    }
+  }
+
+  public abstract CellResult evaluateExpressionAt(int row, int column);
+
+  public abstract CellResult evaluateValueAt(int row, int column);
+
+  public abstract void setValueAt(int row, int column, CellResult result);
+
+  public AbstractLexicalAnalyzer getAnalyzer() {
+    return analyzer;
   }
 
   private void initArrays(int rowCount, int columnCount) {
@@ -66,58 +110,34 @@ public abstract class Calculator {
     }
   }
 
-  public void calculate(int row, int column) throws EvaluationException {
-    if (visited[row][column] == 1) {
-      values.get(row).set(column, "##Cycle##");
-      throw new EvaluationException("Cycle");
-    } else if (visited[row][column] == 0) {
-      String currentExpression = expressions.get(row).get(column);
-      if (!StringUtils.isBlank(currentExpression)) {
-        visited[row][column] = 1;
-        try {
-          evaluateExpression(currentExpression, row, column);
-          visited[row][column] = 2;
-        } catch (EvaluationException ex) {
-          if (ex.getMessage().equals("Cycle")) {
-            values.get(row).set(column, "##Cycle##");
-          } else {
-            values.get(row).set(column, "##Invalid##");
-          }
-          throw ex;
-        }
-      }
+  protected class CellResult {
+
+    Object result;
+    private String cause;
+    private boolean invalid;
+
+    public CellResult(Object result) {
+      this.result = result;
+      this.invalid = false;
+    }
+
+    public CellResult(String cause) {
+      this.invalid = true;
+      this.cause = cause;
+    }
+
+    public boolean isInvalid() {
+      return this.invalid;
+    }
+
+    public String getCause() {
+      return cause;
+    }
+
+    public void setInvalid(String cause) {
+      this.invalid = true;
+      this.cause = cause;
+
     }
   }
-
-  public AbstractLexicalAnalyzer getAnalyzer() {
-    return analyzer;
-  }
-
-  public String evaluateRef(String ref) throws EvaluationException {
-    Pattern pattern = Pattern.compile("^\\s*\\[(.+):(.*)\\]\\s*$");
-    Matcher matcher = pattern.matcher(ref);
-    if (matcher.matches()) {
-      String strX = matcher.group(1);
-      String strY = matcher.group(2);
-      if (!(rowMap.containsKey(strY) && columnMap.containsKey(strX))) {
-
-        throw new EvaluationException("Invalid reference " + ref);
-      }
-      int row = rowMap.get(strY);
-      int column = columnMap.get(strX);
-      String expression = expressions.get(row).get(column);
-      String value = values.get(row).get(column);
-      if (StringUtils.isBlank(expression)) {
-        return value;
-      } else {
-        calculate(row, column);
-        return values.get(row).get(column);
-      }
-    } else {
-      throw new EvaluationException("Invalid reference " + ref);
-    }
-  }
-
-  public abstract void evaluateExpression(String expression, int row, int column)
-      throws EvaluationException;
 }

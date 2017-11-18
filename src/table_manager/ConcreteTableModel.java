@@ -1,7 +1,6 @@
 package table_manager;
 
 import auxiliary.EvaluationException;
-import expression_analysis.AbstractLexicalAnalyzer;
 import expression_analysis.ArithmeticCalculator;
 import expression_analysis.ArithmeticLexicalAnalyzer;
 import expression_analysis.BooleanCalculator;
@@ -33,7 +32,7 @@ public class ConcreteTableModel extends AbstractTableModel {
   private int columnCount = DEFAULT_COLUMN_COUNT;
   private int rowCount = DEFAULT_ROW_COUNT;
 
-  private boolean valueState = true;
+  private boolean valueView = true;
   private boolean booleanState = true;
 
   public ConcreteTableModel() {
@@ -69,8 +68,13 @@ public class ConcreteTableModel extends AbstractTableModel {
     this.expressions = expressions;
   }
 
-  public void switchState() {
-    valueState = !valueState;
+  public void switchView() {
+    valueView = !valueView;
+    fireTableDataChanged();
+  }
+
+  public void switchState(){
+    booleanState = !booleanState;
     fireTableDataChanged();
   }
 
@@ -256,7 +260,7 @@ public class ConcreteTableModel extends AbstractTableModel {
 
   @Override
   public Object getValueAt(int row, int column) {
-    if (valueState) {
+    if (valueView) {
       if (column == 0) {
         return rowNames.get(row);
       } else {
@@ -273,7 +277,7 @@ public class ConcreteTableModel extends AbstractTableModel {
 
   @Override
   public void setValueAt(Object value, int row, int column) {
-    if (valueState) {
+    if (valueView) {
       data.get(row).set(column, value.toString());
       fireTableCellUpdated(row, column);
     } else {
@@ -310,7 +314,7 @@ public class ConcreteTableModel extends AbstractTableModel {
     this.rowCreated = rowCreated;
   }
 
-  public boolean isValueState() {
-    return valueState;
+  public boolean isValueView() {
+    return valueView;
   }
 }

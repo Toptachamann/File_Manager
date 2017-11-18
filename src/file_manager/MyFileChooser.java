@@ -105,23 +105,22 @@ public class MyFileChooser {
     private void addActions() {
       popupMenu = new JPopupMenu();
       setComponentPopupMenu(popupMenu);
-      JMenu newItem = new JMenu("Додати");
-      JMenuItem newFolder = new JMenuItem("Папку");
-      JMenuItem newTextFile = new JMenuItem("Текстовий файл (*txt)");
-      JMenuItem newHtmlFile = new JMenuItem("HTML файл (*.html)");
+      JMenu newItem = new JMenu("Add");
+      JMenuItem newFolder = new JMenuItem("Folder");
+      JMenuItem newTextFile = new JMenuItem("Text file (*txt)");
+      JMenuItem newHtmlFile = new JMenuItem("HTML file (*.html)");
+      JMenuItem newJsonFile = new JMenuItem("Json file (*json)");
 
       newItem.add(newFolder);
       newItem.add(newTextFile);
       newItem.add(newHtmlFile);
+      newItem.add(newJsonFile);
       popupMenu.add(newItem);
 
-      Action newFolderAction = new ItemAction("", true);
-      Action newTextFileAction = new ItemAction(".txt", false);
-      Action newHtmlFileAction = new ItemAction(".htm", false);
-
-      newFolder.addActionListener(newFolderAction);
-      newTextFile.addActionListener(newTextFileAction);
-      newHtmlFile.addActionListener(newHtmlFileAction);
+      newFolder.addActionListener(new ItemAction("", true));
+      newTextFile.addActionListener(new ItemAction(".txt", false));
+      newHtmlFile.addActionListener(new ItemAction(".html", false));
+      newJsonFile.addActionListener(new ItemAction(".json", false));
 
       dialog.addWindowListener(new WindowAdapter() {
         @Override

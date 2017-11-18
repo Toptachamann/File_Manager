@@ -156,7 +156,7 @@ public abstract class SearchPanel extends JPanel {
 
     InputMap inputMap = tree.getInputMap(JComponent.WHEN_FOCUSED);
 
-    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK), "Rename action");
+    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, KeyEvent.CTRL_DOWN_MASK), "Rename action");
 
     ActionMap actionMap = tree.getActionMap();
     actionMap.put("Rename action", renameAction);
