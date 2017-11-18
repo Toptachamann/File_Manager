@@ -46,6 +46,8 @@ public class JsonTableReader implements AbstractTableReader {
       JsonObject tableObject = jsonReader.readObject();
       if (!tableObject.containsKey("Column count")
           || !tableObject.containsKey("Row count")
+          || !tableObject.containsKey("Boolean mode")
+          || !tableObject.containsKey("Values view")
           || !tableObject.containsKey("Column created")
           || !tableObject.containsKey("Row created")
           || !tableObject.containsKey("Column names")
@@ -59,6 +61,8 @@ public class JsonTableReader implements AbstractTableReader {
 
       rowCount = tableObject.getInt("Row count");
       columnCount = tableObject.getInt("Column count");
+      boolean booleanState = tableObject.getBoolean("Boolean mode");
+      boolean valuesView = tableObject.getBoolean("Values view");
       int rowCreated = tableObject.getInt("Row created");
       int columnCreated = tableObject.getInt("Column created");
       ArrayList<String> rowNames = arrayFromObject(tableObject.getJsonArray("Row names"), rowCount);
@@ -73,6 +77,8 @@ public class JsonTableReader implements AbstractTableReader {
       return new ConcreteTableModel(
           rowCount,
           columnCount,
+          booleanState,
+          valuesView,
           columnCreated,
           rowCreated,
           columnNames,

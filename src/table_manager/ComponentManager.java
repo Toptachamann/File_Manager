@@ -9,6 +9,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -21,9 +22,10 @@ import java.io.File;
 import java.io.IOException;
 
 public class ComponentManager {
-  private static final int DEFAULT_ROW_HEIGHT = 20;
-  private static final int DEFAULT_COLUMN_WIDTH = 100;
+  private static final int DEFAULT_ROW_HEIGHT = 24;
+  private static final int DEFAULT_COLUMN_WIDTH = 140;
   private static final int DEFAULT_INDEXATION_COLUMN_WIDTH = 40;
+  public static final Font DEFAULT_FONT = new Font("Yu Gothic UI Semibold", Font.BOLD, 14);
 
   private int rowHeight = DEFAULT_ROW_HEIGHT;
   private int columnWidth = DEFAULT_COLUMN_WIDTH;
@@ -36,7 +38,6 @@ public class ComponentManager {
 
   private TablePopupMenu popupMenu;
 
-  private boolean saved = true;
   private File origin;
 
   public ComponentManager(JFrame owner) {
@@ -77,7 +78,8 @@ public class ComponentManager {
   }
 
   private void createJTextField() {
-    expressionTextField = new JTextField(119);
+    expressionTextField = new JTextField(90);
+    expressionTextField.setFont(DEFAULT_FONT);
     expressionTextField.setDisabledTextColor(Color.BLACK);
     expressionTextField.addFocusListener(
         new FocusAdapter() {
@@ -132,7 +134,9 @@ public class ComponentManager {
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     table.setAutoCreateColumnsFromModel(false);
+    table.setDragEnabled(false);
     table.putClientProperty("terminateEditOnFocusLost", true);
+    table.setFont(DEFAULT_FONT);
     popupMenu = new TablePopupMenu();
     table.setComponentPopupMenu(popupMenu);
     table.getTableHeader().setComponentPopupMenu(popupMenu);
@@ -193,14 +197,6 @@ public class ComponentManager {
             expressionTextField.setText(tableModel.getExpression(row, column));
           }
         });
-    TableModelListener modelListener =
-        e -> {
-          saved = false;
-          if (e.getType() == TableModelEvent.UPDATE) {
-            entryUpdated();
-          }
-        };
-    tableModel.addTableModelListener(modelListener);
   }
 
   private void addActions() {
@@ -234,6 +230,12 @@ public class ComponentManager {
       int row = table.getSelectedRow();
       if (row != -1) {
         tableModel.removeRow(row);
+      }
+    }else if(table.getRowSelectionAllowed() && table.getColumnSelectionAllowed()){
+      int row = table.getSelectedRow();
+      int column = table.getSelectedColumn();
+      if(row != -1 && column != -1){
+        tableModel.setValueAt("", row, column);
       }
     }
   }
@@ -299,11 +301,11 @@ public class ComponentManager {
   }
 
   public boolean isSaved() {
-    return saved;
+    return tableModel.isSaved();
   }
 
   private void setSaved(boolean saved) {
-    this.saved = saved;
+    tableModel.setSaved(saved);
   }
 
   public File getOrigin() {

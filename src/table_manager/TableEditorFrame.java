@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -42,11 +44,15 @@ public class TableEditorFrame extends JFrame {
   }
 
   public static void main(String[] argc) {
+    String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+    for(String font : fonts){
+      System.out.println(font);
+    }
     EventQueue.invokeLater(
         () -> {
+          TableEditorFrame managerFrame;
           try {
-            TableEditorFrame managerFrame =
-                new TableEditorFrame(new File("C:\\File_Manager_Test\\arithmetic.json"));
+            managerFrame = new TableEditorFrame(new File("C:\\File_Manager_Test\\arithmetic.json"));
             managerFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             managerFrame.setVisible(true);
           } catch (IOException e) {
@@ -130,15 +136,29 @@ public class TableEditorFrame extends JFrame {
 
   private void addActions() {
     JTable table = componentManager.getTable();
+    Action newTableAction = new NewTableAction();
+    Action openAction = new OpenAction();
+    Action saveAction = new SaveAction();
+
     InputMap inputMap = table.getInputMap(JComponent.WHEN_FOCUSED);
     inputMap.put(KeyStroke.getKeyStroke("ctrl N"), "New table action");
     inputMap.put(KeyStroke.getKeyStroke("ctrl O"), "Open action");
     inputMap.put(KeyStroke.getKeyStroke("ctrl S"), "Save action");
 
     ActionMap actionMap = table.getActionMap();
-    actionMap.put("New table action", new NewTableAction());
-    actionMap.put("Open action", new OpenAction());
-    actionMap.put("Save action", new SaveAction());
+    actionMap.put("New table action", newTableAction);
+    actionMap.put("Open action", openAction);
+    actionMap.put("Save action", saveAction);
+
+    InputMap inputMap1 = formulaField.getInputMap(JComponent.WHEN_FOCUSED);
+    inputMap1.put(KeyStroke.getKeyStroke("ctrl N"), "New table action");
+    inputMap1.put(KeyStroke.getKeyStroke("ctrl O"), "Open action");
+    inputMap1.put(KeyStroke.getKeyStroke("ctrl S"), "Save action");
+
+    ActionMap actionMap1 = formulaField.getActionMap();
+    actionMap1.put("New table action", newTableAction);
+    actionMap1.put("Open action", openAction);
+    actionMap1.put("Save action", saveAction);
   }
 
   @Nullable
@@ -158,6 +178,7 @@ public class TableEditorFrame extends JFrame {
   private void createComponents() {
     componentManager = new ComponentManager(this);
     formulaLabel = new JLabel("Formula: ", JLabel.CENTER);
+    formulaLabel.setFont(new Font("Calibri", Font.BOLD, 20));
     formulaField = componentManager.getJTextField();
   }
 

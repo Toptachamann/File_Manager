@@ -33,12 +33,10 @@ public class ConcreteTableModel extends AbstractTableModel {
   private int rowCount = DEFAULT_ROW_COUNT;
 
   private boolean valueView = true;
-
-  public boolean isBooleanState() {
-    return booleanState;
-  }
-
   private boolean booleanState = false;
+
+  private boolean saved = true;
+
 
   public ConcreteTableModel() {
     init();
@@ -53,6 +51,8 @@ public class ConcreteTableModel extends AbstractTableModel {
   public ConcreteTableModel(
       int rowCount,
       int columnCount,
+      boolean booleanState,
+      boolean valueView,
       int columnCreated,
       int rowCreated,
       ArrayList<String> columnNames,
@@ -63,6 +63,8 @@ public class ConcreteTableModel extends AbstractTableModel {
       ArrayList<ArrayList<String>> expressions) {
     this.rowCount = rowCount;
     this.columnCount = columnCount;
+    this.booleanState = booleanState;
+    this.valueView = valueView;
     this.columnCreated = columnCreated;
     this.rowCreated = rowCreated;
     this.columnNames = columnNames;
@@ -76,11 +78,13 @@ public class ConcreteTableModel extends AbstractTableModel {
   public void switchView() {
     valueView = !valueView;
     fireTableDataChanged();
+    setSaved(false);
   }
 
   public void switchState(){
     booleanState = !booleanState;
     fireTableDataChanged();
+    setSaved(false);
   }
 
   public void recalculateAll() {
@@ -167,6 +171,7 @@ public class ConcreteTableModel extends AbstractTableModel {
     --columnCount;
     recalculateAll();
     fireTableStructureChanged();
+    setSaved(false);
   }
 
   public void removeRow(int row) {
@@ -182,6 +187,7 @@ public class ConcreteTableModel extends AbstractTableModel {
     --rowCount;
     recalculateAll();
     fireTableRowsDeleted(row, row);
+    setSaved(false);
   }
 
   public void appendRow() {
@@ -195,6 +201,7 @@ public class ConcreteTableModel extends AbstractTableModel {
     ++rowCount;
     recalculateAll();
     fireTableRowsInserted(rowCount - 1, rowCount - 1);
+    setSaved(false);
   }
 
   public String appendColumn() {
@@ -210,6 +217,7 @@ public class ConcreteTableModel extends AbstractTableModel {
     ++columnCount;
     recalculateAll();
     fireTableStructureChanged();
+    setSaved(false);
     return newColumnName;
   }
 
@@ -293,10 +301,7 @@ public class ConcreteTableModel extends AbstractTableModel {
       expressions.get(row).set(column, value.toString());
       fireTableCellUpdated(row, column);
     }
-  }
-
-  public void switchBooleanState() {
-    this.booleanState = !booleanState;
+    setSaved(false);
   }
 
   public String getExpression(int row, int column) {
@@ -305,25 +310,30 @@ public class ConcreteTableModel extends AbstractTableModel {
 
   public void setExpression(String expression, int row, int column) {
     expressions.get(row).set(column, expression);
+    setSaved(false);
   }
 
   public int getColumnCreated() {
     return columnCreated;
   }
 
-  public void setColumnCreated(int columnCreated) {
-    this.columnCreated = columnCreated;
-  }
-
   public int getRowCreated() {
     return rowCreated;
   }
 
-  public void setRowCreated(int rowCreated) {
-    this.rowCreated = rowCreated;
-  }
-
   public boolean isValueView() {
     return valueView;
+  }
+
+  public boolean isBooleanState() {
+    return booleanState;
+  }
+
+  public void setSaved(boolean saved){
+    this.saved = saved;
+  }
+
+  public boolean isSaved() {
+    return saved;
   }
 }
